@@ -5,6 +5,11 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import models.UserModel;
+import utils.Helper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PageController {
 
@@ -26,8 +31,11 @@ public class PageController {
     }
 
     @FXML
-    void register(ActionEvent event) {
-            System.out.println("Register");
+    void register(ActionEvent event) throws SQLException {
+         UserModel user =new UserModel();
+
+         ResultSet res =user.selectAll();
+        Helper.outPutAll(res,3);
     }
 
 }

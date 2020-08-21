@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import models.DB;
+import models.UserModel;
 
 import java.io.IOException;
 
@@ -15,10 +17,16 @@ public class Main extends Application {
     }
 
     @Override
+    public void init() throws Exception {
+        DB.createConnection();
+        new UserModel().createTable();
+        super.init();
+    }
+
+    @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../views/page1.fxml"));
         primaryStage.setTitle("Hello World");
-        System.out.println("Hello WOrld");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
