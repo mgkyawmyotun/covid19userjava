@@ -13,7 +13,7 @@
             <Font size="20.0" />
          </font>
       </JFXTextField>
-      <JFXPasswordField fx:id="password" layoutX="167.0" layoutY="210.0" prefHeight="44.0" prefWidth="260.0" promptText="Password" style="-fx-text-inner-color: white;" unFocusColor="WHITE">
+      <JFXPasswordField fx:id="password" labelFloat="true" layoutX="167.0" layoutY="210.0" prefHeight="44.0" prefWidth="260.0" promptText="Password" style="-fx-text-inner-color: white;" unFocusColor="WHITE">
          <font>
             <Font size="20.0" />
          </font>
