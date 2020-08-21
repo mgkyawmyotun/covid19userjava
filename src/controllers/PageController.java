@@ -27,15 +27,14 @@ public class PageController {
 
     @FXML
     void cancel(ActionEvent event) {
-            System.out.println("Cancel");
+        System.out.println("Cancel");
     }
 
     @FXML
-    void register(ActionEvent event) throws SQLException {
-         UserModel user =new UserModel();
-
-         ResultSet res =user.selectAll();
-        Helper.outPutAll(res,3);
+    void register(ActionEvent event) {
+        UserModel user = new UserModel();
+        ResultSet res = user.selectAll();
+        Helper.outPutAll(res);
     }
 
 }

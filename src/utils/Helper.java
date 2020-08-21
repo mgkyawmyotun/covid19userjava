@@ -12,7 +12,7 @@ public class Helper {
             ResultSetMetaData rsmd =res.getMetaData();
             int columnCount = rsmd.getColumnCount();
             for(int i=1;i<=columnCount;i++){
-               System.out.println( rsmd.getColumnName(i));
+               System.out.print( rsmd.getColumnName(i)+ "\t");
             }
 
             while (res.next()){
@@ -23,8 +23,7 @@ public class Helper {
             }
         }
         catch (SQLException e){
-
-
+            e.printStackTrace();
         }
 
     }
