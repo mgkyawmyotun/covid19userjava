@@ -19,7 +19,10 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         DB.createConnection();
-        new UserModel().createTable();
+        UserModel userModel =new UserModel();
+        userModel.createTable();
+        userModel.getUser("kyawmyotun","onetwothree");
+
         super.init();
     }
 

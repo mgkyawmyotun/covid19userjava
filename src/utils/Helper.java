@@ -14,7 +14,7 @@ public class Helper {
             for(int i=1;i<=columnCount;i++){
                System.out.print( rsmd.getColumnName(i)+ "\t");
             }
-
+            System.out.println("\n");
             while (res.next()){
                 for(int i=1;i<=columnCount;i++){
                     System.out.print(res.getString(i) + "\t");

@@ -1,15 +1,15 @@
 package models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class UserModel {
     Statement statement = null;
+    Connection connection = null;
 
     public UserModel() {
         try {
             statement = DB.connection.createStatement();
+            connection = DB.connection;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -38,6 +38,25 @@ public class UserModel {
         ResultSet resultSet = null;
         try {
             resultSet = statement.executeQuery(selectAllString);
+            return resultSet;
+        } catch (SQLException throwables) {
+            System.out.println("Error At SelectAll Method Users Table");
+            throwables.printStackTrace();
+        }
+        return resultSet;
+    }
+
+    public ResultSet getUser(String username, String password) {
+        String selectOne = "SELECT * FROM users where username = ? and password = ?";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(selectOne);
+            preparedStatement.setString(1,username);
+            preparedStatement.setString(2,password);
+            resultSet = preparedStatement.executeQuery();
+            resultSet.first();
+            String s =resultSet.getString(1);
+            System.out.println(s);
             return resultSet;
         } catch (SQLException throwables) {
             System.out.println("Error At SelectAll Method Users Table");
