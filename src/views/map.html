@@ -41,16 +41,10 @@
           accessToken: "your.mapbox.access.token",
         }
       ).addTo(mymap);
-   mymap.on("click", (e) => {
+        mymap.on("click", (e) => {
         window.myanmar.setText(e.latlng.toString());
-      });
+         });
     </script>
-<button onclick="test()">Hello World</button>
-<h1 id="text">Hello World</h1>
-<script>
-      function test() {
-         window.myanmar.setText('I am Change');
-      }
-    </script>
+
 </body>
 </html>
