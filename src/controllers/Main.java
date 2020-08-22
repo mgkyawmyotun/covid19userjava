@@ -8,9 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import models.DB;
-import models.UserModel;
 
 import java.awt.*;
 import java.io.IOException;
@@ -30,12 +27,14 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
-        //  DB.createConnection();
+
+        addComponent("caseComponent",FXMLLoader.load(getClass().getResource("../views/components/case.fxml")));
         addScreen("login", FXMLLoader.load(getClass().getResource("../views/page1.fxml")));
         addScreen("map", FXMLLoader.load(getClass().getResource("../views/map.fxml")));
         addScreen("dashboard", FXMLLoader.load(getClass().getResource("../views/dashboard.fxml")));
         addScreen("drawerTest", FXMLLoader.load(getClass().getResource("../views/drawerTest.fxml")));
-        super.init();
+
+         super.init();
     }
 
 
@@ -58,10 +57,15 @@ public class Main extends Application {
     public static void removeScreen(String name) {
         screenMap.remove(name);
     }
+    public static void addComponent(String name, Pane pane) {
+        screenMap.put(name, pane);
 
+    }
+    public  static  Pane getComponent(String name){
+        return screenMap.get(name);
+    }
     public static void activate(String name) {
         screenMap.get(name).setPrefSize(width - 200, height - 200);
-
         sc.setRoot(screenMap.get(name));
     }
 }

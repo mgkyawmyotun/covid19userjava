@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+ <VBox prefHeight="731.0" prefWidth="286.0" stylesheets="@../css/case.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CaseController">
+     <children>
+         <Label alignment="CENTER" prefHeight="104.0" prefWidth="287.0" text="Total Case - " textFill="WHITE">
+             <font>
+                 <Font size="24.0" />
+             </font>
+         </Label>
+         <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="104.0" prefWidth="287.0" text="Total Dead- " textFill="WHITE">
+             <font>
+                 <Font size="24.0" />
+             </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="104.0" prefWidth="287.0" text="Total Recover - " textFill="WHITE">
+             <font>
+                 <Font size="24.0" />
+             </font>
+         </Label>
+     </children>
+   <styleClass>
+      <String fx:value="sidebar" />
+      <String fx:value="caseBox" />
+   </styleClass>
+ </VBox>

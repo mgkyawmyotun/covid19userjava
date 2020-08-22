@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -29,13 +30,22 @@ public class DashBoardController {
     private AnchorPane topPane;
     @FXML
     private BorderPane borderPane;
-    @FXML
-    private JFXRippler ripple;
+
     @FXML
     private JFXDrawer drawer;
 
     @FXML
     void initialize() {
+        //
+
+
+        borderPane.setLeft(Main.getComponent("caseComponent"));
+
+
+
+
+
+        //Drawer
         try {
             VBox vb = FXMLLoader.load(getClass().getResource("../views/sideBar.fxml"));
 
@@ -50,6 +60,12 @@ public class DashBoardController {
             webView = new WebView();
             webEngine = webView.getEngine();
             webEngine.setJavaScriptEnabled(true);
+            webEngine.setOnAlert(e ->{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(e.getData());
+                alert.showAndWait();
+            });
+            webView.setCache(true);
             webEngine.load(getClass().getResource("../views/map.html").toString());
             webEngine.getLoadWorker().stateProperty().addListener(
                     new ChangeListener() {
@@ -69,7 +85,7 @@ public class DashBoardController {
             borderPane.setCenter(webView);
         });
 
-        //Make rippler effect on topPane
+        //Make Rippler  effect on topPane
         JFXRippler rippler = new JFXRippler(topPane);
 
         borderPane.setTop(rippler);

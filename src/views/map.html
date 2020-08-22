@@ -42,9 +42,25 @@
         }
       ).addTo(mymap);
         mymap.on("click", (e) => {
-        window.myanmar.setText(e.latlng.toString());
+               mymap.flyTo([24.9162, 95.956],12);
          });
+      L.marker([21.9008879,96.1914995])
+        .addTo(mymap)
+        .bindPopup("Total Infected - 100 <br> Total Dead -0 <br>Easily customizable.")
+        .openPopup();
+      L.marker([16.839095,96.0414877,11])
+        .addTo(mymap)
+        .bindPopup("Total Infected - 100 <br> Total Dead -0 <br>Easily customizable.")
+
+        .openPopup();
+
+       function loading(){
+            alert("I am Loaded");
+       }
+       document.onload =loading;
     </script>
+
+
 
 </body>
 </html>
