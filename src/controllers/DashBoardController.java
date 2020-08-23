@@ -10,12 +10,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
+
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+
 import netscape.javascript.JSObject;
+import utils.HttpService;
 
 import java.io.IOException;
 
@@ -54,27 +56,38 @@ public class DashBoardController {
             webView = new WebView();
             webEngine = webView.getEngine();
             webEngine.setJavaScriptEnabled(true);
-            webEngine.setOnAlert(e -> {
+            JSObject window = (JSObject) webEngine.executeScript("window");
 
+            try {
+                window.setMember("global_case",HttpService.getCaseByClients());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                webEngine.executeScript(" L.marker([16.839095,96.0414877,11])\n" +
-                        "        .addTo(mymap)\n" +
-                        "        .bindPopup(\"Total Infected - 100 <br> Total Dead -0 <br>Easily customizable.\")\n" +
-                        "\n" +
-                        "        .openPopup();");
+            webEngine.setOnError(e ->{
+                System.out.println(e.getMessage());
+
             });
             webView.setCache(true);
             webEngine.load(getClass().getResource("../views/map.html").toString());
+            webEngine.setOnAlert(e -> {
+                System.out.println(e.getData());
+            });
+
             webEngine.getLoadWorker().stateProperty().addListener(
                     new ChangeListener() {
                         @Override
                         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                            try {
+                                webEngine.executeScript("test("+HttpService.getCaseByClients()+")");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             if (newValue != Worker.State.SUCCEEDED) {
                                 return;
                             }
-
                             JSObject window = (JSObject) webEngine.executeScript("window");
-                            window.setMember("myanmar", new String());
+
                         }
                     }
             );

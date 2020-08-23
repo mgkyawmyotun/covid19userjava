@@ -1,5 +1,6 @@
 package controllers;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 
@@ -8,18 +9,27 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 import javafx.stage.Stage;
+
+
 import utils.HttpService;
 
 import java.awt.*;
 import java.io.IOException;
+
 import java.net.URL;
+
+
+
 import java.util.HashMap;
 
 public class Main extends Application {
     public static HashMap<String, Pane> screenMap = new HashMap<>();
     public static Scene sc = null;
 
+
     public static void main(String[] args) throws IOException {
+        HttpService.getCaseByClients();
+
 
         launch(args);
     }

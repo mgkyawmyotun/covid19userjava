@@ -28,35 +28,73 @@
 <body>
 <div id="mapid"></div>
 <script>
-      var mymap = L.map("mapid").setView([21.9162, 95.956], 13);
-      L.tileLayer(
-        "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3lhd215b3R1biIsImEiOiJjazV1aWs1ZDUwdGdhM2pwM3RpbXhkdXJ4In0.WFtL4jwTC6eRB2A-dRk99A",
-        {
-          attribution:
-            'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 18,
+      function loading() {
+        alert("Hello From Js");
+      }
+        window.onload = loading;
+      function mapTheMarker(location) {
+
+        var marker = L.marker(location).addTo(map);
+
+      }
+      function test(data){
+         data.forEach((x) => {
+          var marker = L.marker([x.countryInfo.lat, x.countryInfo.long]).addTo(
+            map
+          );
+          marker.bindPopup(
+            `Country - ${x.country} <br> Total Case - ${x.cases} <br> Total Deathes - ${x.deaths}`
+          );
+        });
+      }
+      function mapTheCircle(location) {
+        var circle = L.circle(location, {
+          color: "red",
+          fillColor: "#f03",
+          fillOpacity: 0.8,
+          radius: 2000,
+        }).addTo(map);
+      }
+      var cities = L.layerGroup([
+        L.marker([39.61, -105.02]).bindPopup("This is Littleton, CO."),
+      ]);
+      var mbAttr =
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        mbUrl =
+          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3lhd215b3R1biIsImEiOiJjazV1aWs1ZDUwdGdhM2pwM3RpbXhkdXJ4In0.WFtL4jwTC6eRB2A-dRk99A";
+
+      var grayscale = L.tileLayer(mbUrl, {
+          id: "mapbox/light-v9",
+          tileSize: 512,
+          zoomOffset: -1,
+          attribution: mbAttr,
+        }),
+        streets = L.tileLayer(mbUrl, {
           id: "mapbox/dark-v10",
           tileSize: 512,
           zoomOffset: -1,
-          accessToken: "your.mapbox.access.token",
-        }
-      ).addTo(mymap);
-        mymap.on("click", (e) => {
-               mymap.flyTo([24.9162, 95.956],12);
-         });
-      L.marker([21.9008879,96.1914995])
-        .addTo(mymap)
-        .bindPopup("Total Infected - 100 <br> Total Dead -0 <br>Easily customizable.")
-        .openPopup();
+          attribution: mbAttr,
+        });
+      var map = L.map("mapid", {
+        center: [39.73, -104.99],
+        zoom: 10,
+        layers: [grayscale, cities],
+      });
 
+      var baseLayers = {
+        Grayscale: grayscale,
+        Streets: streets,
+      };
 
-       function loading(){
-            alert("I am Loaded");
-       }
-       window.onload =loading;
+      var overlays = {
+        Cities: cities,
+      };
+
+      L.control.layers(baseLayers, overlays).addTo(map);
+      mapTheMarker([30.73, -104.99]);
+      mapTheCircle([30.73, -104.99]);
     </script>
-
-
-
 </body>
 </html>
