@@ -39,42 +39,37 @@ public class DashBoardController {
     @FXML
     void initialize() {
         // Case Component
-        drawer = new JFXDrawer();
-        drawer.setDefaultDrawerSize(200);
-        drawer.setDirection(JFXDrawer.DrawerDirection.RIGHT);
-        drawer.setPrefWidth(200);
-
-        borderPane.setLeft(Main.getComponent("caseComponent"));
-
+        loadCase();
 
         //Drawer
-        try {
-            VBox vb = FXMLLoader.load(getClass().getResource("../views/sideBar.fxml"));
-            for (Node button : vb.getChildren()) {
-                button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    switch (button.getId()) {
-                        case "loacal":
-                            borderPane.setCenter(null);
-                            System.out.println("I am Local");
-                            break;
-                        case "global":
-                            borderPane.setCenter(webView);
-                            System.out.println("I am Global");
-                            break;
-                        case "login":
-
-                            System.out.println("I am Login ");
-                            break;
-
-                    }
-                });
-            }
-            drawer.setSidePane(vb);
-
-        } catch (IOException e) {
-            System.out.println("Error On Loading VBox to drawer");
-        }
+        loadDrawer();
         //Map Related
+        loadMap();
+        //Make rip  effect on topPane
+
+        HamburgerBasicCloseTransition hst = new HamburgerBasicCloseTransition(hamburger);
+        hst.setRate(-1);
+        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+
+            hst.setRate(hst.getRate() * -1);
+            hst.play();
+            borderPane.setRight(drawer);
+            if (drawer.isOpened()) {
+                borderPane.setRight(null);
+                drawer.close();
+            } else {
+                drawer.open();
+            }
+
+        });
+
+
+    }
+    private  void loadTopPane(){
+        JFXRippler rippler = new JFXRippler(topPane);
+        borderPane.setTop(rippler);
+    }
+    private  void loadMap(){
         Platform.runLater(() -> {
 
             webView = new WebView();
@@ -120,41 +115,42 @@ public class DashBoardController {
             borderPane.setCenter(webView);
         });
 
-        //Make Rippler  effect on topPane
-        JFXRippler rippler = new JFXRippler(topPane);
+    }
+    private  void loadCase(){
 
-        borderPane.setTop(rippler);
-        HamburgerBasicCloseTransition hst = new HamburgerBasicCloseTransition(hamburger);
-        hst.setRate(-1);
-        hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+        borderPane.setLeft(Main.getComponent("caseComponent"));
+    }
+    private   void loadDrawer(){
+        drawer = new JFXDrawer();
+        drawer.setDefaultDrawerSize(200);
+        drawer.setDirection(JFXDrawer.DrawerDirection.RIGHT);
+        drawer.setPrefWidth(200);
+        try {
+            VBox vb = FXMLLoader.load(getClass().getResource("../views/sideBar.fxml"));
+            for (Node button : vb.getChildren()) {
+                button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                    switch (button.getId()) {
+                        case "loacal":
+                            borderPane.setCenter(null);
+                            System.out.println("I am Local");
+                            break;
+                        case "global":
+                            borderPane.setCenter(webView);
+                            System.out.println("I am Global");
+                            break;
+                        case "login":
+                            Main.activate("login");
+                            System.out.println("I am Login ");
+                            break;
 
-            hst.setRate(hst.getRate() * -1);
-            hst.play();
-            borderPane.setRight(drawer);
-            if (drawer.isOpened()) {
-                borderPane.setRight(null);
-                drawer.close();
-            } else {
-                drawer.open();
+                    }
+                });
             }
+            drawer.setSidePane(vb);
 
-        });
-
-
+        } catch (IOException e) {
+            System.out.println("Error On Loading VBox to drawer");
+        }
     }
-
-
-    public Pane getPane() {
-        return borderPane;
-    }
-
-    public void setPane(BorderPane bp) {
-        borderPane = bp;
-    }
-
-    public void test() {
-        System.out.println("Hello Fro ");
-    }
-
 
 }

@@ -40,22 +40,17 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
-
         addComponent("caseComponent",FXMLLoader.load(getClass().getResource("../views/components/case.fxml")));
-        addScreen("login", FXMLLoader.load(getClass().getResource("../views/page1.fxml")));
-        addScreen("map", FXMLLoader.load(getClass().getResource("../views/map.fxml")));
         addScreen("dashboard", FXMLLoader.load(getClass().getResource("../views/dashboard.fxml")));
-        addScreen("drawerTest", FXMLLoader.load(getClass().getResource("../views/drawerTest.fxml")));
-
-         super.init();
+        addScreen("login",FXMLLoader.load(getClass().getResource("../views/login.fxml")));
+        super.init();
     }
 
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        sc = new Scene(FXMLLoader.load(getClass().getResource("../views/page1.fxml")));
+        sc = new Scene(getComponent("dashboard"));
         activate("dashboard");
-
         primaryStage.setScene(sc);
         primaryStage.setFullScreen(false);
 
@@ -81,6 +76,7 @@ public class Main extends Application {
         screenMap.get(name).setPrefSize(width - 200, height - 200);
         sc.setRoot(screenMap.get(name));
     }
+
     public  static  Object getController(URL location){
         FXMLLoader fxmlLoader = new FXMLLoader();
         try {

@@ -13,9 +13,7 @@ import utils.Helper;
 
 import java.io.IOException;
 import java.sql.ResultSet;
-
-
-public class PageController {
+public class LoginController {
     @FXML
     private JFXTextField username;
 
@@ -58,16 +56,13 @@ public class PageController {
     @FXML
     void cancel(ActionEvent event) throws IOException {
 
-        Main.activate("map");
+        Main.activate("dashboard");
 
     }
 
     @FXML
     void register(ActionEvent event) {
-        username.setValidators();
-        UserModel user = new UserModel();
-        ResultSet res = user.selectAll();
-        Helper.outPutAll(res);
-    }
 
+
+    }
 }
