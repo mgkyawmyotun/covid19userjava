@@ -12,9 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
@@ -36,13 +34,9 @@ public class DashBoardController {
 
     @FXML
     void initialize() {
-        //
-
+        // Case Component
 
         borderPane.setLeft(Main.getComponent("caseComponent"));
-
-
-
 
 
         //Drawer
@@ -52,7 +46,7 @@ public class DashBoardController {
             drawer.setSidePane(vb);
 
         } catch (IOException e) {
-            System.out.println("Erro");
+            System.out.println("Error On Loading VBox to drawer");
         }
         //Map Related
         Platform.runLater(() -> {
@@ -60,10 +54,14 @@ public class DashBoardController {
             webView = new WebView();
             webEngine = webView.getEngine();
             webEngine.setJavaScriptEnabled(true);
-            webEngine.setOnAlert(e ->{
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(e.getData());
-                alert.showAndWait();
+            webEngine.setOnAlert(e -> {
+
+
+                webEngine.executeScript(" L.marker([16.839095,96.0414877,11])\n" +
+                        "        .addTo(mymap)\n" +
+                        "        .bindPopup(\"Total Infected - 100 <br> Total Dead -0 <br>Easily customizable.\")\n" +
+                        "\n" +
+                        "        .openPopup();");
             });
             webView.setCache(true);
             webEngine.load(getClass().getResource("../views/map.html").toString());
@@ -104,4 +102,17 @@ public class DashBoardController {
 
 
     }
+
+
+    public Pane getPane() {
+        return borderPane;
+    }
+    public  void setPane(BorderPane bp){
+        borderPane =bp;
+    }
+    public void test() {
+        System.out.println("Hello Fro ");
+    }
+
+
 }

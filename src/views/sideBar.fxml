@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox prefHeight="747.0" prefWidth="279.0" styleClass="sidebar" stylesheets="@css/dashboard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SideBarController">
    <children>
-      <JFXButton fx:id="button1" maxHeight="-Infinity" prefHeight="72.0" prefWidth="186.0" text="Button" textFill="WHITE">
+      <JFXButton fx:id="global" maxHeight="-Infinity" onAction="#onGlobal" prefHeight="72.0" prefWidth="186.0" text="Global" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
@@ -20,7 +19,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" prefHeight="72.0" prefWidth="186.0" text="Button" textFill="WHITE">
+      <JFXButton fx:id="loacal" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" onAction="#onLocal" prefHeight="72.0" prefWidth="186.0" text="Local" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
@@ -28,7 +27,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" prefHeight="72.0" prefWidth="186.0" text="Button" textFill="WHITE">
+      <JFXButton fx:id="login" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" onAction="#onLogin" prefHeight="72.0" prefWidth="186.0" text="Login" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
