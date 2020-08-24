@@ -1,9 +1,6 @@
 package controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXRippler;
+import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -32,7 +29,8 @@ public class DashBoardController {
     private AnchorPane topPane;
     @FXML
     private BorderPane borderPane;
-
+    @FXML
+    private JFXSpinner spinner;
 
     private JFXDrawer drawer;
 
@@ -53,7 +51,8 @@ public class DashBoardController {
         activateHamberger();
 
     }
-    private void activateHamberger(){
+
+    private void activateHamberger() {
         HamburgerBasicCloseTransition hst = new HamburgerBasicCloseTransition(hamburger);
         hst.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
@@ -71,23 +70,19 @@ public class DashBoardController {
         });
 
     }
-    private  void loadTopPane(){
+
+    private void loadTopPane() {
         JFXRippler rippler = new JFXRippler(topPane);
         borderPane.setTop(rippler);
     }
-    private  void loadMap(){
+
+    private void loadMap() {
         Platform.runLater(() -> {
 
             webView = new WebView();
             webEngine = webView.getEngine();
             webEngine.setJavaScriptEnabled(true);
             JSObject window = (JSObject) webEngine.executeScript("window");
-
-            try {
-                window.setMember("global_case", HttpService.getCaseByClients());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             webEngine.setOnError(e -> {
                 System.out.println(e.getMessage());
@@ -97,17 +92,16 @@ public class DashBoardController {
             webEngine.load(getClass().getResource("/views/map.html").toString());
             webEngine.setOnAlert(e -> {
                 System.out.println(e.getData());
+                borderPane.setCenter(webView);
             });
 
             webEngine.getLoadWorker().stateProperty().addListener(
                     new ChangeListener() {
                         @Override
                         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                            try {
-                                webEngine.executeScript("test(" + HttpService.getCaseByClients() + ")");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+
+                            webEngine.executeScript("test(" + HttpService.getCaseByCountries() + ")");
+
                             if (newValue != Worker.State.SUCCEEDED) {
                                 return;
                             }
@@ -118,15 +112,16 @@ public class DashBoardController {
             );
 
 
-            borderPane.setCenter(webView);
         });
 
     }
-    private  void loadCase(){
+
+    private void loadCase() {
 
         borderPane.setLeft(Main.getComponent("caseComponent"));
     }
-    private   void loadDrawer(){
+
+    private void loadDrawer() {
         drawer = new JFXDrawer();
         drawer.setDefaultDrawerSize(200);
         drawer.setDirection(JFXDrawer.DrawerDirection.RIGHT);

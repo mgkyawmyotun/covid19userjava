@@ -3,7 +3,7 @@ package utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
+import org.json.JSONObject;
 
 
 import java.io.*;
@@ -22,10 +22,10 @@ public class HttpService {
         return sb.toString();
     }
 
-    public static JSONArray readJsonFromUrl(String url) throws IOException, JSONException {
+    public static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
         URLConnection urlConnection = new URL(url).openConnection();
         urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-        InputStream is =urlConnection.getInputStream();
+        InputStream is = urlConnection.getInputStream();
 
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -37,10 +37,55 @@ public class HttpService {
             is.close();
         }
     }
-    public static String getCaseByClients() throws IOException {
-            JSONArray json = readJsonFromUrl("https://disease.sh/v3/covid-19/countries");
 
-          return  json.toString();
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        URLConnection urlConnection = new URL(url).openConnection();
+        urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+        InputStream is = urlConnection.getInputStream();
+
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+
+
+            JSONObject json = new
+                    JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+
+    public static String getCaseByCountries()  {
+        JSONArray json = null;
+        try {
+            json = readJsonArrayFromUrl("https://disease.sh/v3/covid-19/countries");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return json.toString();
+    }
+    public  static  JSONArray getCasesByCountriesAsJson(){
+        JSONArray json = null;
+        try {
+            json = readJsonArrayFromUrl("https://disease.sh/v3/covid-19/countries");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return json;
+    }
+    public static JSONObject getTotalCase() {
+
+        JSONObject json = null;
+        try { json = readJsonFromUrl("https://disease.sh/v3/covid-19/all");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(json.getInt("cases"));
+        System.out.println(json.toString());
+        return json;
     }
 
 }

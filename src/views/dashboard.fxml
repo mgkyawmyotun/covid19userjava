@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -64,4 +65,11 @@
          </children>
       </AnchorPane>
    </top>
+   <center>
+      <JFXSpinner fx:id="spinner" radius="50.0" BorderPane.alignment="CENTER">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </JFXSpinner>
+   </center>
 </BorderPane>

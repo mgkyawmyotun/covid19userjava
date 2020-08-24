@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 
 import javafx.scene.Scene;
 
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 import javafx.stage.Stage;
@@ -28,8 +29,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException {
-
-        launch(args);
+        HttpService.getCasesByCountriesAsJson();
+        //launch(args);
     }
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -38,6 +39,7 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
+
         addComponent("caseComponent",FXMLLoader.load(getClass().getResource("/views/components/case.fxml")));
         addScreen("dashboard", FXMLLoader.load(getClass().getResource("/views/dashboard.fxml")));
         addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
@@ -51,7 +53,11 @@ public class Main extends Application {
         activate("dashboard");
         primaryStage.setScene(sc);
         primaryStage.setFullScreen(false);
-
+        primaryStage.setTitle("Covid-19 Tracker App");
+        primaryStage.centerOnScreen();
+        primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/" +
+                "views/images/covid1.png")));
+        primaryStage.setIconified(true);
         primaryStage.show();
     }
 
