@@ -47,6 +47,13 @@ public class DashBoardController {
         loadMap();
         //Make rip  effect on topPane
 
+        //activate Hamberger
+
+
+        activateHamberger();
+
+    }
+    private void activateHamberger(){
         HamburgerBasicCloseTransition hst = new HamburgerBasicCloseTransition(hamburger);
         hst.setRate(-1);
         hamburger.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
@@ -62,7 +69,6 @@ public class DashBoardController {
             }
 
         });
-
 
     }
     private  void loadTopPane(){
@@ -88,7 +94,7 @@ public class DashBoardController {
 
             });
             webView.setCache(true);
-            webEngine.load(getClass().getResource("../views/map.html").toString());
+            webEngine.load(getClass().getResource("/views/map.html").toString());
             webEngine.setOnAlert(e -> {
                 System.out.println(e.getData());
             });
@@ -126,7 +132,7 @@ public class DashBoardController {
         drawer.setDirection(JFXDrawer.DrawerDirection.RIGHT);
         drawer.setPrefWidth(200);
         try {
-            VBox vb = FXMLLoader.load(getClass().getResource("../views/sideBar.fxml"));
+            VBox vb = FXMLLoader.load(getClass().getResource("/views/sideBar.fxml"));
             for (Node button : vb.getChildren()) {
                 button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                     switch (button.getId()) {

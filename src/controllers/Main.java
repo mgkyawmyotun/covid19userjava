@@ -28,8 +28,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException {
-        HttpService.getCaseByClients();
-
 
         launch(args);
     }
@@ -40,9 +38,9 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
-        addComponent("caseComponent",FXMLLoader.load(getClass().getResource("../views/components/case.fxml")));
-        addScreen("dashboard", FXMLLoader.load(getClass().getResource("../views/dashboard.fxml")));
-        addScreen("login",FXMLLoader.load(getClass().getResource("../views/login.fxml")));
+        addComponent("caseComponent",FXMLLoader.load(getClass().getResource("/views/components/case.fxml")));
+        addScreen("dashboard", FXMLLoader.load(getClass().getResource("/views/dashboard.fxml")));
+        addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
         super.init();
     }
 

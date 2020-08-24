@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="javafx:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/javafx_jar</output-path>
+    <root id="archive" name="javafx.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/controllers/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="javafx" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/derby.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/jsoup-1.13.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/jfoenix-8.0.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/fontawesomefx-8.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/mysql-connector-java-5.1.49.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/json-20200518.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

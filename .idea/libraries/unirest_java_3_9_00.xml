@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="unirest-java-3.9.00">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/src/lib/unirest-java-3.9.00.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
