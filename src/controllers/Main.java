@@ -41,20 +41,6 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
 
-
-//        JSONArray countryJson =HttpService.getCasesByCountriesAsJson();
-//
-//        for(int i=0;i<countryJson.length();i++){
-//            JSONObject jsonObject =countryJson.getJSONObject(i);
-//            String imagePath = jsonObject.getJSONObject("countryInfo").getString("flag");
-//            Connection.Response resultImageResponse = Jsoup.connect(imagePath)
-//                    .ignoreContentType(true).execute();
-//
-//            FileOutputStream out = (new FileOutputStream(new java.io.File("/views/images/country/one.png" )));
-//            out.write(resultImageResponse.bodyAsBytes());  // resultImageResponse.body() is where the image's contents are.
-//            out.close();
-//        }
-
         launch(args);
     }
 
@@ -80,7 +66,7 @@ public class Main extends Application {
         primaryStage.setFullScreen(false);
         primaryStage.setTitle("Covid-19 Tracker App");
         primaryStage.centerOnScreen();
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/views/images/covid1.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/views/Images/covid1.png")));
         primaryStage.setIconified(true);
         primaryStage.show();
     }

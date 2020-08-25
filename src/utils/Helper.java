@@ -27,4 +27,8 @@ public class Helper {
         }
 
     }
+    public  static  boolean search(String first_value ,String second_value){
+             return  first_value.toLowerCase().contains(second_value.toLowerCase());
+
+    }
 }
