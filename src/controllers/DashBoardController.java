@@ -21,8 +21,12 @@ import utils.HttpService;
 import java.io.IOException;
 
 public class DashBoardController {
-    WebEngine webEngine = null;
-    static WebView webView = null;
+    static  WebEngine webEngine = null;
+      static WebView webView = null;
+     static StackPane publicStackPane;
+    @FXML
+    private StackPane stackPane;
+
     @FXML
     private JFXHamburger hamburger;
     @FXML
@@ -36,6 +40,7 @@ public class DashBoardController {
 
     @FXML
     void initialize() {
+        publicStackPane = stackPane;
         // Case Component
         loadCase();
 
@@ -46,7 +51,7 @@ public class DashBoardController {
         //Make rip  effect on topPane
 
         //activate Hamberger
-
+        loadTopPane();
 
         activateHamberger();
 
@@ -82,6 +87,7 @@ public class DashBoardController {
             webView = new WebView();
             webEngine = webView.getEngine();
             webEngine.setJavaScriptEnabled(true);
+
             JSObject window = (JSObject) webEngine.executeScript("window");
 
             webEngine.setOnError(e -> {
@@ -89,6 +95,8 @@ public class DashBoardController {
 
             });
             webView.setCache(true);
+            webView.setContextMenuEnabled(true);
+
             webEngine.load(getClass().getResource("/views/map.html").toString());
             webEngine.setOnAlert(e -> {
                 System.out.println(e.getData());
@@ -140,7 +148,7 @@ public class DashBoardController {
                             System.out.println("I am Global");
                             break;
                         case "login":
-                            Main.activate("login");
+                            Main.activate("login",800,800);
                             System.out.println("I am Login ");
                             break;
 

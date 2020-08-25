@@ -56,7 +56,8 @@ public class LoginController {
     @FXML
     void cancel(ActionEvent event) throws IOException {
 
-        Main.activate("dashboard");
+        Main.activate("dashboard",200,200);
+
 
     }
 

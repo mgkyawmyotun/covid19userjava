@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
+import javafx.stage.StageStyle;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
@@ -38,7 +39,7 @@ public class Main extends Application {
     public static HashMap<String, Pane> screenMap = new HashMap<>();
     public static Scene sc = null;
 
-
+    public  static Stage stage =null;
     public static void main(String[] args) throws IOException {
 
         launch(args);
@@ -61,14 +62,18 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         sc = new Scene(getComponent("dashboard"));
-        activate("dashboard");
-        primaryStage.setScene(sc);
-        primaryStage.setFullScreen(false);
-        primaryStage.setTitle("Covid-19 Tracker App");
-        primaryStage.centerOnScreen();
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/views/Images/covid1.png")));
-        primaryStage.setIconified(true);
-        primaryStage.show();
+
+        stage = primaryStage;
+        activate("dashboard",200,200);
+
+
+        stage.setScene(sc);
+        stage.setFullScreen(false);
+        stage.setTitle("Covid-19 Tracker App");
+        stage.centerOnScreen();
+
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/views/Images/covid1.png")));
+        stage.show();
     }
 
 
@@ -84,13 +89,24 @@ public class Main extends Application {
 
     }
     public  static  Pane getComponent(String name){
+
         return screenMap.get(name);
     }
-    public static void activate(String name) {
-        screenMap.get(name).setPrefSize(width - 200, height - 200);
+    public static void activate(String name,double width1,double height1) {
+
+        stage.setWidth(width -width1);
+        stage.setHeight(height -height1);
+        stage.setX((width - stage.getWidth()) / 2);
+        stage.setY((height- stage.getHeight()) / 2);
+        screenMap.get(name);
+
         sc.setRoot(screenMap.get(name));
     }
+    public static void activate(String name) {
 
+        screenMap.get(name);
+        sc.setRoot(screenMap.get(name));
+    }
     public  static  Object getController(URL location){
         FXMLLoader fxmlLoader = new FXMLLoader();
         try {
