@@ -4,22 +4,28 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utils.HttpService;
 
-import javax.swing.*;
+
 
 public class CaseController {
 
@@ -58,10 +64,35 @@ public class CaseController {
     void onSearching(ActionEvent event) {
         System.out.println("Searching ..");
     }
-  int i=0;
+
     @FXML
     void initialize() {
         loadLabel();
+        loadSearch();
+
+    //   loadList();
+    }
+
+    private void loadList() {
+
+            list =new JFXListView<>();
+            JSONArray countryJson =HttpService.getCasesByCountriesAsJson();
+
+            for(int i=0;i<countryJson.length();i++){
+                JSONObject jsonObject =countryJson.getJSONObject(i);
+                Label label =new Label(jsonObject.getString("country"));
+                String imagePath = jsonObject.getJSONObject("countryInfo").getString("flag");
+                Image image =new Image(imagePath);
+
+                ImageView imageView =new ImageView(image);
+                imageView.setFitWidth(50);
+                imageView.setFitWidth(50);
+                label.setGraphic(imageView);
+                list.getItems().add(label);
+            }
+            vbox.getChildren().remove(vbox.getChildren().size()-1);
+            vbox.getChildren().add(list);
+
     }
 
     private void loadLabel() {
@@ -73,6 +104,9 @@ public class CaseController {
         totalRecover.setText(totalRecover.getText() +recover);
         int affectedCountries = HttpService.getTotalCase().getInt("affectedCountries");
         Country.setText(Country.getText()+affectedCountries);
+    }
+    private  void loadSearch(){
+
     }
 
     @FXML

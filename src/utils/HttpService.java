@@ -83,8 +83,7 @@ public class HttpService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(json.getInt("cases"));
-        System.out.println(json.toString());
+
         return json;
     }
 
