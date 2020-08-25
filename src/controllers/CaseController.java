@@ -3,6 +3,9 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
+
+import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -70,7 +73,7 @@ public class CaseController {
         loadLabel();
         loadSearch();
 
-    //   loadList();
+           loadList();
     }
 
     private void loadList() {
@@ -81,8 +84,10 @@ public class CaseController {
             for(int i=0;i<countryJson.length();i++){
                 JSONObject jsonObject =countryJson.getJSONObject(i);
                 Label label =new Label(jsonObject.getString("country"));
-                String imagePath = jsonObject.getJSONObject("countryInfo").getString("flag");
-                Image image =new Image(imagePath);
+                String imagePath = jsonObject.getJSONObject("countryInfo").get("iso2")+"";
+              //  System.out.println("@views/images/country/"+imagePath+".png");
+
+                Image image = new Image("/views/images/AF.png");
 
                 ImageView imageView =new ImageView(image);
                 imageView.setFitWidth(50);
