@@ -30,7 +30,7 @@ public class UserModel {
 
     public JSONObject createUser(String json) {
         RequestBody requestBody = RequestBody.create(JSON, json);
-        Request request = new Request.Builder().url(URI + "login").post(requestBody).build();
+        Request request = new Request.Builder().url(URI + "register").post(requestBody).build();
         String response = null;
         try {
             response = okHttpClient.newCall(request).execute().body().string();
@@ -40,5 +40,15 @@ public class UserModel {
         return new JSONObject(response);
     }
 
-
+    public  JSONObject loginUser(String json){
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        Request request = new Request.Builder().url(URI + "login").post(requestBody).build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new JSONObject(response);
+    }
 }
