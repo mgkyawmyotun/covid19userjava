@@ -23,9 +23,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -37,6 +36,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.omg.CORBA.INTERNAL;
 import utils.Helper;
 import utils.HttpService;
 
@@ -61,7 +61,7 @@ public class CaseController {
     private VBox vbox;
 
     @FXML
-    private JFXTextField search;
+    private TextField search;
     @FXML
     private Label Country;
 
@@ -128,6 +128,8 @@ public class CaseController {
     }
 
     private void labelClicked(MouseEvent e) {
+        Label label
+                = (Label) list.getSelectionModel().getSelectedItem();
             if(e.getClickCount() == 2){
                 JFXButton jfxButton =new JFXButton(" Ok ");
                 jfxButton.setFont(new Font(20));
@@ -136,17 +138,22 @@ public class CaseController {
                 jfxButton.setPadding(new Insets(0,40,0,20));
                 jfxButton.setStyle("-fx-background-color:#ff7043");
                 jfxDialogLayout =new JFXDialogLayout();
-                jfxDialogLayout.setHeading(new Text("Hello World"));
-                jfxDialogLayout.setBody(new Text("lorem ipsdfj sldjf lksjdlk jsdkljf lksdj lksdj f"));
+                Label detailsViews =new Label("Details Views");
+                detailsViews.setFont(new Font(22));
+
+                jfxDialogLayout.setHeading(detailsViews);
+                jfxDialogLayout.setBody(new JFXSpinner());
                 jfxDialogLayout.setActions(jfxButton);
                 jfxDialog =new JFXDialog(DashBoardController.publicStackPane,jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
                 jfxDialog.show();
+                jfxDialog.setOnDialogOpened(event->jfxDialogLayout.setBody(loadTable(label.getAccessibleText())));
 
-                jfxButton.setOnAction(event ->jfxDialog.close());
+
+
+          jfxButton.setOnAction(event ->jfxDialog.close());
             }
             else{
-                Label label
-                        = (Label) list.getSelectionModel().getSelectedItem();
+
                 DashBoardController.webEngine.executeScript("flyTo("+label.getAccessibleHelp()+")");
 
             }
@@ -177,5 +184,33 @@ public class CaseController {
     @FXML
     void onChoice(MouseEvent event) {
 
+    }
+    private  TableView loadTable(String iso2){
+        JSONObject country =HttpService.getDetailsByCountry(iso2);
+        TableView<String> tableView =new TableView<>();
+        TableColumn aboutColumn =new TableColumn<>("Content");
+        aboutColumn.setPrefWidth(200);
+
+        TableColumn numbersColumn =new TableColumn<>("cases");
+        aboutColumn.setCellValueFactory(new PropertyValueFactory<DetailsView,String>("About"));
+        numbersColumn.setCellValueFactory(new PropertyValueFactory<DetailsView,String>("Numbers"));
+
+        tableView.setItems(loadData(country));
+        tableView.getColumns().addAll(aboutColumn,numbersColumn);
+
+        return  tableView;
+    }
+    private  ObservableList loadData(JSONObject country){
+                ObservableList<DetailsView> observableList = FXCollections.observableArrayList();
+                country.keySet().forEach(key ->{
+                    if(country.get(key) instanceof  JSONObject || country.get(key) instanceof String){
+
+                    }
+                    else{
+
+                        observableList.add(new DetailsView(key, country.get(key) +""));
+                    }
+                });
+       return  observableList;
     }
 }

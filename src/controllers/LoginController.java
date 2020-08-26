@@ -3,17 +3,26 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RequiredFieldValidator;
-import com.jfoenix.validation.StringLengthValidator;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import models.UserModel;
-import utils.Helper;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
-import java.io.IOException;
-import java.sql.ResultSet;
 public class LoginController {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private AnchorPane main;
+
     @FXML
     private JFXTextField username;
 
@@ -21,49 +30,43 @@ public class LoginController {
     private JFXPasswordField password;
 
     @FXML
-    private JFXButton register;
+    private JFXButton login;
 
     @FXML
     private JFXButton cancel;
 
     @FXML
+    private Text forget;
+
+    @FXML
+    private FontAwesomeIconView back;
+
+    @FXML
+    private Text forget1;
+
+    @FXML
+    void cancel(ActionEvent event) {
+        System.out.println("Cancel");
+    }
+
+    @FXML
+    void onBack(MouseEvent event) {
+        System.out.println("Back");
+    }
+
+    @FXML
+    void onForget(MouseEvent event) {
+        System.out.println("onForget");
+    }
+
+    @FXML
+    void onLogin(ActionEvent event) {
+        System.out.println("onLogin");
+
+    }
+
+    @FXML
     void initialize() {
-        RequiredFieldValidator vb = new RequiredFieldValidator();
-
-        vb.setMessage("Cannot Be Empty");
-        username.setValidators(vb);
-        username.focusedProperty().addListener((observable, old, n) -> {
-            if (!n) {
-                username.validate();
-            }
-        });
-        StringLengthValidator stringLengthValidator = new StringLengthValidator(6);
-
-        stringLengthValidator.setMessage("At Least 6 Character Long");
-        password.setValidators(stringLengthValidator);
-        password.setOnKeyTyped(e -> {
-            if (password.validate()) {
-
-            }
-
-        });
-        password.focusedProperty().addListener((observable, old, n) -> {
-            if (!n) password.validate();
-        });
-
-    }
-
-    @FXML
-    void cancel(ActionEvent event) throws IOException {
-
-        Main.activate("dashboard",200,200);
-
-
-    }
-
-    @FXML
-    void register(ActionEvent event) {
-
 
     }
 }

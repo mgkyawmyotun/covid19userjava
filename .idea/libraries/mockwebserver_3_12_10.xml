@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mockwebserver-3.12.10">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/lib/mockwebserver-3.12.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

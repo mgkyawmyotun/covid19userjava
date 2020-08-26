@@ -2,6 +2,7 @@ package controllers;
 
 
 import com.jfoenix.controls.JFXListView;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 
 
 import javafx.stage.StageStyle;
+import models.UserModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
@@ -41,7 +43,7 @@ public class Main extends Application {
 
     public  static Stage stage =null;
     public static void main(String[] args) throws IOException {
-
+        new UserModel().getUser();
         launch(args);
     }
 
@@ -61,12 +63,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        sc = new Scene(getComponent("dashboard"));
+        sc = new Scene(getComponent("login"));
 
         stage = primaryStage;
-        activate("dashboard",200,200);
+      //  activate("dashboard",200,200);
 
-
+        activate("login");
         stage.setScene(sc);
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker App");
@@ -85,6 +87,7 @@ public class Main extends Application {
         screenMap.remove(name);
     }
     public static void addComponent(String name, Pane pane) {
+
         screenMap.put(name, pane);
 
     }

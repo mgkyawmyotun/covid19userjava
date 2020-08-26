@@ -1,9 +1,13 @@
 package utils;
 
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
 
 import java.io.*;
@@ -86,5 +90,19 @@ public class HttpService {
 
         return json;
     }
+    public  static  JSONObject getDetailsByCountry(String iso2){
+        String data = null;
+        try {
+            data = Jsoup
+                    .connect("https://disease.sh/v3/covid-19/countries/"+iso2+"?strict=true")
+                    .ignoreContentType(true).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  new JSONObject(data);
+    }
+
+
+
 
 }

@@ -1,3 +1,10 @@
 .caseBox {
      -fx-background-color:  #212121;
 }
+.search {
+-fx-text-fill:white;
+-fx-background-color: #212121;
+-fx-border-color:white;
+-fx-border-radius:50;
+
+}
