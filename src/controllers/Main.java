@@ -41,8 +41,9 @@ public class Main extends Application {
 
     public  static Stage stage =null;
     public static void main(String[] args) throws IOException {
-        new UserModel().getUser();
-        launch(args);
+
+
+              launch(args);
     }
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -63,9 +64,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         sc = new Scene(getComponent("login"));
 
-            stage = primaryStage;
-             activate("dashboard",200,200);
-       // activate("login",400,400);
+        stage = primaryStage;
+           //  activate("dashboard",200,200);
+         activate("login");
         stage.setScene(sc);
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker App");
@@ -94,13 +95,11 @@ public class Main extends Application {
     }
     public static void activate(String name,double width1,double height1) {
 
-        stage.setWidth(width -width1);
-        stage.setHeight(height -height1);
-        stage.setX((width - stage.getWidth()) / 2);
-        stage.setY((height- stage.getHeight()) / 2);
         screenMap.get(name);
 
         sc.setRoot(screenMap.get(name));
+        stage.sizeToScene();
+
     }
     public static void activate(String name) {
 

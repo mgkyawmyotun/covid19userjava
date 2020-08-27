@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -69,10 +70,11 @@ public class CaseController {
     private JFXButton serachButton;
     @FXML
     private JFXListView<Label> list;
-    private  FilteredList<Label> filteredList;
+    private FilteredList<Label> filteredList;
 
     private JFXDialog jfxDialog;
     private JFXDialogLayout jfxDialogLayout;
+
     @FXML
     void onSearch(ActionEvent event) {
         System.out.println("on Search ..");
@@ -85,98 +87,106 @@ public class CaseController {
 
     @FXML
     void initialize() {
-//        loadLabel();
-//        loadSearch();
-//        loadList();
-        Thread thread =new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                Platform.runLater(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        System.out.println("I got call case");
-                        System.out.println(Thread.currentThread());
-                        loadLabel();
-                        loadSearch();
-                        loadList();
-                    }
-                });
-            }
-        });
-        thread.start();
+        loadLabel();
+        loadSearch();
+        loadList();
 
 
     }
 
     private void loadList() {
+        Task task = new Task<Void>() { // create new task
 
-        ObservableList<Label> observableList = FXCollections.observableArrayList();
+            @Override
+            public Void call() {
+                Platform.runLater(new Runnable() {
 
-        JSONArray countryJson = HttpService.getCasesByCountriesAsJson();
+                    @Override
+                    public void run() {
+                        ObservableList<Label> observableList = FXCollections.observableArrayList();
 
-        for (int i = 0; i < countryJson.length(); i++) {
-            JSONObject jsonObject = countryJson.getJSONObject(i);
-            Label label = new Label(jsonObject.getString("country"));
-            String imagePath = jsonObject.getJSONObject("countryInfo").get("iso2") + "";
-            JSONObject countryInfo =jsonObject.getJSONObject("countryInfo");
-            label.setAccessibleText(imagePath);
-            label.setAccessibleHelp("["+countryInfo.get("lat")+","+countryInfo.get("long")+"]");
-            Image image = new Image("/views/Images/country/" + imagePath.toLowerCase() + ".png");
+                        JSONArray countryJson = HttpService.getCasesByCountriesAsJson();
 
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(50);
-            imageView.setFitHeight(50);
-            label.setGraphic(imageView);
-            observableList.add(label);
-        }
-        filteredList =new FilteredList<Label>(observableList);
+                        for (int i = 0; i < countryJson.length(); i++) {
+                            JSONObject jsonObject = countryJson.getJSONObject(i);
+                            Label label = new Label(jsonObject.getString("country"));
+                            String imagePath = jsonObject.getJSONObject("countryInfo").get("iso2") + "";
+                            JSONObject countryInfo = jsonObject.getJSONObject("countryInfo");
+                            label.setAccessibleText(imagePath);
+                            label.setAccessibleHelp("[" + countryInfo.get("lat") + "," + countryInfo.get("long") + "]");
+                            Image image = new Image("/views/Images/country/" + imagePath.toLowerCase() + ".png");
 
-        list = new JFXListView<>();
-        list.setItems(filteredList);
+                            ImageView imageView = new ImageView(image);
+                            imageView.setFitWidth(50);
+                            imageView.setFitHeight(50);
+                            label.setGraphic(imageView);
+                            observableList.add(label);
+                        }
+                        filteredList = new FilteredList<Label>(observableList);
 
-        list.getStylesheets().add("/views/css/listview.css");
-        list.setCursor(Cursor.HAND);
-        list.addEventHandler(MouseEvent.MOUSE_CLICKED, this::labelClicked);
+                        list = new JFXListView<>();
+                        list.setItems(filteredList);
 
-        vbox.getChildren().remove(vbox.getChildren().size() - 1);
-        vbox.getChildren().add(list);
+                        list.getStylesheets().add("/views/css/listview.css");
+                        list.setCursor(Cursor.HAND);
+                        list.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) ->labelClicked(e));
+
+                        vbox.getChildren().remove(vbox.getChildren().size() - 1);
+                        vbox.getChildren().add(list);
+                        System.out.println("added");
+                    }
+                });
+                return null;
+
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.start();
+
 
     }
 
     private void labelClicked(MouseEvent e) {
         Label label
                 = (Label) list.getSelectionModel().getSelectedItem();
-            if(e.getClickCount() == 2){
-                JFXButton jfxButton =new JFXButton(" Ok ");
-                jfxButton.setFont(new Font(20));
-                jfxButton.setCursor(Cursor.HAND);
+        if (e.getClickCount() == 2) {
+            Task task =new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    TableView tableView =loadTable(label.getAccessibleText());
+                    Platform.runLater(() ->{
+                        jfxDialogLayout.setBody(tableView);
 
-                jfxButton.setPadding(new Insets(0,40,0,20));
-                jfxButton.setStyle("-fx-background-color:#ff7043");
-                jfxDialogLayout =new JFXDialogLayout();
-                Label detailsViews =new Label("Details Views");
-                detailsViews.setFont(new Font(22));
+                    });
+                    return null;
+                }
+            };
+            new Thread(task).start();
+            JFXButton jfxButton = new JFXButton(" Ok ");
+            jfxButton.setFont(new Font(20));
+            jfxButton.setCursor(Cursor.HAND);
 
-                jfxDialogLayout.setHeading(detailsViews);
-                jfxDialogLayout.setBody(new JFXSpinner());
-                jfxDialogLayout.setActions(jfxButton);
-                jfxDialog =new JFXDialog(DashBoardController.publicStackPane,jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
-                jfxDialog.show();
-                jfxDialog.setOnDialogOpened(event->jfxDialogLayout.setBody(loadTable(label.getAccessibleText())));
+            jfxButton.setPadding(new Insets(0, 40, 0, 20));
+            jfxButton.setStyle("-fx-background-color:#ff7043");
+            jfxDialogLayout = new JFXDialogLayout();
+            Label detailsViews = new Label("Details Views");
+            detailsViews.setFont(new Font(22));
+
+            jfxDialogLayout.setHeading(detailsViews);
+            jfxDialogLayout.setBody(new JFXSpinner());
+            jfxDialogLayout.setActions(jfxButton);
+            jfxDialog = new JFXDialog(DashBoardController.publicStackPane, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
+            jfxDialog.show();
 
 
+            jfxButton.setOnAction(event -> jfxDialog.close());
+        } else {
 
-          jfxButton.setOnAction(event ->jfxDialog.close());
-            }
-            else{
-
-                DashBoardController.webEngine.executeScript("flyTo("+label.getAccessibleHelp()+")");
-
-            }
+            DashBoardController.webEngine.executeScript("flyTo(" + label.getAccessibleHelp() + ")");
 
         }
+
+    }
 
     private void loadLabel() {
         int cases = HttpService.getTotalCase().getInt("cases");
@@ -203,32 +213,36 @@ public class CaseController {
     void onChoice(MouseEvent event) {
 
     }
-    private  TableView loadTable(String iso2){
-        JSONObject country =HttpService.getDetailsByCountry(iso2);
-        TableView<String> tableView =new TableView<>();
-        TableColumn aboutColumn =new TableColumn<>("Content");
+
+    private TableView loadTable(String iso2) {
+        TableView<String> tableView = new TableView<>();
+
+
+        JSONObject country = HttpService.getDetailsByCountry(iso2);
+        tableView.setItems(loadData(country));
+       TableColumn aboutColumn = new TableColumn<>("Content");
         aboutColumn.setPrefWidth(200);
 
-        TableColumn numbersColumn =new TableColumn<>("cases");
-        aboutColumn.setCellValueFactory(new PropertyValueFactory<DetailsView,String>("About"));
-        numbersColumn.setCellValueFactory(new PropertyValueFactory<DetailsView,String>("Numbers"));
+        TableColumn numbersColumn = new TableColumn<>("cases");
+        aboutColumn.setCellValueFactory(new PropertyValueFactory<DetailsView, String>("About"));
+        numbersColumn.setCellValueFactory(new PropertyValueFactory<DetailsView, String>("Numbers"));
 
-        tableView.setItems(loadData(country));
-        tableView.getColumns().addAll(aboutColumn,numbersColumn);
 
-        return  tableView;
+        tableView.getColumns().addAll(aboutColumn, numbersColumn);
+
+        return tableView;
     }
-    private  ObservableList loadData(JSONObject country){
-                ObservableList<DetailsView> observableList = FXCollections.observableArrayList();
-                country.keySet().forEach(key ->{
-                    if(country.get(key) instanceof  JSONObject || country.get(key) instanceof String){
 
-                    }
-                    else{
+    private ObservableList loadData(JSONObject country) {
+        ObservableList<DetailsView> observableList = FXCollections.observableArrayList();
+        country.keySet().forEach(key -> {
+            if (country.get(key) instanceof JSONObject || country.get(key) instanceof String) {
 
-                        observableList.add(new DetailsView(key, country.get(key) +""));
-                    }
-                });
-       return  observableList;
+            } else {
+
+                observableList.add(new DetailsView(key, country.get(key) + ""));
+            }
+        });
+        return observableList;
     }
 }

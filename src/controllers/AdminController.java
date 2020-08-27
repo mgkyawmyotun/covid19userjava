@@ -1,4 +1,4 @@
-package views;
+package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;

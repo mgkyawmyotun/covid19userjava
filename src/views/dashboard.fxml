@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashBoardController">
+<StackPane fx:id="stackPane" prefHeight="856.0" prefWidth="1601.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DashBoardController">
    <children>
       <BorderPane fx:id="borderPane" stylesheets="@css/dashboard.css">
          <left>

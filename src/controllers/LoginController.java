@@ -1,8 +1,12 @@
 package controllers;
 
+import animatefx.animation.BounceIn;
+import animatefx.animation.ZoomInDown;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.StringLengthValidator;
+import com.jfoenix.validation.base.ValidatorBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,6 +15,9 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import models.UserModel;
+import org.json.JSONObject;
+import utils.EmailValidator;
 
 public class LoginController {
 
@@ -41,12 +48,12 @@ public class LoginController {
     @FXML
     private FontAwesomeIconView back;
 
-    @FXML
-    private Text forget1;
 
     @FXML
+    private Text backText;
+    @FXML
     void cancel(ActionEvent event) {
-        Main.activate("dashboard",200,200);
+        Main.activate("dashboard");
     }
 
     @FXML
@@ -56,17 +63,34 @@ public class LoginController {
 
     @FXML
     void onForget(MouseEvent event) {
-        System.out.println("onForget");
+       new ZoomInDown(forget).play();
+
     }
 
     @FXML
     void onLogin(ActionEvent event) {
+        JSONObject jsonObject =new JSONObject();
+        jsonObject.put("email","kyawmyotun472001@gmail.com");
+        jsonObject.put("password","adminkyasaw");
+        new UserModel().loginUser(jsonObject.toString());
         System.out.println("onLogin");
 
     }
 
     @FXML
     void initialize() {
-        System.out.println("I got call");
+        ValidatorBase emailValidator =new EmailValidator();
+        username.setValidators(emailValidator);
+        ValidatorBase passwordValidator =new StringLengthValidator(6);
+        password.setValidators(passwordValidator);
+        username.textProperty().addListener((e) ->{
+            username.validate();
+            System.out.println(username.getText());
+        });
+        password.textProperty().addListener((e) ->{
+            password.validate();
+            System.out.println(password.getText());
+        });
+
     }
 }
