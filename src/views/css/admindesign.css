@@ -2,3 +2,10 @@
  {
   -fx-background-color:#64ffda;
     }
+
+.button {
+     -fx-background-color:#14cba8;
+}
+.button:hover{
+  -fx-background-color:#64ffda;
+}

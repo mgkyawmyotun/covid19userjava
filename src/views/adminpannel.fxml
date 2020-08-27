@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="views.Adminpannel"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="867.0" prefWidth="1310.0" stylesheets="@css/admindesign.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.Adminpannel">
+   <children>
+      <VBox prefHeight="867.0" prefWidth="308.0" styleClass="navbar">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="2.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Pannel" textAlignment="CENTER" wrappingWidth="320.6708984375">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#c34e4e" />
+                              <Stop color="#c992b6" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Text>
+                  <ImageView fitHeight="95.0" fitWidth="145.0" layoutX="106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/covidadmin.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <JFXButton prefHeight="82.0" prefWidth="330.0" text="    State     " textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/stateadd.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton alignment="CENTER" prefHeight="82.0" prefWidth="330.0" text="    Town    " textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#d0c3c3" glyphName="PLUS" size="40" />
+               </graphic>
+            </JFXButton>
+            <JFXButton alignment="CENTER" prefHeight="82.0" prefWidth="330.0" text="  Township" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#d0c3c3" glyphName="PLUS" size="40" />
+               </graphic>
+            </JFXButton>
+            <JFXButton alignment="CENTER" prefHeight="82.0" prefWidth="330.0" text="    Hospital" textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#d0c3c3" glyphName="PLUS" size="40" />
+               </graphic>
+            </JFXButton>
+            <JFXButton alignment="CENTER" layoutX="10.0" layoutY="456.0" prefHeight="82.0" prefWidth="330.0" text="    Patient  " textFill="WHITE">
+               <font>
+                  <Font size="35.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#d0c3c3" glyphName="PLUS" size="40" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
