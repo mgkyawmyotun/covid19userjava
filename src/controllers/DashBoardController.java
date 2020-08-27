@@ -1,7 +1,12 @@
 package controllers;
 
+import animatefx.animation.Bounce;
+import animatefx.animation.BounceIn;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+import javafx.util.Duration;
 import netscape.javascript.JSObject;
 import utils.HttpService;
 
@@ -40,20 +46,34 @@ public class DashBoardController {
 
     @FXML
     void initialize() {
+        System.out.println("I got call db");
         publicStackPane = stackPane;
         // Case Component
-        loadCase();
+        Thread t =new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
 
-        //Drawer
-        loadDrawer();
-        //Map Related
-        loadMap();
-        //Make rip  effect on topPane
+                        loadCase();
+                        //Drawer
+                        loadDrawer();
+                        //Map Related
+                        loadMap();
+                        //Make rip  effect on topPane
 
-        //activate Hamberger
-        loadTopPane();
+                        //activate Hamberger
+                        loadTopPane();
 
-        activateHamberger();
+                        activateHamberger();
+                    }
+                });
+            }
+        });
+        t.start();
+
+
 
     }
 
@@ -100,6 +120,7 @@ public class DashBoardController {
             webEngine.load(getClass().getResource("/views/map.html").toString());
             webEngine.setOnAlert(e -> {
                 System.out.println(e.getData());
+
                 borderPane.setCenter(webView);
             });
 
@@ -140,16 +161,21 @@ public class DashBoardController {
                 button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
                     switch (button.getId()) {
                         case "loacal":
+                            new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
+
                             borderPane.setCenter(null);
+
                             System.out.println("I am Local");
                             break;
                         case "global":
+                            new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
                             borderPane.setCenter(webView);
                             System.out.println("I am Global");
                             break;
                         case "login":
-                            Main.activate("login",800,800);
-                            System.out.println("I am Login ");
+                            new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
+
+                             System.out.println("I am Login ");
                             break;
 
                     }

@@ -46,12 +46,12 @@ public class LoginController {
 
     @FXML
     void cancel(ActionEvent event) {
-        System.out.println("Cancel");
+        Main.activate("dashboard",200,200);
     }
 
     @FXML
     void onBack(MouseEvent event) {
-        System.out.println("Back");
+        Main.activate("dashboard",200,200);
     }
 
     @FXML
@@ -67,6 +67,6 @@ public class LoginController {
 
     @FXML
     void initialize() {
-
+        System.out.println("I got call");
     }
 }

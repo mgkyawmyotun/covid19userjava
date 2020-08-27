@@ -4,6 +4,7 @@ package controllers;
 import com.jfoenix.controls.JFXListView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 
 import javafx.scene.Scene;
@@ -65,10 +66,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         sc = new Scene(getComponent("login"));
 
-        stage = primaryStage;
-      //  activate("dashboard",200,200);
-
-        activate("login");
+            stage = primaryStage;
+             activate("dashboard",200,200);
+       // activate("login",400,400);
         stage.setScene(sc);
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker App");

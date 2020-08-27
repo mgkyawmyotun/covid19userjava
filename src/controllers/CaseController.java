@@ -85,9 +85,27 @@ public class CaseController {
 
     @FXML
     void initialize() {
-        loadLabel();
-        loadSearch();
-        loadList();
+//        loadLabel();
+//        loadSearch();
+//        loadList();
+        Thread thread =new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Platform.runLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        System.out.println("I got call case");
+                        System.out.println(Thread.currentThread());
+                        loadLabel();
+                        loadSearch();
+                        loadList();
+                    }
+                });
+            }
+        });
+        thread.start();
 
 
     }
