@@ -10,6 +10,8 @@ import com.jfoenix.validation.base.ValidatorBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +20,7 @@ import javafx.scene.text.Text;
 import models.UserModel;
 import org.json.JSONObject;
 import utils.EmailValidator;
+import utils.PasswordValidator;
 
 public class LoginController {
 
@@ -53,7 +56,7 @@ public class LoginController {
     private Text backText;
     @FXML
     void cancel(ActionEvent event) {
-        Main.activate("dashboard");
+       // Main.activate("dashboard");
     }
 
     @FXML
@@ -63,33 +66,65 @@ public class LoginController {
 
     @FXML
     void onForget(MouseEvent event) {
-       new ZoomInDown(forget).play();
 
     }
 
     @FXML
     void onLogin(ActionEvent event) {
-        JSONObject jsonObject =new JSONObject();
-        jsonObject.put("email","kyawmyotun472001@gmail.com");
-        jsonObject.put("password","adminkyasaw");
-        new UserModel().loginUser(jsonObject.toString());
-        System.out.println("onLogin");
+        Task task =new Task() {
+            @Override
+            protected Object call() throws Exception {
+                JSONObject jsonObject =new JSONObject();
+                jsonObject.put("email",username.getText());
+                jsonObject.put("password",password.getText());
+                new UserModel().loginUser(jsonObject.toString());
+                return null;
+            }
+        };
+        new Thread(task).start();
+
 
     }
-
+    boolean emailCheck =false;
+    boolean passwordCheck =false;
     @FXML
     void initialize() {
+
+
         ValidatorBase emailValidator =new EmailValidator();
         username.setValidators(emailValidator);
-        ValidatorBase passwordValidator =new StringLengthValidator(6);
+        ValidatorBase passwordValidator =new PasswordValidator();
+
         password.setValidators(passwordValidator);
         username.textProperty().addListener((e) ->{
-            username.validate();
-            System.out.println(username.getText());
+            if(username.validate()) {
+                emailCheck =true;
+            }
+            else{
+                emailCheck =false;
+            }
+            if(emailCheck && passwordCheck) {
+                login.setDisable(false);
+            }
+            else{
+                login.setDisable(true);
+            }
+
         });
         password.textProperty().addListener((e) ->{
-            password.validate();
-            System.out.println(password.getText());
+            if(password.validate()){
+                passwordCheck =true;
+            }
+            else{
+                passwordCheck =false;
+            }
+            if(emailCheck && passwordCheck) {
+                login.setDisable(false);
+            }
+            else{
+                login.setDisable(true);
+            }
+
         });
 
     }

@@ -12,9 +12,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="865.0" stylesheets="@css/admindesign.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+<AnchorPane maxHeight="1.7976931348623157E308" prefHeight="1017.0" prefWidth="1486.0" stylesheets="@css/admindesign.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
-      <VBox prefHeight="867.0" prefWidth="308.0" styleClass="navbar">
+      <VBox prefHeight="1017.0" prefWidth="323.0" styleClass="navbar">
          <children>
             <AnchorPane>
                <children>
