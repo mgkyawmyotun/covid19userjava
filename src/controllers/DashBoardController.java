@@ -49,32 +49,19 @@ public class DashBoardController {
         System.out.println("I got call db");
         publicStackPane = stackPane;
         // Case Component
-        Thread t =new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
+        Platform.runLater(() -> {
+            loadCase();
+            //Drawer
+            loadDrawer();
+            //Map Related
+            loadMap();
+            //Make rip  effect on topPane
 
-                        loadCase();
-                        //Drawer
-                        loadDrawer();
-                        //Map Related
-                        loadMap();
-                        //Make rip  effect on topPane
+            //activate Hamberger
+            loadTopPane();
 
-                        //activate Hamberger
-                        loadTopPane();
-
-                        activateHamberger();
-                    }
-                });
-            }
+            activateHamberger();
         });
-        t.start();
-
-
-
     }
 
     private void activateHamberger() {

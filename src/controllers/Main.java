@@ -26,16 +26,13 @@ import org.jsoup.Jsoup;
 import utils.HttpService;
 
 import java.awt.*;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
+
 import java.net.URL;
 
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -110,6 +107,14 @@ public class Main extends Application {
         screenMap.get(name);
         sc.setRoot(screenMap.get(name));
     }
+
+    @Override
+    public void stop() throws Exception {
+
+        System.exit(0);
+
+    }
+
     public  static  Object getController(URL location){
         FXMLLoader fxmlLoader = new FXMLLoader();
         try {
