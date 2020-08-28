@@ -4,6 +4,7 @@ import animatefx.animation.BounceIn;
 import animatefx.animation.ZoomInDown;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.StringLengthValidator;
 import com.jfoenix.validation.base.ValidatorBase;
@@ -44,6 +45,10 @@ public class LoginController {
 
     @FXML
     private JFXButton cancel;
+    @FXML
+    private Text errorText;
+    @FXML
+    private JFXSpinner spinner;
 
     @FXML
     private Text forget;
@@ -56,12 +61,12 @@ public class LoginController {
     private Text backText;
     @FXML
     void cancel(ActionEvent event) {
-       // Main.activate("dashboard");
+        Main.load(Main.getScreen("dashboard"),200,200);
     }
 
     @FXML
     void onBack(MouseEvent event) {
-        Main.activate("dashboard",200,200);
+      Main.load(Main.getScreen("dashboard"),200,200);
     }
 
     @FXML
@@ -74,10 +79,23 @@ public class LoginController {
         Task task =new Task() {
             @Override
             protected Object call() throws Exception {
+                login.setDisable(true);
+                spinner.setVisible(true);
                 JSONObject jsonObject =new JSONObject();
                 jsonObject.put("email",username.getText());
                 jsonObject.put("password",password.getText());
-                new UserModel().loginUser(jsonObject.toString());
+                JSONObject result =new UserModel().loginUser(jsonObject.toString());
+
+                if(result.has("error")){
+
+                    errorText.setVisible(true);
+                }
+                else{
+
+
+                }
+                login.setDisable(false);
+                spinner.setVisible(false);
                 return null;
             }
         };
@@ -94,9 +112,9 @@ public class LoginController {
         ValidatorBase emailValidator =new EmailValidator();
         username.setValidators(emailValidator);
         ValidatorBase passwordValidator =new PasswordValidator();
-
         password.setValidators(passwordValidator);
         username.textProperty().addListener((e) ->{
+            errorText.setVisible(false);
             if(username.validate()) {
                 emailCheck =true;
             }
@@ -104,6 +122,7 @@ public class LoginController {
                 emailCheck =false;
             }
             if(emailCheck && passwordCheck) {
+
                 login.setDisable(false);
             }
             else{
@@ -112,6 +131,7 @@ public class LoginController {
 
         });
         password.textProperty().addListener((e) ->{
+            errorText.setVisible(false);
             if(password.validate()){
                 passwordCheck =true;
             }

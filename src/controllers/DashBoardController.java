@@ -49,7 +49,7 @@ public class DashBoardController {
         System.out.println("I got call db");
         publicStackPane = stackPane;
         // Case Component
-        Platform.runLater(() -> {
+
             loadCase();
             //Drawer
             loadDrawer();
@@ -61,7 +61,7 @@ public class DashBoardController {
             loadTopPane();
 
             activateHamberger();
-        });
+
     }
 
     private void activateHamberger() {
@@ -133,8 +133,16 @@ public class DashBoardController {
     }
 
     private void loadCase() {
+        System.out.println("Hi");
 
-        borderPane.setLeft(Main.getComponent("caseComponent"));
+        try {
+            Main.addScreen("caseComponent",FXMLLoader.load(getClass().getResource("/views/components/case.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        borderPane.setLeft(Main.getScreen("caseComponent"));
+        System.out.println("Hi");
     }
 
     private void loadDrawer() {
@@ -161,8 +169,13 @@ public class DashBoardController {
                             break;
                         case "login":
                             new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
-
-                             System.out.println("I am Login ");
+                            try {
+                                Main.addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
+                                Main.load(Main.getScreen("login"),972,646);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                            System.out.println("I am Login ");
                             break;
 
                     }
