@@ -10,6 +10,7 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,7 @@ import javafx.scene.web.WebView;
 
 import javafx.util.Duration;
 import netscape.javascript.JSObject;
+import utils.Helper;
 import utils.HttpService;
 
 import java.io.IOException;
@@ -50,11 +52,36 @@ public class DashBoardController {
         publicStackPane = stackPane;
         // Case Component
 
-            loadCase();
+            Task<Void> task =new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                   Platform.runLater(new Runnable() {
+                       @Override
+                       public void run() {
+                           loadCase();
+                       }
+                   });
+                return  null;
+                }
+            };
+            new Thread(task).start();
+        Task<Void> task1 =new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadMap();
+                    }
+                });
+                return  null;
+            }
+        };
+        new Thread(task1).start();
             //Drawer
             loadDrawer();
             //Map Related
-            loadMap();
+
             //Make rip  effect on topPane
 
             //activate Hamberger
@@ -89,7 +116,6 @@ public class DashBoardController {
     }
 
     private void loadMap() {
-        Platform.runLater(() -> {
 
             webView = new WebView();
             webEngine = webView.getEngine();
@@ -106,9 +132,9 @@ public class DashBoardController {
 
             webEngine.load(getClass().getResource("/views/map.html").toString());
             webEngine.setOnAlert(e -> {
-                System.out.println(e.getData());
-
-                borderPane.setCenter(webView);
+                Platform.runLater(() ->{
+                    borderPane.setCenter(webView);
+                });
             });
 
             webEngine.getLoadWorker().stateProperty().addListener(
@@ -116,19 +142,22 @@ public class DashBoardController {
                         @Override
                         public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 
-                            webEngine.executeScript("test(" + HttpService.getCaseByCountries() + ")");
+                                    String data =HttpService.getCaseByCountries();
+
+                                        webEngine.executeScript("test(" + data+ ")");
+
+
 
                             if (newValue != Worker.State.SUCCEEDED) {
                                 return;
                             }
-                            JSObject window = (JSObject) webEngine.executeScript("window");
 
                         }
                     }
             );
 
 
-        });
+
 
     }
 
@@ -170,12 +199,29 @@ public class DashBoardController {
                         case "login":
                             new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
                             try {
-                                Main.addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
-                                Main.load(Main.getScreen("login"),972,646);
+                                if(Helper.getToken().isEmpty()){
+                                    Main.addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
+                                    Main.load(Main.getScreen("login"));
+                                }
+                                else{
+                                    Main.addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
+
+                                    FadeTransition fadeTransition =new FadeTransition(Duration.millis(2000));
+                                    fadeTransition.setFromValue(0);
+                                    fadeTransition.setToValue(1);
+                                    fadeTransition.setNode(borderPane);
+                                    fadeTransition.setCycleCount(1);
+                                    fadeTransition.play();
+                                    fadeTransition.setOnFinished(a ->{
+                                        Main.load(Main.getScreen("admin"));
+
+                                    });
+                                }
+
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
-                            System.out.println("I am Login ");
+
                             break;
 
                     }

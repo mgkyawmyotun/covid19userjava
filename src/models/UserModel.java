@@ -5,17 +5,22 @@ import okhttp3.*;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
+import java.util.stream.Collectors;
 
 public class UserModel {
     public static final String URI = "https://stark-crag-00731.herokuapp.com/user/";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     OkHttpClient okHttpClient;
 
+    JSONObject user;
+    String token;
     public UserModel() {
         okHttpClient = new OkHttpClient();
     }
-    JSONObject user;
     public JSONObject getUser() {
         Request request = new Request.Builder().url(URI).build();
         String response = null;
@@ -64,16 +69,33 @@ public class UserModel {
         return new JSONObject(response);
     }
     public void saveToken(){
+        Path filePath = Paths.get("src/token.txt");
+        if(!Files.exists(filePath)){
+            try {
+            Files.createFile(filePath);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            Files.write(filePath,this.user.getString("token").getBytes());
+             String res =Files.readAllLines(filePath).stream().collect(Collectors.joining());
+               this.token =res;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     public  String getToken(){
-        return  "";
+        return  token;
     }
     public  String getUserName(){
-        return  "";
+        return  this.user.getString("username");
     }
     public  String getEmail(){
-        return  "";
+        return  this.user.getString("email");
     };
 
 }

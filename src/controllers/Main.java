@@ -22,18 +22,24 @@ import java.awt.*;
 import java.io.IOException;
 
 
+import java.net.URISyntaxException;
 import java.net.URL;
 
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Main extends Application {
     public static HashMap<String, Pane> screenMap = new HashMap<>();
     public static Scene sc = null;
 
     public  static Stage stage =null;
-    public static void main(String[] args) throws IOException {
-           launch(args);
+    public static void main(String[] args) throws IOException, URISyntaxException {
+
+         launch(args);
     }
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -42,7 +48,6 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
-
 
         super.init();
     }
@@ -56,7 +61,7 @@ public class Main extends Application {
         sc = new Scene(getScreen("dashboard"));
 
         stage = primaryStage;
-    stage.setResizable(false);
+
         stage.setScene(sc);
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker App");
@@ -67,7 +72,7 @@ public class Main extends Application {
 
 
     public static void addScreen(String name, Pane pane) {
-        System.out.println(pane);
+
         screenMap.put(name, pane);
     }
 
@@ -77,10 +82,11 @@ public class Main extends Application {
     }
 
 
-    public  static  void load(Pane pane,int width1,int height1){
-        stage.getScene().setRoot(pane);
-        stage.sizeToScene();
-        stage.centerOnScreen();
+    public  static  void load(Pane pane){
+
+        stage.setScene(new Scene(pane));
+
+
     }
     @Override
     public void stop() throws Exception {

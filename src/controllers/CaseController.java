@@ -189,14 +189,26 @@ public class CaseController {
     }
 
     private void loadLabel() {
-        int cases = HttpService.getTotalCase().getInt("cases");
-        totalCase.setText(totalCase.getText() + cases);
-        int deaths = HttpService.getTotalCase().getInt("deaths");
-        totalDead.setText(totalDead.getText() + deaths);
-        int recover = HttpService.getTotalCase().getInt("recovered");
-        totalRecover.setText(totalRecover.getText() + recover);
-        int affectedCountries = HttpService.getTotalCase().getInt("affectedCountries");
-        Country.setText(Country.getText() + affectedCountries);
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject totalCaseData = HttpService.getTotalCase();
+                int cases = totalCaseData.getInt("cases");
+
+                int deaths = totalCaseData.getInt("deaths");
+
+                int recover = totalCaseData.getInt("recovered");
+
+                int affectedCountries = totalCaseData.getInt("affectedCountries");
+                Platform.runLater(() ->{
+                    totalCase.setText(totalCase.getText() + cases);
+                    totalRecover.setText(totalRecover.getText() + recover);
+                    totalDead.setText(totalDead.getText() + deaths);
+                    Country.setText(Country.getText() + affectedCountries);
+                });
+                return  null;
+            }
+        }).start();
     }
 
     private void loadSearch() {

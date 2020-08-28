@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
@@ -12,155 +13,159 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" prefHeight="1017.0" prefWidth="1486.0" stylesheets="@css/admindesign.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+<FlowPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
-      <VBox prefHeight="1017.0" prefWidth="323.0" styleClass="navbar">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@css/admindesign.css">
          <children>
-            <AnchorPane>
+            <VBox prefHeight="1017.0" prefWidth="323.0" styleClass="navbar">
                <children>
-                  <Text layoutX="2.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="CENTER" wrappingWidth="320.6708984375">
+                  <AnchorPane>
+                     <children>
+                        <Text layoutX="2.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="CENTER" wrappingWidth="320.6708984375">
+                           <font>
+                              <Font size="48.0" />
+                           </font>
+                           <fill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#c34e4e" />
+                                    <Stop color="#c992b6" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </fill>
+                        </Text>
+                        <ImageView fitHeight="95.0" fitWidth="145.0" layoutX="106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/covidadmin.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <JFXButton fx:id="state" onAction="#onState" prefHeight="82.0" prefWidth="330.0" text="      State   " textFill="WHITE">
                      <font>
-                        <Font size="48.0" />
+                        <Font size="35.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/addstate2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="town" alignment="CENTER" onAction="#onTown" prefHeight="82.0" prefWidth="330.0" text="    Town   " textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="61.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/addtown2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton alignment="CENTER" prefHeight="82.0" prefWidth="330.0" text=" Township" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fx:id="townShip" fitHeight="61.0" fitWidth="65.0" onDragDetected="#onTownShip" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/townshipadd.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="hospital" alignment="CENTER" layoutX="10.0" layoutY="349.0" onAction="#onHospital" prefHeight="82.0" prefWidth="330.0" text="   Hospital" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/addhospital.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="patient" alignment="CENTER" layoutX="10.0" layoutY="429.0" onAction="#onPatient" prefHeight="82.0" prefWidth="330.0" text="     Patient" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/addpatient.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="admin" alignment="CENTER" layoutX="10.0" layoutY="514.0" onAction="#onAdmin" prefHeight="82.0" prefWidth="330.0" text="    Admin " textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/adduser.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="logout" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onLogout" prefHeight="82.0" prefWidth="330.0" text="    Logout" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/addlogout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <Pane layoutX="323.0" prefHeight="171.0" prefWidth="1157.0" styleClass="topnav">
+               <children>
+                  <Text layoutX="35.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="topnav" text="Welcom From Admin Pannel" wrappingWidth="671.6708984375">
+                     <font>
+                        <Font size="47.0" />
                      </font>
                      <fill>
                         <LinearGradient endX="1.0" endY="1.0">
                            <stops>
-                              <Stop color="#c34e4e" />
-                              <Stop color="#c992b6" offset="1.0" />
+                              <Stop color="#2c0000" />
+                              <Stop color="#b99191" offset="1.0" />
                            </stops>
                         </LinearGradient>
                      </fill>
                   </Text>
-                  <ImageView fitHeight="95.0" fitWidth="145.0" layoutX="106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/covidadmin.png" />
-                     </image>
-                  </ImageView>
                </children>
-            </AnchorPane>
-            <JFXButton fx:id="state" onAction="#onState" prefHeight="82.0" prefWidth="330.0" text="      State   " textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="60.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/addstate2.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-            <JFXButton fx:id="town" alignment="CENTER" onAction="#onTown" prefHeight="82.0" prefWidth="330.0" text="    Town   " textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="61.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/addtown2.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton alignment="CENTER" prefHeight="82.0" prefWidth="330.0" text=" Township" textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fx:id="townShip" fitHeight="61.0" fitWidth="65.0" onDragDetected="#onTownShip" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/townshipadd.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="hospital" alignment="CENTER" layoutX="10.0" layoutY="349.0" onAction="#onHospital" prefHeight="82.0" prefWidth="330.0" text="   Hospital" textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/addhospital.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="patient" alignment="CENTER" layoutX="10.0" layoutY="429.0" onAction="#onPatient" prefHeight="82.0" prefWidth="330.0" text="     Patient" textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/addpatient.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="admin" alignment="CENTER" layoutX="10.0" layoutY="514.0" onAction="#onAdmin" prefHeight="82.0" prefWidth="330.0" text="    Admin " textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/adduser.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="logout" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onLogout" prefHeight="82.0" prefWidth="330.0" text="    Logout" textFill="WHITE">
-               <font>
-                  <Font size="35.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/addlogout.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
+            </Pane>
          </children>
-      </VBox>
-      <Pane layoutX="323.0" prefHeight="125.0" prefWidth="1163.0" styleClass="topnav">
-         <children>
-            <Text layoutX="35.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="topnav" text="Welcom From Admin Pannel" wrappingWidth="671.6708984375">
-               <font>
-                  <Font size="47.0" />
-               </font>
-               <fill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop color="#2c0000" />
-                        <Stop color="#b99191" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </fill>
-            </Text>
-         </children>
-      </Pane>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</FlowPane>

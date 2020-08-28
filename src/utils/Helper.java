@@ -1,8 +1,13 @@
 package utils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 public class Helper {
 
@@ -30,5 +35,23 @@ public class Helper {
     public  static  boolean search(String first_value ,String second_value){
              return  first_value.toLowerCase().contains(second_value.toLowerCase());
 
+    }
+    public  static  String getToken(){
+        Path filePath = Paths.get("src/token.txt");
+        String res = null;
+        try {
+            res = Files.readAllLines(filePath).stream().collect(Collectors.joining());
+        } catch (IOException e) {
+            return  "";
+        }
+        return  res;
+    }
+    public  static  void  deleteToken(){
+        Path filePath = Paths.get("src/token.txt");
+        try {
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

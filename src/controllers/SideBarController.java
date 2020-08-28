@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import utils.Helper;
 
 import java.io.IOException;
 
@@ -26,13 +27,9 @@ public class SideBarController {
     private JFXButton login;
     @FXML
     void  initialize(){
-//        FXMLLoader fxmlLoader = new FXMLLoader();
-//        try {
-//            Pane p = fxmlLoader.load(getClass().getResource("../views/dashboard.fxml").openStream());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//         dashBoardController = (DashBoardController) fxmlLoader.getController();
+        if(!Helper.getToken().isEmpty()){
+            login.setText("Admin Pannel");
+        }
     }
     @FXML
     void onGlobal(ActionEvent event) throws IOException {

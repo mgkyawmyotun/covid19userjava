@@ -12,12 +12,15 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.animation.FadeTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import models.UserModel;
 import org.json.JSONObject;
 import utils.EmailValidator;
@@ -61,12 +64,12 @@ public class LoginController {
     private Text backText;
     @FXML
     void cancel(ActionEvent event) {
-        Main.load(Main.getScreen("dashboard"),200,200);
+        Main.load(Main.getScreen("dashboard"));
     }
 
     @FXML
     void onBack(MouseEvent event) {
-      Main.load(Main.getScreen("dashboard"),200,200);
+      Main.load(Main.getScreen("dashboard"));
     }
 
     @FXML
@@ -84,7 +87,8 @@ public class LoginController {
                 JSONObject jsonObject =new JSONObject();
                 jsonObject.put("email",username.getText());
                 jsonObject.put("password",password.getText());
-                JSONObject result =new UserModel().loginUser(jsonObject.toString());
+                UserModel userModel =new UserModel();
+                JSONObject result =userModel.loginUser(jsonObject.toString());
 
                 if(result.has("error")){
 
@@ -92,6 +96,9 @@ public class LoginController {
                 }
                 else{
 
+                    userModel.saveToken();
+
+                  Main.load(Main.getScreen("admin"));
 
                 }
                 login.setDisable(false);

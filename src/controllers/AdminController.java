@@ -3,10 +3,14 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import utils.Helper;
 
 public class AdminController {
 
@@ -49,6 +53,18 @@ public class AdminController {
 
     @FXML
     void onLogout(ActionEvent event) {
+        Task task =new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Helper.deleteToken();
+                Platform.runLater(() ->{
+                    System.exit(0);
+                });
+            return  null;
+
+            }
+        };
+        new Thread(task).start();
 
     }
 
