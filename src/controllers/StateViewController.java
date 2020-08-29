@@ -98,7 +98,7 @@ public class StateViewController implements Initializable {
             addErrorText = (Text) addPane.getChildren().get(7);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
+            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,7 +168,12 @@ public class StateViewController implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
-
+        jfxDialogLayout = new JFXDialogLayout();
+        jfxDialogLayout.setHeading(new Text("Add State"));
+        jfxDialogLayout.setBody(addPane);
+        jfxDialog = new JFXDialog(main, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
+        jfxDialog.setOverlayClose(false);
+        jfxDialog.show();
     }
 
     @FXML
@@ -212,7 +217,7 @@ public class StateViewController implements Initializable {
         longitude.setText(selectedState.lon.getValue());
 
         jfxDialogLayout = new JFXDialogLayout();
-        jfxDialogLayout.setHeading(new Text("I am Heading"));
+        jfxDialogLayout.setHeading(new Text("Edit State"));
         jfxDialogLayout.setBody(editPane);
         jfxDialog = new JFXDialog(main, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
         jfxDialog.setOverlayClose(false);
@@ -237,7 +242,42 @@ public class StateViewController implements Initializable {
         }
 
     }
+    private  void onAdd(MouseEvent e ){
+        JFXButton jfxButton =(JFXButton) e.getTarget();
+        jfxButton.setDisable(true);
+        addSpinner.setVisible(true);
+        Task<Void> addRequest =new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject addStateObject =new JSONObject();
+                addStateObject.put("name",addstate.getText());
+                JSONArray jsonArray =new JSONArray();
+                jsonArray.put(Double.parseDouble(addlatitude.getText()));
+                jsonArray.put(Double.parseDouble(addlongitude.getText()));
+                addStateObject.put("location",jsonArray);
+                StateModel stateModel = new StateModel();
 
+                stateModel.addState(addStateObject.toString());
+
+                Platform.runLater(() ->{
+
+                    loadTable();
+                    jfxButton.setDisable(false);
+                    addSpinner.setVisible(false);
+                    jfxDialog.close();
+                    addstate.setText("");
+                    addlatitude.setText("");
+                    addlongitude.setText("");
+                });
+                return  null;
+            }
+        };
+        new Thread(addRequest).start();
+        addRequest.setOnSucceeded(event -> {
+            editButton.setDisable(true);
+            deleteButton.setDisable(true);
+        });
+    }
 
     private void onEdit(MouseEvent e) {
         JFXButton jfxButton =(JFXButton) e.getTarget();

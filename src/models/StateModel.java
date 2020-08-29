@@ -84,4 +84,28 @@ public class StateModel {
             throw new Error();
         }
     }
+    public  void addState(String json){
+        RequestBody requestBody = RequestBody.create(JSON, json);
+
+        Request request = new Request.Builder().url(URI + "state" ).post(requestBody)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+
+        String response = null;
+
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+
+
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", " LOL i don't have time ");
+            }
+            ;
+
+            response = response1.body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new Error();
+        }
+    }
+
 }
