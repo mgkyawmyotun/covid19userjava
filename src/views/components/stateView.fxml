@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TreeTableView?>
@@ -13,22 +14,26 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <StackPane fx:id="main" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.StateViewController">
    <children>
       <BorderPane fx:id="borderPane" prefHeight="565.0" prefWidth="653.0" stylesheets="@../css/stateView.css">
          <center>
-            <JFXTreeTableView fx:id="treeView" prefHeight="38.0" prefWidth="706.0" stylesheets="@../css/tableDesign.css" BorderPane.alignment="CENTER">
+            <StackPane BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
-               <padding>
-                  <Insets left="100.0" right="100.0" />
-               </padding>
-               <columnResizePolicy>
-                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </JFXTreeTableView>
+               <children>
+                  <JFXTreeTableView fx:id="treeView" prefHeight="38.0" prefWidth="706.0" stylesheets="@../css/tableDesign.css">
+                     <padding>
+                        <Insets left="100.0" right="100.0" />
+                     </padding>
+                     <columnResizePolicy>
+                        <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </JFXTreeTableView>
+                  <JFXSpinner fx:id="tableLoading" radius="50.0" visible="false" />
+               </children>
+            </StackPane>
          </center>
          <top>
             <AnchorPane fx:id="topPane" prefHeight="247.0" prefWidth="743.0" styleClass="hero" BorderPane.alignment="CENTER">

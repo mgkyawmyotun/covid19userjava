@@ -1,4 +1,4 @@
-package  controllers;
+package controllers;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +29,7 @@ import javafx.scene.text.Text;
 import models.StateModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sun.reflect.generics.tree.Tree;
 
 public class StateViewController implements Initializable {
 
@@ -36,6 +39,8 @@ public class StateViewController implements Initializable {
     private JFXTreeTableView<State> treeView;
     @FXML
     private JFXButton addButton;
+    @FXML
+    private JFXSpinner tableLoading;
 
     @FXML
     private JFXButton editButton;
@@ -44,28 +49,34 @@ public class StateViewController implements Initializable {
     private JFXTextField state;
     private Pane editPane;
     private Pane addPane;
+    State selectedState;
     @FXML
     private JFXTextField latitude;
-
+    private JFXTextField addlatitude;
+    private JFXTextField addlongitude;
+    private JFXSpinner addSpinner;
+    private JFXTextField addstate;
+    private  Text addErrorText;
     @FXML
     private JFXTextField longitude;
     @FXML
     private JFXButton deleteButton;
     ObservableList<State> states;
     private JFXDialog jfxDialog;
+
     private JFXDialogLayout jfxDialogLayout;
-    private  Text editErrorText;
-    private  JFXSpinner editSpinner;
+    private Text editErrorText;
+    private JFXSpinner editSpinner;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/stateEdit.fxml"));
 
-
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
             state = (JFXTextField) editPane.getChildren().get(1);
-            latitude =(JFXTextField) editPane.getChildren().get(3);
-            longitude =(JFXTextField) editPane.getChildren().get(5);
+            latitude = (JFXTextField) editPane.getChildren().get(3);
+            longitude = (JFXTextField) editPane.getChildren().get(5);
             editSpinner = (JFXSpinner) editPane.getChildren().get(6);
             editErrorText = (Text) editPane.getChildren().get(7);
 
@@ -76,13 +87,36 @@ public class StateViewController implements Initializable {
             e.printStackTrace();
         }
 
+        try {
+            addPane = FXMLLoader.load(getClass().getResource("/views/components/stateAdd.fxml"));
+
+            GridPane gp = (GridPane) addPane.getChildren().get(addPane.getChildren().size() - 1);
+            addstate = (JFXTextField) addPane.getChildren().get(1);
+            addlatitude = (JFXTextField) addPane.getChildren().get(3);
+            addlongitude = (JFXTextField) addPane.getChildren().get(5);
+            addSpinner = (JFXSpinner) addPane.getChildren().get(6);
+            addErrorText = (Text) addPane.getChildren().get(7);
+
+            gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
+            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        treeView.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
+            editButton.setDisable(false);
+            deleteButton.setDisable(false);
+
+      });
 
         loadTable();
 
 
-
     }
-    private  void loadTable(){
+
+    private void loadTable() {
+        treeView.setVisible(false);
+        tableLoading.setVisible(true);
         JFXTreeTableColumn<State, String> deptName = new JFXTreeTableColumn<>("State Name");
         deptName.setCellValueFactory(param -> param.getValue().getValue().name);
 
@@ -91,33 +125,43 @@ public class StateViewController implements Initializable {
 
         JFXTreeTableColumn<State, String> nameCol = new JFXTreeTableColumn<>("Longitude");
         nameCol.setCellValueFactory(param -> param.getValue().getValue().lat);
-        states = FXCollections.observableArrayList();
-        states =loadSates();
+        Task<Void> tableRequest =new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                states = loadSates();
+                Platform.runLater(() ->{
+                    final TreeItem<StateViewController.State> root = new RecursiveTreeItem<StateViewController.State>(states, RecursiveTreeObject::getChildren);
+                    treeView.getColumns().setAll(deptName, lonCol, nameCol);
+                    treeView.setRoot(root);
+                    treeView.setShowRoot(false);
+                    tableLoading.setVisible(false);
+                    treeView.setVisible(true);
+                });
+                return null;
+            }
+        };
+        new Thread(tableRequest).start();
 
-        final TreeItem<State> root = new RecursiveTreeItem<State>(states, RecursiveTreeObject::getChildren);
-        treeView.getColumns().setAll(deptName, lonCol, nameCol);
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
-        treeView.getSelectionModel().selectedItemProperty().addListener(c -> {
 
-            editButton.setDisable(false);
-            deleteButton.setDisable(false);
 
-        });
+
+
+
     }
-    private  ObservableList<State> loadSates(){
-        ObservableList<State> observableList =FXCollections.observableArrayList();
-        StateModel stateModel =new StateModel();
+
+    private ObservableList<State> loadSates() {
+        ObservableList<State> observableList = FXCollections.observableArrayList();
+        StateModel stateModel = new StateModel();
         stateModel.refreshStates();
-        JSONArray jsonStates =stateModel.getStates();
-        for(int i=0;i<jsonStates.length();i++){
-            JSONObject jsonObject =jsonStates.getJSONObject(i);
-            JSONArray jsonArray =jsonObject.getJSONArray("location");
-           observableList.add(new State(jsonObject.getString("name"),jsonArray.get(0)+"",
-                   jsonArray.get(1)+""));
+        JSONArray jsonStates = stateModel.getStates();
+        for (int i = 0; i < jsonStates.length(); i++) {
+            JSONObject jsonObject = jsonStates.getJSONObject(i);
+            JSONArray jsonArray = jsonObject.getJSONArray("location");
+            observableList.add(new State(jsonObject.getString("name"), jsonArray.get(0) + "",jsonArray.get(1) + "" ,jsonObject.getString("_id")));
         }
-       return observableList;
+        return observableList;
     }
+
     @FXML
     private void filter(ActionEvent event) {
     }
@@ -129,16 +173,40 @@ public class StateViewController implements Initializable {
 
     @FXML
     void onDelete(ActionEvent event) {
+        JFXButton jfxButton =(JFXButton) event.getTarget();
+        jfxButton.setDisable(true);
+        Task<Void> deleteRequest =new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
+                ObservableList ob =  treeView.getRoot().getChildren();
 
-         states =loadSates();
-        System.out.println();
+                selectedState = (StateViewController.State) ((TreeItem)ob.get(selectedIndex)).getValue();
+                StateModel stateModel =new StateModel();
+                stateModel.deleteState(selectedState._id);
+                loadTable();
+                jfxButton.setDisable(false);
+                return  null;
+            }
+
+
+        };
+        new Thread(deleteRequest).start();
+        deleteRequest.setOnSucceeded((_a) -> {
+            editButton.setDisable(true);
+            deleteButton.setDisable(true);
+        });
+
+
     }
 
     @FXML
     void onEdit(ActionEvent event) {
 
-        int selectedIndex =  treeView.getSelectionModel().getSelectedIndex();
-        State selectedState =states.get(selectedIndex);
+        int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
+        ObservableList ob =  treeView.getRoot().getChildren();
+
+        selectedState = (State) ((TreeItem)ob.get(selectedIndex)).getValue();
         state.setText(selectedState.name.getValue());
         latitude.setText(selectedState.lat.getValue());
         longitude.setText(selectedState.lon.getValue());
@@ -159,21 +227,53 @@ public class StateViewController implements Initializable {
         StringProperty name;
         StringProperty lat;
         StringProperty lon;
+        String _id;
 
-        public State(String name, String lat, String lon) {
+        public State(String name, String lat, String lon, String _id) {
             this.name = new SimpleStringProperty(name);
             this.lat = new SimpleStringProperty(lat);
             this.lon = new SimpleStringProperty(lon);
+            this._id = _id;
         }
 
     }
 
 
-
     private void onEdit(MouseEvent e) {
-        editSpinner.setVisible(true);
-        JFXButton jfxButton = (JFXButton) e.getTarget();
+        JFXButton jfxButton =(JFXButton) e.getTarget();
         jfxButton.setDisable(true);
+        editSpinner.setVisible(true);
+        Task<Void> editRequest =new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject editStateObject =new JSONObject();
+                editStateObject.put("name",state.getText());
+                JSONArray jsonArray =new JSONArray();
+                jsonArray.put(Double.parseDouble(latitude.getText()));
+                jsonArray.put(Double.parseDouble(longitude.getText()));
+                editStateObject.put("location",jsonArray);
+                StateModel stateModel = new StateModel();
+
+                stateModel.editState(editStateObject.toString(),selectedState._id);
+
+                Platform.runLater(() ->{
+
+                    loadTable();
+                    jfxButton.setDisable(false);
+                    editSpinner.setVisible(false);
+                    jfxDialog.close();
+
+                });
+                return  null;
+            }
+        };
+
+        new Thread(editRequest).start();
+        editRequest.setOnSucceeded(event -> {
+            editButton.setDisable(true);
+            deleteButton.setDisable(true);
+        });
+
 
 
     }

@@ -240,6 +240,8 @@ public class CaseController {
         numbersColumn.setCellValueFactory(new PropertyValueFactory<DetailsView, String>("Numbers"));
 
 
+
+
         tableView.getColumns().addAll(aboutColumn, numbersColumn);
 
         return tableView;
