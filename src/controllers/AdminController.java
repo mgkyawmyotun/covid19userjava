@@ -1,5 +1,6 @@
 package controllers;
 
+import animatefx.animation.BounceIn;
 import com.jfoenix.controls.JFXButton;
 
 import java.io.IOException;
@@ -50,16 +51,17 @@ public class AdminController {
 
     @FXML
     void onAdmin(ActionEvent event) {
-
+        new BounceIn(admin).play();
     }
 
     @FXML
     void onHospital(ActionEvent event) {
-
+        new BounceIn(hospital).play();
     }
 
     @FXML
     void onLogout(ActionEvent event) {
+        new BounceIn(logout).play();
         Task task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -77,15 +79,16 @@ public class AdminController {
 
     @FXML
     void onPatient(ActionEvent event) {
-
+        new BounceIn(patient).play();
     }
 
     @FXML
     void onState(ActionEvent event) {
-        borderPane.setCenter(new JFXSpinner());
+
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+
               Pane screen =  loadState();
                 Platform.runLater(() -> borderPane.setCenter(screen));
                 return null;
@@ -109,11 +112,31 @@ public class AdminController {
     @FXML
     void onTown(ActionEvent event) {
 
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                new BounceIn(town).play();
+                Pane screen =  loadTown();
+                Platform.runLater(() -> borderPane.setCenter(screen));
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
+    private Pane loadTown() {
+        Pane screen = null;
+        try {
+            Main.addScreen("townView", FXMLLoader.load(getClass().getResource("/views/components/townView.fxml")));
+            screen = Main.getScreen("townView");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
 
+    }
     @FXML
-    void onTownShip(MouseEvent event) {
-
+    void onTownShip(ActionEvent event) {
+        new BounceIn(townShip).play();
     }
 
     @FXML

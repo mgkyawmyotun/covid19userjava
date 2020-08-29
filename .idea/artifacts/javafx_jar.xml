@@ -12,6 +12,17 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/fontawesomefx-8.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/mysql-connector-java-5.1.49.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/json-20200518.jar" path-in-jar="/" />
+      <element id="library" level="project" name="AnimateFX-1.2.0" />
+      <element id="library" level="project" name="derby" />
+      <element id="library" level="project" name="commons-validator-1.6" />
+      <element id="library" level="project" name="fontawesomefx-8.9" />
+      <element id="library" level="project" name="javafx (2)" />
+      <element id="library" level="project" name="jfoenix-8.0.10" />
+      <element id="library" level="project" name="json-20200518" />
+      <element id="library" level="project" name="jsoup-1.13.1" />
+      <element id="library" level="project" name="mysql-connector-java-5.1.49" />
+      <element id="library" level="project" name="okhttp-3.12.6" />
+      <element id="library" level="project" name="okio-1.14.0" />
     </root>
   </artifact>
 </component>
