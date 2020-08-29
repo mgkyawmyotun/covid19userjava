@@ -129,7 +129,7 @@ public class CaseController {
 
                         list.getStylesheets().add("/views/css/listview.css");
                         list.setCursor(Cursor.HAND);
-                        list.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) ->labelClicked(e));
+                        list.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> labelClicked(e));
 
                         vbox.getChildren().remove(vbox.getChildren().size() - 1);
                         vbox.getChildren().add(list);
@@ -150,11 +150,11 @@ public class CaseController {
         Label label
                 = (Label) list.getSelectionModel().getSelectedItem();
         if (e.getClickCount() == 2) {
-            Task task =new Task() {
+            Task task = new Task() {
                 @Override
                 protected Object call() throws Exception {
-                    TableView tableView =loadTable(label.getAccessibleText());
-                    Platform.runLater(() ->{
+                    TableView tableView = loadTable(label.getAccessibleText());
+                    Platform.runLater(() -> {
                         jfxDialogLayout.setBody(tableView);
 
                     });
@@ -200,13 +200,13 @@ public class CaseController {
                 int recover = totalCaseData.getInt("recovered");
 
                 int affectedCountries = totalCaseData.getInt("affectedCountries");
-                Platform.runLater(() ->{
+                Platform.runLater(() -> {
                     totalCase.setText(totalCase.getText() + cases);
                     totalRecover.setText(totalRecover.getText() + recover);
                     totalDead.setText(totalDead.getText() + deaths);
                     Country.setText(Country.getText() + affectedCountries);
                 });
-                return  null;
+                return null;
             }
         }).start();
     }
@@ -232,7 +232,7 @@ public class CaseController {
 
         JSONObject country = HttpService.getDetailsByCountry(iso2);
         tableView.setItems(loadData(country));
-       TableColumn aboutColumn = new TableColumn<>("Content");
+        TableColumn aboutColumn = new TableColumn<>("Content");
         aboutColumn.setPrefWidth(200);
 
         TableColumn numbersColumn = new TableColumn<>("cases");

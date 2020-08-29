@@ -1,15 +1,21 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXSpinner;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import utils.Helper;
 
 public class AdminController {
@@ -19,7 +25,8 @@ public class AdminController {
 
     @FXML
     private URL location;
-
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private JFXButton state;
 
@@ -27,7 +34,7 @@ public class AdminController {
     private JFXButton town;
 
     @FXML
-    private ImageView townShip;
+    private JFXButton townShip;
 
     @FXML
     private JFXButton hospital;
@@ -53,14 +60,14 @@ public class AdminController {
 
     @FXML
     void onLogout(ActionEvent event) {
-        Task task =new Task<Void>() {
+        Task task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 Helper.deleteToken();
-                Platform.runLater(() ->{
+                Platform.runLater(() -> {
                     System.exit(0);
                 });
-            return  null;
+                return null;
 
             }
         };
@@ -75,6 +82,27 @@ public class AdminController {
 
     @FXML
     void onState(ActionEvent event) {
+        borderPane.setCenter(new JFXSpinner());
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+              Pane screen =  loadState();
+                Platform.runLater(() -> borderPane.setCenter(screen));
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+
+    private Pane loadState() {
+        Pane screen = null;
+        try {
+            Main.addScreen("stateView", FXMLLoader.load(getClass().getResource("/views/components/stateView.fxml")));
+            screen = Main.getScreen("stateView");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
 
     }
 

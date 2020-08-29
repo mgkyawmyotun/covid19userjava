@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.StringLengthValidator;
 import com.jfoenix.validation.base.ValidatorBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import models.UserModel;
@@ -27,7 +30,8 @@ import utils.EmailValidator;
 import utils.PasswordValidator;
 
 public class LoginController {
-
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private ResourceBundle resources;
 
@@ -63,8 +67,12 @@ public class LoginController {
     @FXML
     private Text backText;
     @FXML
-    void cancel(ActionEvent event) {
-        Main.load(Main.getScreen("dashboard"));
+    void cancel(ActionEvent event) throws IOException {
+        Main.addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
+
+        System.out.println(Main.getScreen("admin"));
+        Main.load(Main.getScreen("admin"));
+
     }
 
     @FXML
@@ -97,8 +105,10 @@ public class LoginController {
                 else{
 
                     userModel.saveToken();
+                    Main.addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
 
-                  Main.load(Main.getScreen("admin"));
+                         System.out.println(Main.getScreen("admin"));
+                          Main.load(Main.getScreen("admin"));
 
                 }
                 login.setDisable(false);

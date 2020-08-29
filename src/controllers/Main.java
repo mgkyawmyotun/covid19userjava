@@ -56,7 +56,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        addScreen("dashboard",FXMLLoader.load(getClass().getResource("/views/dashboard.fxml")));
+        addScreen("dashboard",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
         System.out.println("Hello");
         sc = new Scene(getScreen("dashboard"));
 
@@ -84,8 +84,11 @@ public class Main extends Application {
 
     public  static  void load(Pane pane){
 
-        stage.setScene(new Scene(pane));
-
+            stage.getScene().setRoot(pane);
+            stage.sizeToScene();
+            stage.centerOnScreen();
+            stage.hide();
+            stage.show();
 
     }
     @Override

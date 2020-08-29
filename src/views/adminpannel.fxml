@@ -5,21 +5,21 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<FlowPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+<StackPane prefHeight="871.0" prefWidth="1587.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@css/admindesign.css">
-         <children>
-            <VBox prefHeight="1017.0" prefWidth="323.0" styleClass="navbar">
+      <BorderPane fx:id="borderPane" stylesheets="@css/admindesign.css">
+         <left>
+            <VBox styleClass="navbar" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane>
+                  <AnchorPane prefHeight="238.0" prefWidth="330.0">
                      <children>
                         <Text layoutX="2.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="CENTER" wrappingWidth="320.6708984375">
                            <font>
@@ -71,7 +71,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" prefHeight="82.0" prefWidth="330.0" text=" Township" textFill="WHITE">
+                  <JFXButton fx:id="townShip" alignment="CENTER" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text=" Township" textFill="WHITE">
                      <font>
                         <Font size="35.0" />
                      </font>
@@ -79,7 +79,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <graphic>
-                        <ImageView fx:id="townShip" fitHeight="61.0" fitWidth="65.0" onDragDetected="#onTownShip" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Images/townshipadd.png" />
                            </image>
@@ -148,24 +148,7 @@
                   </JFXButton>
                </children>
             </VBox>
-            <Pane layoutX="323.0" prefHeight="171.0" prefWidth="1157.0" styleClass="topnav">
-               <children>
-                  <Text layoutX="35.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="topnav" text="Welcom From Admin Pannel" wrappingWidth="671.6708984375">
-                     <font>
-                        <Font size="47.0" />
-                     </font>
-                     <fill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                           <stops>
-                              <Stop color="#2c0000" />
-                              <Stop color="#b99191" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                  </Text>
-               </children>
-            </Pane>
-         </children>
-      </AnchorPane>
+         </left>
+      </BorderPane>
    </children>
-</FlowPane>
+</StackPane>
