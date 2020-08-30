@@ -12,6 +12,9 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/fontawesomefx-8.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/mysql-connector-java-5.1.49.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/json-20200518.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/AnimateFX-1.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/okhttp-3.12.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/lib/okio-1.14.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

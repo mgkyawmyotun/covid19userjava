@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import models.TownModel;
-import models.TownShipModel;
+import models.HospitalModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -33,7 +33,7 @@ public class HospitalController implements Initializable {
     @FXML
     private StackPane main;
     @FXML
-    private JFXTreeTableView<TownShip> treeView;
+    private JFXTreeTableView<Hospital> treeView;
     @FXML
     private JFXButton addButton;
     @FXML
@@ -44,21 +44,21 @@ public class HospitalController implements Initializable {
     @FXML
     private Text titleText;
     @FXML
-    private JFXTextField edittown;
-    private  JFXComboBox<Town> editstate;
+    private JFXTextField edithospital;
+    private  JFXComboBox<Town> edittown;
     private Pane editPane;
     private Pane addPane;
-    TownShip seletedTownShip;
+    Hospital seletedHospital;
     @FXML
 
-    private JFXTextField addtown;
+    private JFXTextField addhospital;
     private JFXSpinner addSpinner;
-    private JFXComboBox<Town> addstate;
+    private JFXComboBox<Town> addtown;
     private Text addErrorText;
 
     @FXML
     private JFXButton deleteButton;
-    ObservableList<TownShip> townships;
+    ObservableList<Hospital> hospitals;
     private JFXDialog jfxDialog;
     private ObservableList<Town>  towns;
     private JFXDialogLayout jfxDialogLayout;
@@ -69,11 +69,10 @@ public class HospitalController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
         try {
-            editPane = FXMLLoader.load(getClass().getResource("/views/components/townEdit.fxml"));
-
+            editPane = FXMLLoader.load(getClass().getResource("/views/components/hospitalEdit.fxml"));
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
-            edittown = (JFXTextField) editPane.getChildren().get(1);
-            editstate = (JFXComboBox) editPane.getChildren().get(3);
+            edithospital = (JFXTextField) editPane.getChildren().get(1);
+            edittown = (JFXComboBox) editPane.getChildren().get(3);
 
             editSpinner = (JFXSpinner) editPane.getChildren().get(4);
             editErrorText = (Text) editPane.getChildren().get(5);
@@ -86,11 +85,11 @@ public class HospitalController implements Initializable {
         }
 
         try {
-            addPane = FXMLLoader.load(getClass().getResource("/views/components/addTownShip.fxml"));
+            addPane = FXMLLoader.load(getClass().getResource("/views/components/addHosptial.fxml"));
 
             GridPane gp = (GridPane) addPane.getChildren().get(addPane.getChildren().size() - 1);
-            addtown = (JFXTextField) addPane.getChildren().get(1);
-            addstate = (JFXComboBox) addPane.getChildren().get(3);
+            addhospital = (JFXTextField) addPane.getChildren().get(1);
+            addtown = (JFXComboBox) addPane.getChildren().get(3);
 
             addSpinner = (JFXSpinner) addPane.getChildren().get(4);
             addErrorText = (Text) addPane.getChildren().get(5);
@@ -116,23 +115,23 @@ public class HospitalController implements Initializable {
         treeView.setVisible(false);
         tableLoading.setVisible(true);
 
-        JFXTreeTableColumn<TownShip, String> townShipCol = new JFXTreeTableColumn<>("TownShip Name");
-        townShipCol.setCellValueFactory(param -> param.getValue().getValue().name);
+        JFXTreeTableColumn<Hospital, String> hospitalCol = new JFXTreeTableColumn<>("Hospital Name");
+        hospitalCol.setCellValueFactory(param -> param.getValue().getValue().name);
 
-        JFXTreeTableColumn<TownShip, String> townCol = new JFXTreeTableColumn<>("Town Name");
+        JFXTreeTableColumn<Hospital, String> townCol = new JFXTreeTableColumn<>("Town Name");
         townCol.setCellValueFactory(param -> param.getValue().getValue().town_name);
 
         Task<Void> tableRequest =new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 addButton.setDisable(true);
-                townships = loadTownShips();
+                hospitals = loadHospitals();
 
                 towns =loadTowns();
                 addButton.setDisable(false);
                 Platform.runLater(() ->{
-                    final TreeItem<TownShip> root = new RecursiveTreeItem<TownShip>(townships, RecursiveTreeObject::getChildren);
-                    treeView.getColumns().setAll(townShipCol, townCol);
+                    final TreeItem<Hospital> root = new RecursiveTreeItem<Hospital>(hospitals, RecursiveTreeObject::getChildren);
+                    treeView.getColumns().setAll(hospitalCol, townCol);
                     treeView.setRoot(root);
                     treeView.setShowRoot(false);
                     tableLoading.setVisible(false);
@@ -150,16 +149,16 @@ public class HospitalController implements Initializable {
 
     }
 
-    private ObservableList<TownShip> loadTownShips() {
-        ObservableList<TownShip> observableList = FXCollections.observableArrayList();
+    private ObservableList<Hospital> loadHospitals() {
+        ObservableList<Hospital> observableList = FXCollections.observableArrayList();
 
-        TownShipModel townModel = new TownShipModel();
-        townModel.refreshTownShips();
-        JSONArray jsonTownShip = townModel.getTownShips();
-        for (int i = 0; i < jsonTownShip.length(); i++) {
-            JSONObject jsonObject = jsonTownShip.getJSONObject(i);
+        HospitalModel townModel = new HospitalModel();
+        townModel.refreshHospitals();
+        JSONArray jsonHospital = townModel.getHospitals();
+        for (int i = 0; i < jsonHospital.length(); i++) {
+            JSONObject jsonObject = jsonHospital.getJSONObject(i);
             JSONObject stateObject =jsonObject.getJSONObject("town");
-            observableList.add(new TownShip(jsonObject.getString("name"), stateObject.getString("name") ,stateObject.getString("_id")  ,jsonObject.getString("_id")));
+            observableList.add(new Hospital(jsonObject.getString("name"), stateObject.getString("name") ,stateObject.getString("_id")  ,jsonObject.getString("_id")));
         }
         return observableList;
     }
@@ -171,8 +170,8 @@ public class HospitalController implements Initializable {
     @FXML
     void onAdd(ActionEvent event) {
         System.out.println(towns.get(0));
-        addstate.setItems(towns);
-        System.out.println(addstate.getItems());
+        addtown.setItems(towns);
+        System.out.println(addtown.getItems());
 
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Add Town"));
@@ -192,9 +191,9 @@ public class HospitalController implements Initializable {
                 int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
                 ObservableList ob =  treeView.getRoot().getChildren();
 
-                seletedTownShip = (TownShip) ((TreeItem)ob.get(selectedIndex)).getValue();
-                TownShipModel townModel =new TownShipModel();
-                townModel.deleteTownShip(seletedTownShip._id);
+                seletedHospital = (Hospital) ((TreeItem)ob.get(selectedIndex)).getValue();
+                HospitalModel townModel =new HospitalModel();
+                townModel.deleteHospital(seletedHospital._id);
                 loadTable();
                 jfxButton.setDisable(false);
                 return  null;
@@ -217,13 +216,13 @@ public class HospitalController implements Initializable {
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
         ObservableList ob =  treeView.getRoot().getChildren();
 
-        seletedTownShip = (TownShip) ((TreeItem)ob.get(selectedIndex)).getValue();
-        edittown.setText(seletedTownShip.name.getValue());
-        Town state = towns.stream().filter((x) -> x.name.equals(seletedTownShip.town_name.getValue())).findFirst().orElse(towns.get(0));
+        seletedHospital = (Hospital) ((TreeItem)ob.get(selectedIndex)).getValue();
+        edithospital.setText(seletedHospital.name.getValue());
+        Town state = towns.stream().filter((x) -> x.name.equals(seletedHospital.town_name.getValue())).findFirst().orElse(towns.get(0));
 
-        editstate.setItems(towns);
+        edittown.setItems(towns);
 
-        editstate.getSelectionModel().select(state);
+        edittown.getSelectionModel().select(state);
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Edit Town"));
         jfxDialogLayout.setBody(editPane);
@@ -235,14 +234,14 @@ public class HospitalController implements Initializable {
 
     }
 
-    class TownShip extends RecursiveTreeObject<TownShip> {
+    class Hospital extends RecursiveTreeObject<Hospital> {
 
         StringProperty name;
         StringProperty town_name;
         String _id;
         String town_id;
 
-        public TownShip(String name, String town_name, String town_id, String _id) {
+        public Hospital(String name, String town_name, String town_id, String _id) {
             this.name = new SimpleStringProperty(name);
             this.town_name = new SimpleStringProperty(town_name);
             this.town_id = town_id;
@@ -257,13 +256,13 @@ public class HospitalController implements Initializable {
         Task<Void> addRequest =new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                JSONObject addTownShipObject =new JSONObject();
-                addTownShipObject.put("name",addtown.getText());
+                JSONObject addHospitalObject =new JSONObject();
+                addHospitalObject.put("name",addhospital.getText());
 
-                addTownShipObject.put("town_id",addstate.getSelectionModel().getSelectedItem()._id);
-                TownShipModel townModel = new TownShipModel();
+                addHospitalObject.put("town_id",addtown.getSelectionModel().getSelectedItem()._id);
+                HospitalModel townModel = new HospitalModel();
 
-                townModel.addTownShip(addTownShipObject.toString());
+                townModel.addHospital(addHospitalObject.toString());
 
                 Platform.runLater(() ->{
 
@@ -272,7 +271,7 @@ public class HospitalController implements Initializable {
                     addSpinner.setVisible(false);
                     jfxDialog.close();
 
-                    addtown.setText("");
+                    addhospital.setText("");
 
                 });
                 return  null;
@@ -294,13 +293,13 @@ public class HospitalController implements Initializable {
             @Override
             protected Void call() throws Exception {
                 JSONObject editTownObject =new JSONObject();
-                editTownObject.put("name",edittown.getText());
+                editTownObject.put("name",edithospital.getText());
 
-                editTownObject.put("_id",seletedTownShip._id);
-                editTownObject.put("state",editstate.getSelectionModel().getSelectedItem()._id);
-                TownShipModel townModel = new TownShipModel();
+                editTownObject.put("_id",seletedHospital._id);
+                editTownObject.put("town",edittown.getSelectionModel().getSelectedItem()._id);
+                HospitalModel townModel = new HospitalModel();
 
-                townModel.editTownShip(editTownObject.toString(),seletedTownShip._id);
+                townModel.editHospital(editTownObject.toString(),seletedHospital._id);
 
                 Platform.runLater(() ->{
 

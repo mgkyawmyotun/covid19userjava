@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -19,19 +20,28 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="state" prefHeight="30.0" prefWidth="488.0" />
+      <JFXTextField fx:id="state" prefHeight="30.0" prefWidth="488.0">
+         <font>
+            <Font size="18.0" />
+         </font></JFXTextField>
       <Label text="Latitude">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="latitude" />
+      <JFXTextField fx:id="latitude">
+         <font>
+            <Font size="18.0" />
+         </font></JFXTextField>
       <Label text="Longitude">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="longitude" />
+      <JFXTextField fx:id="longitude">
+         <font>
+            <Font size="18.0" />
+         </font></JFXTextField>
       <JFXSpinner fx:id="addSpinner" prefHeight="54.0" prefWidth="326.0" visible="false" />
       <Text fx:id="addError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error Message" textAlignment="CENTER" visible="false" wrappingWidth="344.470703125">
          <font>
@@ -47,8 +57,14 @@
             <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <JFXButton prefHeight="53.0" prefWidth="98.0" text="Cancel" />
-            <JFXButton prefHeight="54.0" prefWidth="98.0" text="Add" GridPane.columnIndex="1" />
+            <JFXButton prefHeight="53.0" prefWidth="98.0" text="Cancel">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
+            <JFXButton prefHeight="54.0" prefWidth="98.0" text="Add" GridPane.columnIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
          </children>
       </GridPane>
    </children>

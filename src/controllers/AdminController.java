@@ -56,12 +56,32 @@ public class AdminController {
 
     @FXML
     void onHospital(ActionEvent event) {
-        new BounceIn(hospital).play();
-    }
 
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+
+                Pane screen =  loadHospital();
+                Platform.runLater(() -> borderPane.setCenter(screen));
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+    private Pane loadHospital() {
+        Pane screen = null;
+        try {
+            Main.addScreen("hospitalView", FXMLLoader.load(getClass().getResource("/views/components/hospitalView.fxml")));
+            screen = Main.getScreen("hospitalView");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
+    }
     @FXML
     void onLogout(ActionEvent event) {
-        new BounceIn(logout).play();
+
         Task task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -77,6 +97,8 @@ public class AdminController {
 
     }
 
+
+
     @FXML
     void onPatient(ActionEvent event) {
         new BounceIn(patient).play();
@@ -84,17 +106,8 @@ public class AdminController {
 
     @FXML
     void onState(ActionEvent event) {
+        borderPane.setCenter(loadState());
 
-        Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-
-              Pane screen =  loadState();
-                Platform.runLater(() -> borderPane.setCenter(screen));
-                return null;
-            }
-        };
-        new Thread(task).start();
     }
 
     private Pane loadState() {
@@ -111,7 +124,7 @@ public class AdminController {
 
     @FXML
     void onTown(ActionEvent event) {
-
+        System.out.println("On Town");
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -127,7 +140,9 @@ public class AdminController {
         Pane screen = null;
         try {
             Main.addScreen("townView", FXMLLoader.load(getClass().getResource("/views/components/townView.fxml")));
+
             screen = Main.getScreen("townView");
+            System.out.println("Loading Town");
         } catch (IOException e) {
             e.printStackTrace();
         }

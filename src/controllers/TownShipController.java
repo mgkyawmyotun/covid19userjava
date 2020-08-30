@@ -69,7 +69,7 @@ public class TownShipController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
         try {
-            editPane = FXMLLoader.load(getClass().getResource("/views/components/townEdit.fxml"));
+            editPane = FXMLLoader.load(getClass().getResource("/views/components/editTownShip.fxml"));
 
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
             edittown = (JFXTextField) editPane.getChildren().get(1);
@@ -175,7 +175,7 @@ public class TownShipController implements Initializable {
         System.out.println(addstate.getItems());
 
         jfxDialogLayout = new JFXDialogLayout();
-        jfxDialogLayout.setHeading(new Text("Add Town"));
+        jfxDialogLayout.setHeading(new Text("Add TownShip"));
         jfxDialogLayout.setBody(addPane);
         jfxDialog = new JFXDialog(main, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
         jfxDialog.setOverlayClose(false);
@@ -225,7 +225,7 @@ public class TownShipController implements Initializable {
 
         editstate.getSelectionModel().select(state);
         jfxDialogLayout = new JFXDialogLayout();
-        jfxDialogLayout.setHeading(new Text("Edit Town"));
+        jfxDialogLayout.setHeading(new Text("Edit TownShip"));
         jfxDialogLayout.setBody(editPane);
         jfxDialog = new JFXDialog(main, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
         jfxDialog.setOverlayClose(false);
