@@ -105,4 +105,15 @@ public class PatientModel {
             throw new Error();
         }
     }
+    public  JSONArray getContacts(){
+        Request request = new Request.Builder().url(URI + "patient_id").build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+      return new JSONArray(response);
+    }
 }

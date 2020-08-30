@@ -60,7 +60,7 @@ public class AdminController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-
+                new BounceIn(hospital).play();
                 Pane screen =  loadHospital();
                 Platform.runLater(() -> borderPane.setCenter(screen));
                 return null;
@@ -85,15 +85,15 @@ public class AdminController {
         Task task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+                new BounceIn(logout).play();
                 Helper.deleteToken();
-                Platform.runLater(() -> {
-                    System.exit(0);
-                });
+
                 return null;
 
             }
         };
         new Thread(task).start();
+        task.setOnSucceeded((x) ->System.exit(0));
 
     }
 
@@ -102,10 +102,23 @@ public class AdminController {
     @FXML
     void onPatient(ActionEvent event) {
         new BounceIn(patient).play();
+        borderPane.setCenter(loadPatient());
+    }
+    private Pane loadPatient() {
+        Pane screen = null;
+        try {
+            Main.addScreen("patientView", FXMLLoader.load(getClass().getResource("/views/components/patientView.fxml")));
+            screen = Main.getScreen("patientView");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
     }
 
     @FXML
     void onState(ActionEvent event) {
+        new BounceIn(state).play();
         borderPane.setCenter(loadState());
 
     }
@@ -124,7 +137,7 @@ public class AdminController {
 
     @FXML
     void onTown(ActionEvent event) {
-        System.out.println("On Town");
+
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -154,7 +167,7 @@ public class AdminController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-
+                new BounceIn(townShip).play();
                 Pane screen =  loadTownShip();
                 Platform.runLater(() -> borderPane.setCenter(screen));
                 return null;

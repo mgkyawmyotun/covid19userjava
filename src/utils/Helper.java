@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Helper {
@@ -53,5 +56,12 @@ public class Helper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public  static  String formatDate(String s){
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy", Locale.ENGLISH);
+        LocalDate date = LocalDate.parse(s, inputFormatter);
+        String formattedDate = outputFormatter.format(date);
+        return  formattedDate;
     }
 }

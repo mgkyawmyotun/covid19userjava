@@ -24,9 +24,6 @@
                     </BorderPane.margin>
                     <children>
                         <JFXTreeTableView fx:id="treeView" prefHeight="38.0" prefWidth="706.0" stylesheets="@../css/tableDesign.css">
-                            <padding>
-                                <Insets left="100.0" right="100.0" />
-                            </padding>
                             <columnResizePolicy>
                                 <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
