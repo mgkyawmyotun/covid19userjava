@@ -136,9 +136,28 @@ public class AdminController {
     }
     @FXML
     void onTownShip(ActionEvent event) {
-        new BounceIn(townShip).play();
-    }
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
 
+                Pane screen =  loadTownShip();
+                Platform.runLater(() -> borderPane.setCenter(screen));
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+    private Pane loadTownShip() {
+        Pane screen = null;
+        try {
+            Main.addScreen("townShipView", FXMLLoader.load(getClass().getResource("/views/components/townShipView.fxml")));
+            screen = Main.getScreen("townShipView");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
+    }
     @FXML
     void initialize() {
 

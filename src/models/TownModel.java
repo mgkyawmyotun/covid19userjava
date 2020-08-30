@@ -106,4 +106,17 @@ public class TownModel {
             throw new Error();
         }
     }
+    public  JSONArray getTownName(){
+
+        Request request = new Request.Builder().url(URI + "townsname").build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       return new JSONArray(response);
+
+    }
 }
