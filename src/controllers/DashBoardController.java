@@ -184,14 +184,20 @@ public class DashBoardController {
         drawer.setPrefWidth(200);
         try {
             VBox vb = FXMLLoader.load(getClass().getResource("/views/sideBar.fxml"));
-             localMap = (JFXButton) vb.getChildren().get(0);
-             globalMap=(JFXButton) vb.getChildren().get(1);
-             localTable=(JFXButton) vb.getChildren().get(2);
-             globalTable=(JFXButton) vb.getChildren().get(3);
+             globalMap = (JFXButton) vb.getChildren().get(0);
+             localMap=(JFXButton) vb.getChildren().get(1);
+             globalTable=(JFXButton) vb.getChildren().get(2);
+             localTable=(JFXButton) vb.getChildren().get(3);
              localChart=(JFXButton) vb.getChildren().get(4);
              globalChart=(JFXButton) vb.getChildren().get(5);
              localGraph=(JFXButton) vb.getChildren().get(6);
-
+                localMap.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalMap);
+                globalMap.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onGlobalMap);
+                localTable.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalTable);
+                globalTable.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onGlobalTable);
+                localChart.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalChart);
+                globalChart.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onGlobalChart);
+                localGraph.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalGraph);
 
 
             drawer.setSidePane(vb);
@@ -199,6 +205,27 @@ public class DashBoardController {
         } catch (IOException e) {
             System.out.println("Error On Loading VBox to drawer");
         }
+    }
+    private  void onLocalMap(MouseEvent e){
+        System.out.println("onLocalMap");
+    }
+    private  void onGlobalMap(MouseEvent e){
+        System.out.println("onGlobalMap");
+    }
+    private  void onLocalTable(MouseEvent e){
+        System.out.println("onLocalTable");
+    }
+    private void onGlobalTable(MouseEvent e){
+        System.out.println("onGlobalTable");
+    }
+    private  void onLocalChart(MouseEvent e){
+        System.out.println("onLocalChart");
+    }    private  void onGlobalChart(MouseEvent e){
+        System.out.println("onGlobalChart");
+    }
+    private void onLocalGraph(MouseEvent e){
+        System.out.println("OnLocalGraph");
+
     }
 
 }
