@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="747.0" prefWidth="279.0" styleClass="sidebar" stylesheets="@css/dashboard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SideBarController">
+<VBox prefHeight="747.0" prefWidth="279.0" styleClass="sidebar" stylesheets="@css/dashboard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JFXButton fx:id="global" maxHeight="-Infinity" onAction="#onGlobal" prefHeight="72.0" prefWidth="186.0" text="Global" textFill="WHITE">
+      <JFXButton maxHeight="-Infinity" prefHeight="72.0" prefWidth="280.0" text="Global Map" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
@@ -19,7 +19,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="loacal" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" onAction="#onLocal" prefHeight="72.0" prefWidth="186.0" text="Local" textFill="WHITE">
+      <JFXButton layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text=" Local Map" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
@@ -27,7 +27,39 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="login" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" onAction="#onLogin" prefHeight="72.0" prefWidth="186.0" text="Login" textFill="WHITE">
+      <JFXButton layoutX="10.0" layoutY="82.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text="Global Table" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton layoutX="10.0" layoutY="153.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text="Local Table" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton layoutX="10.0" layoutY="224.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text="Local Chart" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton layoutX="10.0" layoutY="295.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text="Global Chart" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton layoutX="10.0" layoutY="366.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text="Local Graph" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>

@@ -29,9 +29,9 @@ import utils.HttpService;
 import java.io.IOException;
 
 public class DashBoardController {
-    static  WebEngine webEngine = null;
-      static WebView webView = null;
-     static StackPane publicStackPane;
+    static WebEngine webEngine = null;
+    static WebView webView = null;
+    static StackPane publicStackPane;
     @FXML
     private StackPane stackPane;
 
@@ -45,27 +45,33 @@ public class DashBoardController {
     private JFXSpinner spinner;
 
     private JFXDrawer drawer;
-
+    JFXButton localMap;
+    JFXButton localTable;
+    JFXButton globalMap;
+    JFXButton globalTable;
+    JFXButton globalChart;
+    JFXButton localChart;
+    JFXButton localGraph;
     @FXML
     void initialize() {
         System.out.println("I got call db");
         publicStackPane = stackPane;
         // Case Component
 
-            Task<Void> task =new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                   Platform.runLater(new Runnable() {
-                       @Override
-                       public void run() {
-                           loadCase();
-                       }
-                   });
-                return  null;
-                }
-            };
-            new Thread(task).start();
-        Task<Void> task1 =new Task<Void>() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadCase();
+                    }
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();
+        Task<Void> task1 = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 Platform.runLater(new Runnable() {
@@ -74,20 +80,20 @@ public class DashBoardController {
                         loadMap();
                     }
                 });
-                return  null;
+                return null;
             }
         };
         new Thread(task1).start();
-            //Drawer
-            loadDrawer();
-            //Map Related
+        //Drawer
+        loadDrawer();
+        //Map Related
 
-            //Make rip  effect on topPane
+        //Make rip  effect on topPane
 
-            //activate Hamberger
-            loadTopPane();
+        //activate Hamberger
+        loadTopPane();
 
-            activateHamberger();
+        activateHamberger();
 
     }
 
@@ -117,46 +123,43 @@ public class DashBoardController {
 
     private void loadMap() {
 
-            webView = new WebView();
-            webEngine = webView.getEngine();
-            webEngine.setJavaScriptEnabled(true);
+        webView = new WebView();
+        webEngine = webView.getEngine();
+        webEngine.setJavaScriptEnabled(true);
 
-            JSObject window = (JSObject) webEngine.executeScript("window");
+        JSObject window = (JSObject) webEngine.executeScript("window");
 
-            webEngine.setOnError(e -> {
-                System.out.println(e.getMessage());
+        webEngine.setOnError(e -> {
+            System.out.println(e.getMessage());
 
+        });
+        webView.setCache(true);
+        webView.setContextMenuEnabled(true);
+
+        webEngine.load(getClass().getResource("/views/map.html").toString());
+        webEngine.setOnAlert(e -> {
+            Platform.runLater(() -> {
+                borderPane.setCenter(webView);
             });
-            webView.setCache(true);
-            webView.setContextMenuEnabled(true);
+        });
 
-            webEngine.load(getClass().getResource("/views/map.html").toString());
-            webEngine.setOnAlert(e -> {
-                Platform.runLater(() ->{
-                    borderPane.setCenter(webView);
-                });
-            });
+        webEngine.getLoadWorker().stateProperty().addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 
-            webEngine.getLoadWorker().stateProperty().addListener(
-                    new ChangeListener() {
-                        @Override
-                        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                        String data = HttpService.getCaseByCountries();
 
-                                    String data =HttpService.getCaseByCountries();
-
-                                        webEngine.executeScript("test(" + data+ ")");
+                        webEngine.executeScript("test(" + data + ")");
 
 
-
-                            if (newValue != Worker.State.SUCCEEDED) {
-                                return;
-                            }
-
+                        if (newValue != Worker.State.SUCCEEDED) {
+                            return;
                         }
+
                     }
-            );
-
-
+                }
+        );
 
 
     }
@@ -165,7 +168,7 @@ public class DashBoardController {
         System.out.println("Hi");
 
         try {
-            Main.addScreen("caseComponent",FXMLLoader.load(getClass().getResource("/views/components/case.fxml")));
+            Main.addScreen("caseComponent", FXMLLoader.load(getClass().getResource("/views/components/case.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,52 +184,16 @@ public class DashBoardController {
         drawer.setPrefWidth(200);
         try {
             VBox vb = FXMLLoader.load(getClass().getResource("/views/sideBar.fxml"));
-            for (Node button : vb.getChildren()) {
-                button.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-                    switch (button.getId()) {
-                        case "loacal":
-                            new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
+             localMap = (JFXButton) vb.getChildren().get(0);
+             globalMap=(JFXButton) vb.getChildren().get(1);
+             localTable=(JFXButton) vb.getChildren().get(2);
+             globalTable=(JFXButton) vb.getChildren().get(3);
+             localChart=(JFXButton) vb.getChildren().get(4);
+             globalChart=(JFXButton) vb.getChildren().get(5);
+             localGraph=(JFXButton) vb.getChildren().get(6);
 
-                            borderPane.setCenter(null);
 
-                            System.out.println("I am Local");
-                            break;
-                        case "global":
-                            new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
-                            borderPane.setCenter(webView);
-                            System.out.println("I am Global");
-                            break;
-                        case "login":
-                            new FadeOut(borderPane).playOnFinished(new FadeIn(borderPane)).play();
-                            try {
-                                if(Helper.getToken().isEmpty()){
-                                    Main.addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
-                                    Main.load(Main.getScreen("login"));
-                                }
-                                else{
-                                    Main.addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
 
-                                    FadeTransition fadeTransition =new FadeTransition(Duration.millis(2000));
-                                    fadeTransition.setFromValue(0);
-                                    fadeTransition.setToValue(1);
-                                    fadeTransition.setNode(borderPane);
-                                    fadeTransition.setCycleCount(1);
-                                    fadeTransition.play();
-                                    fadeTransition.setOnFinished(a ->{
-                                        Main.load(Main.getScreen("admin"));
-
-                                    });
-                                }
-
-                            } catch (IOException ioException) {
-                                ioException.printStackTrace();
-                            }
-
-                            break;
-
-                    }
-                });
-            }
             drawer.setSidePane(vb);
 
         } catch (IOException e) {

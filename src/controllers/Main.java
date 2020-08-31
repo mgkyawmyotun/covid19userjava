@@ -53,11 +53,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
-        addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
+        addScreen("dashboard",FXMLLoader.load(getClass().getResource("/views/dashboard.fxml")));
 
-        System.out.println("Hello");
-        sc = new Scene(getScreen("login"));
+        sc = new Scene(getScreen("dashboard"));
 
         stage = primaryStage;
 
