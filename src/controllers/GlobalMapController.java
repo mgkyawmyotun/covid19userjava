@@ -39,16 +39,10 @@ import utils.Helper;
 import utils.HttpService;
 
 public class GlobalMapController {
-    WebEngine webEngine = null;
-    WebView webView = null;
+
     @FXML
     private VBox vbox;
 
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
     @FXML
     private Label Country;
 
@@ -73,144 +67,108 @@ public class GlobalMapController {
 
     @FXML
     private Label totalRecover;
+    WebEngine webEngine = null;
+    WebView webView = null;
+
     @FXML
     void initialize() {
-        Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadCase();
-                    }
-                });
-                return null;
-            }
-        };
-        new Thread(task).start();
-        Task<Void> task1 = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadMap();
-                    }
-                });
-                return null;
-            }
-        };
-        new Thread(task1).start();
+
+        loadMap();
         loadLabel();
         loadSearch();
         loadList();
     }
+
+    String data;
 
     private void loadMap() {
 
         webView = new WebView();
         webEngine = webView.getEngine();
         webEngine.setJavaScriptEnabled(true);
-
-        JSObject window = (JSObject) webEngine.executeScript("window");
-
-        webEngine.setOnError(e -> {
-            System.out.println(e.getMessage());
-
-        });
         webView.setCache(true);
         webView.setContextMenuEnabled(true);
-
-        webEngine.load(getClass().getResource("/views/map.html").toString());
-        webEngine.setOnAlert(e -> {
-            Platform.runLater(() -> {
-                borderPane.setCenter(webView);
-            });
-        });
-
-        webEngine.getLoadWorker().stateProperty().addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-
-                        String data = HttpService.getCaseByCountries();
-
-                        webEngine.executeScript("test(" + data + ")");
-
-
-                        if (newValue != Worker.State.SUCCEEDED) {
-                            return;
-                        }
-
-                    }
-                }
-        );
-
-
-    }
-
-    private void loadCase() {
-        System.out.println("Hi");
-
-        try {
-            Main.addScreen("caseComponent", FXMLLoader.load(getClass().getResource("/views/components/case.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        borderPane.setLeft(Main.getScreen("caseComponent"));
-        System.out.println("Hi");
-    }
-
-    private void loadList() {
-        Task task = new Task<Void>() { // create new task
-
+        Task<Void> task = new Task<Void>() {
             @Override
-            public Void call() {
-                Platform.runLater(new Runnable() {
+            protected Void call() throws Exception {
+                data = HttpService.getCaseByCountries();
+                Platform.runLater(() ->{  webEngine.load(getClass().getResource("/views/map.html").toString());
+                    webEngine.setOnAlert(e -> {
+                        Platform.runLater(() -> {
+                            borderPane.setCenter(webView);
+                        });
+                    });
 
-                    @Override
-                    public void run() {
-                        ObservableList<Label> observableList = FXCollections.observableArrayList();
+                    webEngine.getLoadWorker().stateProperty().addListener(
+                            new ChangeListener() {
+                                @Override
+                                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
 
-                        JSONArray countryJson = HttpService.getCasesByCountriesAsJson();
 
-                        for (int i = 0; i < countryJson.length(); i++) {
-                            JSONObject jsonObject = countryJson.getJSONObject(i);
-                            Label label = new Label(jsonObject.getString("country"));
-                            String imagePath = jsonObject.getJSONObject("countryInfo").get("iso2") + "";
-                            JSONObject countryInfo = jsonObject.getJSONObject("countryInfo");
-                            label.setAccessibleText(imagePath);
-                            label.setAccessibleHelp("[" + countryInfo.get("lat") + "," + countryInfo.get("long") + "]");
-                            Image image = new Image("/views/Images/country/" + imagePath.toLowerCase() + ".png");
+                                    webEngine.executeScript("test(" + data + ")");
 
-                            ImageView imageView = new ImageView(image);
-                            imageView.setFitWidth(50);
-                            imageView.setFitHeight(50);
-                            label.setGraphic(imageView);
-                            observableList.add(label);
-                        }
-                        filteredList = new FilteredList<Label>(observableList);
 
-                        list = new JFXListView<>();
-                        list.setItems(filteredList);
+                                    if (newValue != Worker.State.SUCCEEDED) {
+                                        return;
+                                    }
 
-                        list.getStylesheets().add("/views/css/listview.css");
-                        list.setCursor(Cursor.HAND);
-                        list.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> labelClicked(e));
-
-                        vbox.getChildren().remove(vbox.getChildren().size() - 1);
-                        vbox.getChildren().add(list);
-                        System.out.println("added");
-                    }
+                                }
+                            }
+                    );
                 });
                 return null;
-
             }
         };
-        Thread thread = new Thread(task);
-        thread.start();
+        new Thread(task).start();
+        task.setOnSucceeded((a) ->{
 
+        });
+
+
+    }
+
+
+    private void loadList() {
+
+
+        Task<Void> task1 = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                ObservableList<Label> observableList = FXCollections.observableArrayList();
+
+                JSONArray countryJson = HttpService.getCasesByCountriesAsJson();
+
+                for (int i = 0; i < countryJson.length(); i++) {
+                    JSONObject jsonObject = countryJson.getJSONObject(i);
+                    Label label = new Label(jsonObject.getString("country"));
+                    String imagePath = jsonObject.getJSONObject("countryInfo").get("iso2") + "";
+                    JSONObject countryInfo = jsonObject.getJSONObject("countryInfo");
+                    label.setAccessibleText(imagePath);
+                    label.setAccessibleHelp("[" + countryInfo.get("lat") + "," + countryInfo.get("long") + "]");
+                    Image image = new Image("/views/Images/country/" + imagePath.toLowerCase() + ".png");
+                    ImageView imageView = new ImageView(image);
+                    imageView.setFitWidth(50);
+                    imageView.setFitHeight(50);
+                    label.setGraphic(imageView);
+                    observableList.add(label);
+                }
+                Platform.runLater(() -> {
+
+                    filteredList = new FilteredList<Label>(observableList);
+                    list = new JFXListView<>();
+                    list.setItems(filteredList);
+
+                    list.getStylesheets().add("/views/css/listview.css");
+                    list.setCursor(Cursor.HAND);
+                    list.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> labelClicked(e));
+                    vbox.getChildren().remove(vbox.getChildren().size() - 1);
+                    vbox.getChildren().add(list);
+                });
+                return null;
+            }
+        };
+
+        new Thread(task1).start();
 
     }
 

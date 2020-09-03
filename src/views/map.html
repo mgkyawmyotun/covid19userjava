@@ -39,6 +39,12 @@
       }
       function test(data){
          data.forEach((x) => {
+           L.circle([x.countryInfo.lat, x.countryInfo.long], {
+            color: "red",
+
+            fillOpacity: 0.2,
+            radius: 200000,
+          }).addTo(map);
           var marker = L.marker([x.countryInfo.lat, x.countryInfo.long]).addTo(
             map
           );

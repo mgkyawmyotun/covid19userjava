@@ -10,9 +10,6 @@ import javafx.fxml.FXMLLoader;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-
 
 
 import java.io.IOException;
@@ -20,8 +17,6 @@ import java.io.IOException;
 public class DashBoardController {
 
 
-    @FXML
-    private StackPane stackPane;
 
     @FXML
     private JFXHamburger hamburger;
@@ -29,8 +24,6 @@ public class DashBoardController {
     private AnchorPane topPane;
     @FXML
     private BorderPane borderPane;
-    @FXML
-    private JFXSpinner spinner;
 
     private JFXDrawer drawer;
     JFXButton localMap;
@@ -108,7 +101,19 @@ public class DashBoardController {
         System.out.println("onLocalMap");
     }
     private  void onGlobalMap(MouseEvent e){
-        System.out.println("onGlobalMap");
+        borderPane.setCenter(loadGlobalMap());
+    }
+    private Pane loadGlobalMap() {
+        Pane screen = null;
+        try {
+
+            Main.addScreen("globalMap", FXMLLoader.load(getClass().getResource("/views/GlobalView/globalMapView.fxml")));
+            screen = Main.getScreen("globalMap");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
     }
     private  void onLocalTable(MouseEvent e){
         System.out.println("onLocalTable");
@@ -118,7 +123,8 @@ public class DashBoardController {
     }
     private  void onLocalChart(MouseEvent e){
         System.out.println("onLocalChart");
-    }    private  void onGlobalChart(MouseEvent e){
+    }
+    private  void onGlobalChart(MouseEvent e){
         System.out.println("onGlobalChart");
     }
     private void onLocalGraph(MouseEvent e){
