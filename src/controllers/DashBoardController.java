@@ -17,7 +17,6 @@ import java.io.IOException;
 public class DashBoardController {
 
 
-
     @FXML
     private JFXHamburger hamburger;
     @FXML
@@ -119,8 +118,21 @@ public class DashBoardController {
         System.out.println("onLocalTable");
     }
     private void onGlobalTable(MouseEvent e){
-        System.out.println("onGlobalTable");
+        borderPane.setCenter(loadGlobalTable());
     }
+    private Pane loadGlobalTable() {
+        Pane screen = null;
+        try {
+
+            Main.addScreen("globalTable", FXMLLoader.load(getClass().getResource("/views/GlobalView/globalTableView.fxml")));
+            screen = Main.getScreen("globalTable");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
+    }
+
     private  void onLocalChart(MouseEvent e){
         System.out.println("onLocalChart");
     }

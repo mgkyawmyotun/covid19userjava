@@ -55,7 +55,7 @@
                   <Font size="22.0" />
                </font>
             </TextField>
-            <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" layoutX="220.0" layoutY="57.0" size="42" text="" wrappingWidth="38.0" />
+            <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" layoutX="222.0" layoutY="61.0" size="42" text="" textAlignment="CENTER" wrappingWidth="38.0" />
          </children>
          <cursor>
             <Cursor fx:constant="HAND" />
