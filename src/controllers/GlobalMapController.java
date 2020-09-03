@@ -1,55 +1,70 @@
 package controllers;
 
-import com.jfoenix.controls.*;
-
-import java.io.File;
-import java.net.URISyntaxException;
+import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import com.jfoenix.controls.*;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
-
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.omg.CORBA.INTERNAL;
 import utils.Helper;
 import utils.HttpService;
 
-
-public class CaseController {
+public class GlobalMapController {
+    WebEngine webEngine = null;
+    WebView webView = null;
+    @FXML
+    private VBox vbox;
 
     @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
+    @FXML
+    private Label Country;
 
+    @FXML
+    private StackPane stackPane;
+
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private JFXListView<Label> list;
+    private FilteredList<Label> filteredList;
+
+    private JFXDialog jfxDialog;
+    private JFXDialogLayout jfxDialogLayout;
+    @FXML
+    private TextField search;
     @FXML
     private Label totalCase;
 
@@ -59,39 +74,92 @@ public class CaseController {
     @FXML
     private Label totalRecover;
     @FXML
-    private VBox vbox;
-
-    @FXML
-    private TextField search;
-    @FXML
-    private Label Country;
-
-    @FXML
-    private JFXButton serachButton;
-    @FXML
-    private JFXListView<Label> list;
-    private FilteredList<Label> filteredList;
-
-    private JFXDialog jfxDialog;
-    private JFXDialogLayout jfxDialogLayout;
-
-    @FXML
-    void onSearch(ActionEvent event) {
-        System.out.println("on Search ..");
-    }
-
-    @FXML
-    void onSearching(ActionEvent event) {
-        System.out.println("Searching ..");
-    }
-
-    @FXML
     void initialize() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadCase();
+                    }
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();
+        Task<Void> task1 = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadMap();
+                    }
+                });
+                return null;
+            }
+        };
+        new Thread(task1).start();
         loadLabel();
         loadSearch();
         loadList();
+    }
+
+    private void loadMap() {
+
+        webView = new WebView();
+        webEngine = webView.getEngine();
+        webEngine.setJavaScriptEnabled(true);
+
+        JSObject window = (JSObject) webEngine.executeScript("window");
+
+        webEngine.setOnError(e -> {
+            System.out.println(e.getMessage());
+
+        });
+        webView.setCache(true);
+        webView.setContextMenuEnabled(true);
+
+        webEngine.load(getClass().getResource("/views/map.html").toString());
+        webEngine.setOnAlert(e -> {
+            Platform.runLater(() -> {
+                borderPane.setCenter(webView);
+            });
+        });
+
+        webEngine.getLoadWorker().stateProperty().addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+
+                        String data = HttpService.getCaseByCountries();
+
+                        webEngine.executeScript("test(" + data + ")");
 
 
+                        if (newValue != Worker.State.SUCCEEDED) {
+                            return;
+                        }
+
+                    }
+                }
+        );
+
+
+    }
+
+    private void loadCase() {
+        System.out.println("Hi");
+
+        try {
+            Main.addScreen("caseComponent", FXMLLoader.load(getClass().getResource("/views/components/case.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        borderPane.setLeft(Main.getScreen("caseComponent"));
+        System.out.println("Hi");
     }
 
     private void loadList() {
@@ -175,14 +243,14 @@ public class CaseController {
             jfxDialogLayout.setHeading(detailsViews);
             jfxDialogLayout.setBody(new JFXSpinner());
             jfxDialogLayout.setActions(jfxButton);
-            jfxDialog = new JFXDialog(DashBoardController.publicStackPane, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
+            jfxDialog = new JFXDialog(stackPane, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
             jfxDialog.show();
 
 
             jfxButton.setOnAction(event -> jfxDialog.close());
         } else {
 
-            DashBoardController.webEngine.executeScript("flyTo(" + label.getAccessibleHelp() + ")");
+            webEngine.executeScript("flyTo(" + label.getAccessibleHelp() + ")");
 
         }
 
@@ -240,8 +308,6 @@ public class CaseController {
         numbersColumn.setCellValueFactory(new PropertyValueFactory<DetailsView, String>("Numbers"));
 
 
-
-
         tableView.getColumns().addAll(aboutColumn, numbersColumn);
 
         return tableView;
@@ -259,4 +325,5 @@ public class CaseController {
         });
         return observableList;
     }
+
 }
