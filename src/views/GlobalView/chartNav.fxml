@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="307.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXButton fx:id="contienent"  prefHeight="70.0" prefWidth="322.0" text="Case By Contienent" textFill="WHITE" />
+      <JFXButton layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="322.0" text="Case By " textFill="WHITE" />
+      <JFXButton layoutX="10.0" layoutY="80.0" prefHeight="70.0" prefWidth="322.0" text="Case By " textFill="WHITE" />
+      <JFXButton layoutX="10.0" layoutY="150.0" prefHeight="70.0" prefWidth="322.0" text="Case By Contienent" textFill="WHITE" />
+      <JFXButton layoutX="10.0" layoutY="220.0" prefHeight="70.0" prefWidth="322.0" text="Case By Contienent" textFill="WHITE" />
+      <JFXButton layoutX="10.0" layoutY="290.0" prefHeight="70.0" prefWidth="322.0" text="Case By Contienent" textFill="WHITE" />
+   </children>
+</VBox>

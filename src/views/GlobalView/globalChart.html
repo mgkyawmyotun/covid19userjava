@@ -8,7 +8,7 @@
     <style>
       .chartOne {
         width: auto;
-        margin: 22 22 22 22 auto;
+        margin:0 auto;
       }
     </style>
 </head>
@@ -18,6 +18,9 @@
 </div>
 
 <script>
+
+
+  //  alert("Hello World");
       let labels = [];
       let data = [];
       fetch("https://disease.sh/v3/covid-19/continents")
@@ -87,13 +90,6 @@
         });
       }
 
-      function renderLineChart(data) {
-        var myLineChart = new Chart(ctx, {
-          type: "line",
-          data: data,
-          options: options,
-        });
-      }
     </script>
 </body>
 </html>
