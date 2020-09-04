@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style>
+      .chartOne {
+        width: auto;
+        margin: 22 22 22 22 auto;
+      }
+    </style>
+</head>
+<body>
+<div class="chartOne">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+      let labels = [];
+      let data = [];
+      fetch("https://disease.sh/v3/covid-19/continents")
+        .then((d) => d.json())
+        .then((d) => {
+          d.forEach((dd) => {
+            labels.push(dd.continent);
+            data.push(dd.cases);
+          });
+        })
+        .then(() => {
+          renderBarChart(labels, data);
+        });
+
+      function renderBarChart(label, data) {
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: "bar",
+
+          // The data for our dataset
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "Number Of Cases",
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(153, 102, 255, 1)",
+                  "rgba(255, 159, 64, 1)",
+                ],
+                fill: false,
+                borderWidth: 1,
+                data,
+              },
+            ],
+          },
+
+          // Configuration options go here
+          options: {
+            title: {
+              display: true,
+              text: "Number of Cases By Continents",
+              position: "top",
+              fontSize: 20,
+              fontColor: "#414141",
+            },
+            legend: {
+              display: true,
+              labels: {
+                fontColor: "rgba(255, 159, 64, 1)",
+              },
+              position: "bottom",
+            },
+          },
+        });
+      }
+
+      function renderLineChart(data) {
+        var myLineChart = new Chart(ctx, {
+          type: "line",
+          data: data,
+          options: options,
+        });
+      }
+    </script>
+</body>
+</html>

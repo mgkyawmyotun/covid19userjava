@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GlobalChartController">
+   <center>
+      <JFXSpinner fx:id="spinner" radius="100.0" visible="false" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
