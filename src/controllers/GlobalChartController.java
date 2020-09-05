@@ -42,6 +42,7 @@ public class GlobalChartController {
     void initialize() {
         loadCaseByContientsChart();
     }
+
     private void loadCaseByContientsChart() {
         spinner.setVisible(true);
         webView = new WebView();
@@ -59,19 +60,19 @@ public class GlobalChartController {
                     borderPane.setCenter(webView);
 
 
-
-                }  );
+                });
 
                 return null;
             }
         };
         new Thread(task).start();
-        task.setOnSucceeded((a) ->{
+        task.setOnSucceeded((a) -> {
 
         });
 
 
     }
+
     @FXML
     void onCaseByContienets(ActionEvent event) {
         loadCaseByContientsChart();
@@ -91,13 +92,14 @@ public class GlobalChartController {
                     webEngine.load(getClass().getResource("/views/GlobalView/globalChartGeo.html").toString());
                     borderPane.setCenter(webView);
 
-                }  );
+                });
 
                 return null;
             }
         };
         new Thread(task).start();
     }
+
     @FXML
     void onCaseByContries(ActionEvent event) {
         loadCaseByCountries();
@@ -118,7 +120,7 @@ public class GlobalChartController {
                     webEngine.load(getClass().getResource("/views/GlobalView/globalChartTime.html").toString());
                     borderPane.setCenter(webView);
 
-                }  );
+                });
 
                 return null;
             }
@@ -130,6 +132,7 @@ public class GlobalChartController {
     void onDcr10(ActionEvent event) {
         loaddcr10();
     }
+
     private void loadGCases() {
         spinner.setVisible(true);
         webView = new WebView();
@@ -144,17 +147,19 @@ public class GlobalChartController {
                     webEngine.load(getClass().getResource("/views/GlobalView/globalChartTimeLine.html").toString());
                     borderPane.setCenter(webView);
 
-                }  );
+                });
 
                 return null;
             }
         };
         new Thread(task).start();
     }
+
     @FXML
     void onGCases(ActionEvent event) {
         loadGCases();
     }
+
     private void loadGDeaths() {
         spinner.setVisible(true);
         webView = new WebView();
@@ -169,17 +174,19 @@ public class GlobalChartController {
                     webEngine.load(getClass().getResource("/views/GlobalView/globalChartDeathTime.html").toString());
                     borderPane.setCenter(webView);
 
-                }  );
+                });
 
                 return null;
             }
         };
         new Thread(task).start();
     }
+
     @FXML
     void onGDeaths(ActionEvent event) {
         loadGDeaths();
     }
+
     private void loadGRecover() {
         spinner.setVisible(true);
         webView = new WebView();
@@ -194,21 +201,97 @@ public class GlobalChartController {
                     webEngine.load(getClass().getResource("/views/GlobalView/globalChartRecoverLine.html").toString());
                     borderPane.setCenter(webView);
 
-                }  );
+                });
 
                 return null;
             }
         };
         new Thread(task).start();
     }
+
     @FXML
     void onGRecover(ActionEvent event) {
         loadGRecover();
     }
 
+    private void loadAge() {
+        spinner.setVisible(true);
+        webView = new WebView();
+        webEngine = webView.getEngine();
+        webEngine.setJavaScriptEnabled(true);
+        webView.setCache(true);
+        webView.setContextMenuEnabled(true);
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(() -> {
+                    webEngine.load(getClass().getResource("/views/GlobalView/globalPieAgeChart.html").toString());
+                    borderPane.setCenter(webView);
+
+                });
+
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
 
     @FXML
     void onAge(ActionEvent event) {
+        loadAge();
+    }
 
+    private void loadDeath() {
+        spinner.setVisible(true);
+        webView = new WebView();
+        webEngine = webView.getEngine();
+        webEngine.setJavaScriptEnabled(true);
+        webView.setCache(true);
+        webView.setContextMenuEnabled(true);
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(() -> {
+                    webEngine.load(getClass().getResource("/views/GlobalView/globalChartGeoDeath.html").toString());
+                    borderPane.setCenter(webView);
+
+                });
+
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+
+    @FXML
+    void onDeathByContry(ActionEvent event) {
+        loadDeath();
+    }
+
+    private void loadRecover() {
+        spinner.setVisible(true);
+        webView = new WebView();
+        webEngine = webView.getEngine();
+        webEngine.setJavaScriptEnabled(true);
+        webView.setCache(true);
+        webView.setContextMenuEnabled(true);
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Platform.runLater(() -> {
+                    webEngine.load(getClass().getResource("/views/GlobalView/globalChartGeoRec.html").toString());
+                    borderPane.setCenter(webView);
+
+                });
+
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+
+    @FXML
+    void onRecoverByCountry(ActionEvent event) {
+        loadRecover();
     }
 }

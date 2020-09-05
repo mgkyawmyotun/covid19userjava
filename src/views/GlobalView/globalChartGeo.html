@@ -56,17 +56,19 @@
           .then((d) => d.json())
           .then((d) => {
             d.forEach((dd) => {
-              countries.push([dd.countryInfo.iso2, dd.cases, dd.deaths]);
+              countries.push([dd.countryInfo.iso2, dd.cases]);
             });
           })
           .then(() => {
             var data = google.visualization.arrayToDataTable([
-              ["Country", "Cases", "Deaths"],
+              ["Country", "Cases"],
               ...countries,
             ]);
             console.log(countries);
             var options = {
-              colorAxis: { colors: ["red"] },
+              colorAxis: {
+                colors: ["#faf4de", "#fce89f", "#ffc800"],
+              },
               enableRegionInteractivity: true,
             };
 
