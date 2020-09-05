@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        const dataSet = [];
+        fetch("https://disease.sh/v3/influenza/cdc/ILINet")
+          .then((res) => res.json())
+          .then((json) => {
+            for (let [k, v] of Object.entries(
+              json.data[json.data.length - 1]
+            )) {
+              if ((k + "").startsWith("age")) {
+                dataSet.push([k, v]);
+              }
+            }
+          })
+          .then(() => {
+            var data = google.visualization.arrayToDataTable([
+              ["Age", "Age"],
+              ...dataSet,
+            ]);
+
+            var options = {
+              title: "My Daily Activities",
+              is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(
+              document.getElementById("piechart_3d")
+            );
+            chart.draw(data, options);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="piechart_3d" style="width: 900px; height: 500px"></div>
+  </body>
+</html>

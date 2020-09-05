@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <script
       type="text/javascript"
       src="https://www.gstatic.com/charts/loader.js"
@@ -45,44 +41,42 @@
   <body>
     <div id="chart_div"></div>
     <div class="loader"></div>
-    <script>
-      //  alert("Hello World");
-
-      google.charts.load("current", { packages: ["corechart", "bar"] });
-      google.charts.setOnLoadCallback(drawMaterial);
-
-      function drawMaterial() {
-        let da = [];
-        fetch("https://disease.sh/v3/covid-19/continents")
-          .then((d) => d.json())
-          .then((d) => {
-            d.forEach((dd) => {
-              da.push([dd.continent, dd.cases, dd.deaths]);
-            });
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["corechart", "line"] });
+      google.charts.setOnLoadCallback(drawBasic);
+      function drawBasic() {
+        const dataSets = [];
+        fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=-1")
+          .then((res) => res.json())
+          .then((json) => {
+            for (let i = 0; i < Object.keys(json.cases).length; i++) {
+              dataSets.push([
+                Object.keys(json.cases)[i],
+                json.deaths[Object.keys(json.cases)[i]],
+              ]);
+            }
           })
           .then(() => {
-            var data = google.visualization.arrayToDataTable([
-              ["Continent", "Cases", "Deaths"],
-              ...da,
-            ]);
+            var data = new google.visualization.DataTable();
+            data.addColumn("string", "days");
+            data.addColumn("number", "deaths");
 
-            var materialOptions = {
-              chart: {
-                title: "Case By Continent",
-              },
+            data.addRows(dataSets);
+            var options = {
               hAxis: {
-                title: "Total Population",
-                minValue: 0,
+                title: "Days",
               },
               vAxis: {
-                title: "Case By Continent",
+                title: "Deaths",
               },
-              bars: "horizontal",
+              title: "Growth of Deaths",
             };
-            var materialChart = new google.charts.Bar(
+
+            var chart = new google.visualization.LineChart(
               document.getElementById("chart_div")
             );
-            materialChart.draw(data, materialOptions);
+
+            chart.draw(data, options);
           })
           .then(() => {
             document.querySelector("#chart_div").style.visibility = "visible";

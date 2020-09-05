@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <script
       type="text/javascript"
       src="https://www.gstatic.com/charts/loader.js"
@@ -45,44 +41,40 @@
   <body>
     <div id="chart_div"></div>
     <div class="loader"></div>
-    <script>
-      //  alert("Hello World");
+    <script type="text/javascript">
+      google.charts.load("current", {
+        packages: ["geochart"],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        mapsApiKey: "AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY",
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
 
-      google.charts.load("current", { packages: ["corechart", "bar"] });
-      google.charts.setOnLoadCallback(drawMaterial);
-
-      function drawMaterial() {
-        let da = [];
-        fetch("https://disease.sh/v3/covid-19/continents")
+      function drawRegionsMap() {
+        const countries = [];
+        fetch("https://disease.sh/v3/covid-19/countries")
           .then((d) => d.json())
           .then((d) => {
             d.forEach((dd) => {
-              da.push([dd.continent, dd.cases, dd.deaths]);
+              countries.push([dd.countryInfo.iso2, dd.cases, dd.deaths]);
             });
           })
           .then(() => {
             var data = google.visualization.arrayToDataTable([
-              ["Continent", "Cases", "Deaths"],
-              ...da,
+              ["Country", "Cases", "Deaths"],
+              ...countries,
             ]);
-
-            var materialOptions = {
-              chart: {
-                title: "Case By Continent",
-              },
-              hAxis: {
-                title: "Total Population",
-                minValue: 0,
-              },
-              vAxis: {
-                title: "Case By Continent",
-              },
-              bars: "horizontal",
+            console.log(countries);
+            var options = {
+              colorAxis: { colors: ["red"] },
+              enableRegionInteractivity: true,
             };
-            var materialChart = new google.charts.Bar(
+
+            var chart = new google.visualization.GeoChart(
               document.getElementById("chart_div")
             );
-            materialChart.draw(data, materialOptions);
+
+            chart.draw(data, options);
           })
           .then(() => {
             document.querySelector("#chart_div").style.visibility = "visible";
