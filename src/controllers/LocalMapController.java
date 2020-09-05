@@ -59,7 +59,7 @@ public class LocalMapController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-               Platform.runLater(() ->{  webEngine.load(getClass().getResource("/views/map.html").toString());
+               Platform.runLater(() ->{  webEngine.load(getClass().getResource("/views/LocalViews/localMap.html").toString());
                     webEngine.setOnAlert(e -> {
                         Platform.runLater(() -> {
                             borderPane.setCenter(webView);

@@ -96,8 +96,20 @@ public class DashBoardController {
             System.out.println("Error On Loading VBox to drawer");
         }
     }
+    private Pane loadLocalMap() {
+        Pane screen = null;
+        try {
+
+            Main.addScreen("localMap", FXMLLoader.load(getClass().getResource("/views/LocalViews/localMapView.fxml")));
+            screen = Main.getScreen("localMap");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
+    }
     private  void onLocalMap(MouseEvent e){
-        System.out.println("onLocalMap");
+       borderPane.setCenter( loadLocalMap());
     }
     private  void onGlobalMap(MouseEvent e){
         borderPane.setCenter(loadGlobalMap());
