@@ -16,9 +16,9 @@
             <left>
                 <VBox fx:id="vbox" prefHeight="731.0" prefWidth="286.0" stylesheets="@../css/case.css" BorderPane.alignment="CENTER">
                     <children>
-                        <Label fx:id="totalCase" prefHeight="104.0" prefWidth="287.0" text="Total Case - " textAlignment="CENTER" textFill="WHITE">
+                        <Label fx:id="totalCase" prefHeight="70.0" prefWidth="286.0" text="Total Case - " textAlignment="CENTER" textFill="WHITE">
                             <font>
-                                <Font size="24.0" />
+                                <Font name="Arial Bold" size="24.0" />
                             </font>
                             <cursor>
                                 <Cursor fx:constant="TEXT" />
@@ -27,14 +27,22 @@
                                 <Insets bottom="20.0" />
                             </VBox.margin>
                         </Label>
-                        <Label fx:id="totalDead" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="104.0" prefWidth="287.0" text="Total Dead- " textAlignment="CENTER" textFill="WHITE">
+                        <Label fx:id="totalDead" contentDisplay="RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="59.0" prefWidth="286.0" text="Total Death- " textAlignment="CENTER" textFill="WHITE">
                             <font>
-                                <Font size="24.0" />
+                                <Font name="System Bold" size="24.0" />
                             </font>
                             <cursor>
                                 <Cursor fx:constant="TEXT" />
                             </cursor>
                         </Label>
+                  <Label fx:id="totalRecovered" contentDisplay="RIGHT" layoutX="10.0" layoutY="134.0" prefHeight="104.0" prefWidth="287.0" text="Total Recovered- " textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </Label>
                     </children>
                     <styleClass>
                         <String fx:value="sidebar" />

@@ -16,7 +16,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import utils.HttpService;
+import models.LocalModel;
+import org.json.JSONObject;
 
 public class LocalMapController {
 
@@ -35,6 +36,7 @@ public class LocalMapController {
     @FXML
     private VBox vbox;
 
+
     @FXML
     private Label totalCase;
 
@@ -42,13 +44,35 @@ public class LocalMapController {
     private Label totalDead;
 
     @FXML
+    private Label totalRecovered;
+    @FXML
     private TextField search;
+
     WebEngine webEngine = null;
     WebView webView = null;
+
     @FXML
     void initialize() {
+        loadData();
         loadMap();
     }
+
+    private void loadData() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject total = new LocalModel().getTotal();
+                Platform.runLater(() -> {
+                    totalCase.setText(totalCase.getText() + total.get("totalCase"));
+                    totalDead.setText(totalDead.getText() + total.get("totalDeath"));
+                    totalRecovered.setText(totalRecovered.getText() + total.get("recovered"));
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+
     private void loadMap() {
 
         webView = new WebView();
@@ -59,7 +83,8 @@ public class LocalMapController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-               Platform.runLater(() ->{  webEngine.load(getClass().getResource("/views/LocalViews/localMap.html").toString());
+                Platform.runLater(() -> {
+                    webEngine.load(getClass().getResource("/views/LocalViews/localMap.html").toString());
                     webEngine.setOnAlert(e -> {
                         Platform.runLater(() -> {
                             borderPane.setCenter(webView);
@@ -84,7 +109,7 @@ public class LocalMapController {
             }
         };
         new Thread(task).start();
-        task.setOnSucceeded((a) ->{
+        task.setOnSucceeded((a) -> {
 
         });
 

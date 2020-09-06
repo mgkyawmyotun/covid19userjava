@@ -41,10 +41,6 @@
   <body>
     <div id="mapid"></div>
     <script>
-      function loading() {
-        alert("Hello From Js");
-      }
-      window.onload = loading;
       function mapTheMarker(location) {
         var marker = L.marker(location).addTo(map);
       }
@@ -173,7 +169,7 @@
         });
       }
       L.control.layers(baseLayers).addTo(map);
-      fetch("myanmar.json")
+      fetch("mandalay.json")
         .then((res) => res.json())
         .then((x) => {
           fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
@@ -191,10 +187,7 @@
                 });
               });
 
-              geojson = L.geoJson(x, {
-                style: style,
-                onEachFeature: onEachFeature,
-              }).addTo(map);
+              geojson = L.geoJson(x).addTo(map);
             });
         });
       var info = L.control();
