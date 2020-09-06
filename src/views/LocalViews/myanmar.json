@@ -1,5 +1,6 @@
 {
     "type": "FeatureCollection",
+    "credit": "https://github.com/thantthet",
     "features": [{
             "type": "Feature",
             "geometry": {
