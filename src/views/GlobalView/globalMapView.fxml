@@ -7,7 +7,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -54,19 +53,20 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-                  <AnchorPane prefHeight="106.0" prefWidth="290.0">
+                  <StackPane>
                      <children>
-                        <TextField fx:id="search" alignment="CENTER" layoutX="15.0" layoutY="10.0" prefHeight="80.0" prefWidth="286.0" styleClass="search" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TextField fx:id="search" alignment="CENTER" prefHeight="80.0" prefWidth="286.0" styleClass="search">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </TextField>
-                        <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" layoutX="220.0" layoutY="57.0" size="42" text="" wrappingWidth="38.0" />
+                        <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" size="42" text="" wrappingWidth="38.0">
+                           <StackPane.margin>
+                              <Insets right="200.0" />
+                           </StackPane.margin>
+                        </FontAwesomeIconView>
                      </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </AnchorPane>
+                  </StackPane>
                   <JFXSpinner />
                </children>
                <styleClass>
