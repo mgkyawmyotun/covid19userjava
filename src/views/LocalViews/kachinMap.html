@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <style>
+      body {
+        width: 100%;
+      }
+      #mapid {
+        height: 100vh;
+        width: "100%";
+      }
+      .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+      }
+      .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+      }
+    </style>
+    <script src="states.js"></script>
+  </head>
+  <body>
+    <div id="mapid"></div>
+    <script>
+      function loading() {
+        alert("Hello From Js");
+      }
+      window.onload = loading;
+      function mapTheMarker(location) {
+        var marker = L.marker(location).addTo(map);
+      }
+      function test(data) {
+        data.forEach((x) => {
+          var marker = L.marker([x.countryInfo.lat, x.countryInfo.long]).addTo(
+            map
+          );
+          marker.bindPopup(
+            `Country - ${x.country} <br> Total Case - ${x.cases} <br> Total Deathes - ${x.deaths}`
+          );
+        });
+      }
+      function mapTheCircle(location) {
+        var circle = L.circle(location, {
+          color: "red",
+          fillColor: "#f03",
+          fillOpacity: 0.8,
+          radius: 2000,
+        }).addTo(map);
+      }
+
+      var mbAttr =
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        mbUrl =
+          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia3lhd215b3R1biIsImEiOiJjazV1aWs1ZDUwdGdhM2pwM3RpbXhkdXJ4In0.WFtL4jwTC6eRB2A-dRk99A";
+
+      var grayscale = L.tileLayer(mbUrl, {
+          id: "mapbox/light-v9",
+          tileSize: 512,
+          zoomOffset: -1,
+          attribution: mbAttr,
+        }),
+        streets = L.tileLayer(mbUrl, {
+          id: "mapbox/dark-v10",
+          tileSize: 512,
+          zoomOffset: -1,
+          attribution: mbAttr,
+        });
+      var map = L.map("mapid", {
+        center: [39.73, -104.99],
+        zoom: 10,
+        layers: [grayscale],
+      });
+      map.setView([21.8249839, 97.1032164], 8);
+
+      var baseLayers = {
+        Grayscale: grayscale,
+        Streets: streets,
+      };
+      var geoJson;
+      function getColor(d) {
+        return d == 15
+          ? "rgb(253, 141, 60)"
+          : d == 16
+          ? "rgb(253, 196, 255)"
+          : d == 17
+          ? "rgb(182, 185, 250)"
+          : d == 18
+          ? "rgb(227, 26, 28)"
+          : "#FFEDA0";
+      }
+      function style(feature) {
+        return {
+          fillColor: getColor(feature.properties.OBJECTID),
+          weight: 2,
+          opacity: 1,
+          color: "white",
+          dashArray: "3",
+          fillOpacity: 0.7,
+        };
+      }
+      function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+          weight: 5,
+          color: "#666",
+          dashArray: "",
+          fillOpacity: 0.7,
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+          layer.bringToFront();
+        }
+        info.update(layer.feature.properties);
+      }
+      function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+        info.update();
+      }
+      function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+      }
+      function onEachFeature(feature, layer) {
+        layer.on({
+          mouseover: highlightFeature,
+          mouseout: resetHighlight,
+          click: zoomToFeature,
+        });
+      }
+      L.control.layers(baseLayers).addTo(map);
+      fetch("kachin.json")
+        .then((res) => res.json())
+        .then((x) => {
+          fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
+            .then((res) => res.json())
+            .then((json) => {
+              x.features.forEach((feature, i) => {
+                feature.properties = Object.assign(feature.properties, {
+                  totalCase: 0,
+                  totalDeath: 0,
+                  recovered: 0,
+                });
+              });
+
+              geojson = L.geoJson(x, {
+                style: style,
+                onEachFeature: onEachFeature,
+              }).addTo(map);
+            });
+        });
+      var info = L.control();
+
+      info.onAdd = function (map) {
+        this._div = L.DomUtil.create("div", "info"); // create a div with a class "info"
+        this.update();
+        return this._div;
+      };
+
+      // method that we will use to update the control based on feature properties passed
+      info.update = function (props) {
+        this._div.innerHTML =
+          "<h3>Myanmar Cases and Deaths</h3>" +
+          (props
+            ? `<h3>State Name - ${props.DT}</h3>` +
+              "<b>" +
+              `<h4 style='color:orange'>TotalCases - ${props.totalCase}</h4>` +
+              "</b><br />" +
+              `<h4 style='color:red'>TotalDeaths - ${props.totalDeath}</h4>` +
+              "</b><br />" +
+              `<h4 style='color:green'>Recovered - ${props.recovered}</h4>`
+            : "Hover over a state");
+      };
+
+      info.addTo(map);
+      var legend = L.control({ position: "bottomright" });
+
+      legend.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "info legend"),
+          grades = ["Bhamo", "Mohnyin", "Myitkyina", "Puta-O"],
+          colors = [
+            "rgb(253, 141, 60)",
+            "rgb(253, 196, 255)",
+            "rgb(182, 185, 250)",
+            "rgb(227, 26, 28)",
+          ];
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        div.innerHTML = "<h3> List Of State</h3> <br>";
+        for (var i = 0; i < grades.length; i++) {
+          div.innerHTML += `<span style="display:inline-block;height: 20px;width: 20px;background-color: ${colors[i]};border-radius: 50%;"></span>  -  <h4 style="display:inline;">${grades[i]}</h4><br>`;
+        }
+
+        return div;
+      };
+
+      legend.addTo(map);
+      function flyTo(location) {
+        map.flyTo(location, 7);
+      }
+    </script>
+  </body>
+</html>

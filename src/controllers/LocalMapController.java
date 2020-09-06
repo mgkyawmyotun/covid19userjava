@@ -65,11 +65,13 @@ public class LocalMapController {
     private WebView webView = null;
     private JFXListView<Label> list;
     private FilteredList<Label> filteredList;
+    @FXML
+    private JFXSpinner spinner;
 
     @FXML
     void initialize() {
         loadData();
-        loadMap();
+        loadMap("localMap");
         loadList();
     }
 
@@ -89,7 +91,7 @@ public class LocalMapController {
         new Thread(task).start();
     }
 
-    private void loadMap() {
+    private void loadMap(String mapName) {
 
         webView = new WebView();
         webEngine = webView.getEngine();
@@ -99,37 +101,20 @@ public class LocalMapController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+
                 Platform.runLater(() -> {
-                    webEngine.load(getClass().getResource("/views/LocalViews/localMap.html").toString());
+                   webEngine.load(getClass().getResource("/views/LocalViews/"+mapName+".html").toString());
                     webEngine.setOnAlert(e -> {
                         Platform.runLater(() -> {
+
                             borderPane.setCenter(webView);
                         });
                     });
-
-                    webEngine.getLoadWorker().stateProperty().addListener(
-                            new ChangeListener() {
-                                @Override
-                                public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-
-
-                                    if (newValue != Worker.State.SUCCEEDED) {
-                                        return;
-                                    }
-
-                                }
-                            }
-                    );
                 });
                 return null;
             }
         };
         new Thread(task).start();
-        task.setOnSucceeded((a) -> {
-
-        });
-
-
     }
 
     private void loadList() {
@@ -174,6 +159,10 @@ public class LocalMapController {
     }
 
     private void labelClicked(MouseEvent e) {
+        Label label = list.getSelectionModel().getSelectedItem();
+       String mapName =label.getText().trim().toLowerCase().replace(" ","_");
+             borderPane.setCenter(spinner);
 
+             loadMap(mapName+"Map");
     }
 }

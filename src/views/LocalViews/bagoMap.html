@@ -41,6 +41,10 @@
   <body>
     <div id="mapid"></div>
     <script>
+      function loading() {
+        alert("Hello From Js");
+      }
+      window.onload = loading;
       function mapTheMarker(location) {
         var marker = L.marker(location).addTo(map);
       }
@@ -87,7 +91,7 @@
         zoom: 10,
         layers: [grayscale],
       });
-      map.setView([19.1249839, 97.1032164], 6.2);
+      map.setView([17.7703366, 95.6686099], 8);
 
       var baseLayers = {
         Grayscale: grayscale,
@@ -95,38 +99,15 @@
       };
       var geoJson;
       function getColor(d) {
-        return d == 0
-          ? "#800026"
-          : d == 1
-          ? "#BD0026"
-          : d == 2
-          ? "#E31A1C"
-          : d == 3
-          ? "#FC4E2A"
-          : d == 4
-          ? "#FD8D3C"
-          : d == 5
-          ? "#FEB24C"
-          : d == 6
-          ? "#FED976"
-          : d == 6
-          ? "#fffa91"
-          : d == 7
-          ? "#ccf0d2"
+        console.log(d);
+        return d == 7
+          ? "rgb(253, 141, 60)"
           : d == 8
-          ? "#a3ffe8"
+          ? "rgb(253, 196, 255)"
+          : d == 9
+          ? "rgb(182, 185, 250)"
           : d == 10
-          ? "#b6b9fa"
-          : d == 11
-          ? "#fdc4ff"
-          : d == 12
-          ? "#ffc4d7"
-          : d == 13
-          ? "#fffa91"
-          : d == 14
-          ? "#ba7de3"
-          : d == 15
-          ? "#ba7de3"
+          ? "rgb(227, 26, 28)"
           : "#FFEDA0";
       }
       function style(feature) {
@@ -169,25 +150,24 @@
         });
       }
       L.control.layers(baseLayers).addTo(map);
-      fetch("mandalay.json")
+      fetch("bago.json")
         .then((res) => res.json())
         .then((x) => {
           fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
             .then((res) => res.json())
             .then((json) => {
               x.features.forEach((feature, i) => {
-                var state = json.find(
-                  (s) => s.state.name.trim() == feature.properties.ST
-                );
-
                 feature.properties = Object.assign(feature.properties, {
-                  totalCase: state.totalCase,
-                  totalDeath: state.totalDeath,
-                  recovered: state.recovered,
+                  totalCase: 0,
+                  totalDeath: 0,
+                  recovered: 0,
                 });
               });
 
-              geojson = L.geoJson(x).addTo(map);
+              geojson = L.geoJson(x, {
+                style: style,
+                onEachFeature: onEachFeature,
+              }).addTo(map);
             });
         });
       var info = L.control();
@@ -203,7 +183,7 @@
         this._div.innerHTML =
           "<h3>Myanmar Cases and Deaths</h3>" +
           (props
-            ? `<h3>State Name - ${props.ST}</h3>` +
+            ? `<h3>State Name - ${props.DT}</h3>` +
               "<b>" +
               `<h4 style='color:orange'>TotalCases - ${props.totalCase}</h4>` +
               "</b><br />" +
@@ -218,39 +198,12 @@
 
       legend.onAdd = function (map) {
         var div = L.DomUtil.create("div", "info legend"),
-          grades = [
-            "Yangon",
-            "Sagaing",
-            "Ayeyarwady",
-            "Tanintharyi",
-            "Kayah",
-            "Kayin",
-            "Mon",
-            "Shan",
-            "Chin",
-            "Mandalay",
-            "Kachin",
-            "Rakhine",
-            "Nay Pyi Taw",
-            "Bago",
-            "Magway",
-          ],
+          grades = ["Bago", "Taungoo", "Pyay", "Thayarwady"],
           colors = [
-            "#db9eff",
-            "#ffc4d7",
-            "#bd0026",
-            "#ba7de3",
-            "rgb(254, 178, 76)",
-            "rgb(254, 217, 118)",
-            "rgb(255, 237, 160)",
-            "rgb(255, 250, 145)",
-            "rgb(252, 78, 42)",
-            "rgb(163, 255, 232)",
             "rgb(253, 141, 60)",
             "rgb(253, 196, 255)",
             "rgb(182, 185, 250)",
             "rgb(227, 26, 28)",
-            "rgb(204, 240, 210)",
           ];
 
         // loop through our density intervals and generate a label with a colored square for each interval

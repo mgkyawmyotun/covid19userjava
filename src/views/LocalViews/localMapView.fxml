@@ -68,7 +68,7 @@
                 </VBox>
             </left>
             <center>
-                <JFXSpinner radius="200.0" BorderPane.alignment="CENTER" />
+                <JFXSpinner fx:id="spinner" radius="200.0" BorderPane.alignment="CENTER" />
             </center>
         </BorderPane>
     </children>
