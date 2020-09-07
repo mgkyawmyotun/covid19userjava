@@ -91,22 +91,39 @@
         zoom: 10,
         layers: [grayscale],
       });
-      map.setView([17.8341513, 97.7686726], 8);
+      map.setView([21.8249839, 97.1032164], 8);
 
       var baseLayers = {
         Grayscale: grayscale,
         Streets: streets,
       };
       var geoJson;
+
       function getColor(d) {
-        return d == 21
-          ? "#9c8e6a"
-          : d == 22
-          ? "#b3ff03"
-          : d == 23
-          ? "#ff00ff"
-          : d == 24
-          ? "rgb(227, 26, 28)"
+        return d == 51
+          ? "#db9eff"
+          : d == 52
+          ? "#ffc4d7"
+          : d == 53
+          ? "#bd0026"
+          : d == 54
+          ? "#FC4E2A"
+          : d == 55
+          ? "rgb(254, 178, 76)"
+          : d == 46
+          ? "rgb(254, 217, 118)"
+          : d == 47
+          ? "rgb(255, 237, 160)"
+          : d == 48
+          ? "rgb(255, 250, 145)"
+          : d == 49
+          ? "rgb(252, 78, 42)"
+          : d == 50
+          ? "rgb(163, 255, 232)"
+          : d == 56
+          ? "rgb(253, 141, 60)"
+          : d == 57
+          ? "rgb(253, 196, 255)"
           : "#FFEDA0";
       }
       function style(feature) {
@@ -149,7 +166,7 @@
         });
       }
       L.control.layers(baseLayers).addTo(map);
-      fetch("kayin.json")
+      fetch("sagaing.json")
         .then((res) => res.json())
         .then((x) => {
           fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
@@ -197,8 +214,34 @@
 
       legend.onAdd = function (map) {
         var div = L.DomUtil.create("div", "info legend"),
-          grades = ["Hpa-An", "Hpapun", "Kawkareik", "Myawaddy"],
-          colors = ["#9c8e6a", "#b3ff03", "#ff00ff", "rgb(227, 26, 28)"];
+          grades = [
+            "Mawlaik",
+            "Monywa",
+            "Naga Self-Administered Zone",
+            "Sagaing",
+            "Shwebo",
+            "Hkamti",
+            "Kale",
+            "Kanbalu",
+            "Katha",
+            "Kawlin",
+            "Tamu",
+            "Yinmarbin",
+          ],
+          colors = [
+            "#db9eff",
+            "#ffc4d7",
+            "#bd0026",
+            "#ba7de3",
+            "rgb(254, 178, 76)",
+            "rgb(254, 217, 118)",
+            "rgb(255, 237, 160)",
+            "rgb(255, 250, 145)",
+            "rgb(252, 78, 42)",
+            "rgb(163, 255, 232)",
+            "rgb(253, 141, 60)",
+            "rgb(253, 196, 255)",
+          ];
 
         // loop through our density intervals and generate a label with a colored square for each interval
         div.innerHTML = "<h3> List Of State</h3> <br>";

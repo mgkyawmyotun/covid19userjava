@@ -170,7 +170,7 @@ public class LocalMapController {
 
     private void labelClicked(MouseEvent e) {
         Label label = list.getSelectionModel().getSelectedItem();
-       String mapName =label.getText().trim().toLowerCase().replace(" ","_");
+       String mapName =label.getText().trim().toLowerCase().replace(" ","");
              borderPane.setCenter(spinner);
 
              loadMap(mapName+"Map");

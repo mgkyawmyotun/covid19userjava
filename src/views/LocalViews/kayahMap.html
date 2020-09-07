@@ -99,15 +99,7 @@
       };
       var geoJson;
       function getColor(d) {
-        return d == 21
-          ? "#9c8e6a"
-          : d == 22
-          ? "#b3ff03"
-          : d == 23
-          ? "#ff00ff"
-          : d == 24
-          ? "rgb(227, 26, 28)"
-          : "#FFEDA0";
+        return d == 19 ? "#9c8e6a" : d == 20 ? "#ff00ff" : "#FFEDA0";
       }
       function style(feature) {
         return {
@@ -149,7 +141,7 @@
         });
       }
       L.control.layers(baseLayers).addTo(map);
-      fetch("kayin.json")
+      fetch("kayah.json")
         .then((res) => res.json())
         .then((x) => {
           fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
@@ -197,8 +189,8 @@
 
       legend.onAdd = function (map) {
         var div = L.DomUtil.create("div", "info legend"),
-          grades = ["Hpa-An", "Hpapun", "Kawkareik", "Myawaddy"],
-          colors = ["#9c8e6a", "#b3ff03", "#ff00ff", "rgb(227, 26, 28)"];
+          grades = ["Bawlake", "Loikaw"],
+          colors = ["#9c8e6a", "#ff00ff"];
 
         // loop through our density intervals and generate a label with a colored square for each interval
         div.innerHTML = "<h3> List Of State</h3> <br>";
