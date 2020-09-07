@@ -20,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -30,6 +31,7 @@ import javafx.scene.web.WebView;
 import models.LocalModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.Helper;
 import utils.HttpService;
 
 public class LocalMapController {
@@ -73,8 +75,16 @@ public class LocalMapController {
         loadData();
         loadMap("localMap");
         loadList();
+        loadSearch();
     }
 
+    private void loadSearch() {
+        search.addEventHandler(KeyEvent.KEY_RELEASED, this::handleSearch);
+    }
+
+    private void handleSearch(KeyEvent k) {
+        filteredList.setPredicate(la -> Helper.search(la.getText(), search.getText()));
+    }
     private void loadData() {
         Task<Void> task = new Task<Void>() {
             @Override

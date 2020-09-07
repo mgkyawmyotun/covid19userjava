@@ -243,8 +243,6 @@ public class GlobalMapController {
 
     private void handleSearch(KeyEvent k) {
         filteredList.setPredicate(la -> Helper.search(la.getText(), search.getText()));
-
-        System.out.println(search.getText());
     }
 
     @FXML

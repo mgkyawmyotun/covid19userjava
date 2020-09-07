@@ -91,7 +91,7 @@
         zoom: 10,
         layers: [grayscale],
       });
-      map.setView([25.9937441, 96.604128], 8);
+      map.setView([22.8775774, 93.58807], 8);
 
       var baseLayers = {
         Grayscale: grayscale,
@@ -99,13 +99,13 @@
       };
       var geoJson;
       function getColor(d) {
-        return d == 15
-          ? "rgb(253, 141, 60)"
-          : d == 16
-          ? "rgb(253, 196, 255)"
-          : d == 17
-          ? "rgb(182, 185, 250)"
-          : d == 18
+        return d == 21
+          ? "#9c8e6a"
+          : d == 22
+          ? "#b3ff03"
+          : d == 23
+          ? "#ff00ff"
+          : d == 24
           ? "rgb(227, 26, 28)"
           : "#FFEDA0";
       }
@@ -149,7 +149,7 @@
         });
       }
       L.control.layers(baseLayers).addTo(map);
-      fetch("kachin.json")
+      fetch("kayin.json")
         .then((res) => res.json())
         .then((x) => {
           fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
@@ -197,13 +197,8 @@
 
       legend.onAdd = function (map) {
         var div = L.DomUtil.create("div", "info legend"),
-          grades = ["Bhamo", "Mohnyin", "Myitkyina", "Puta-O"],
-          colors = [
-            "rgb(253, 141, 60)",
-            "rgb(253, 196, 255)",
-            "rgb(182, 185, 250)",
-            "rgb(227, 26, 28)",
-          ];
+          grades = ["Hpa-An", "Hpapun", "Kawkareik", "Myawaddy"],
+          colors = ["#9c8e6a", "#b3ff03", "#ff00ff", "rgb(227, 26, 28)"];
 
         // loop through our density intervals and generate a label with a colored square for each interval
         div.innerHTML = "<h3> List Of State</h3> <br>";
