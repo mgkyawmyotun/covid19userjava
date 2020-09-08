@@ -158,7 +158,7 @@ public class LocalMapController {
 
                     Label label = new Label(states[i]);
                     System.out.println(states[i]);
-                    Image image = new Image("/views/Images/state/" +"chin"+ ".png");
+                    Image image = new Image("/views/Images/state/" +states[i].toLowerCase()+ ".png");
                     System.out.println("Here");
                     ImageView imageView = new ImageView(image);
                     imageView.setFitWidth(50);
