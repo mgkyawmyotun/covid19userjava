@@ -35,7 +35,6 @@ public class Main extends Application {
 
     public  static Stage stage =null;
     public static void main(String[] args) throws IOException, URISyntaxException, ParseException {
-
           launch(args);
     }
 
