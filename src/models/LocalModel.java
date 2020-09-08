@@ -28,5 +28,16 @@ public class LocalModel {
 
         return new JSONObject(response);
     }
+    public JSONObject getTotal(String name) {
+        Request request = new Request.Builder().url(URI+"getTotal/"+name ).build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new JSONObject(response);
+    }
 
 }

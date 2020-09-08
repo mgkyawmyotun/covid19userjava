@@ -85,6 +85,7 @@ public class LocalMapController {
     private void handleSearch(KeyEvent k) {
         filteredList.setPredicate(la -> Helper.search(la.getText(), search.getText()));
     }
+
     private void loadData() {
         Task<Void> task = new Task<Void>() {
             @Override
@@ -94,6 +95,22 @@ public class LocalMapController {
                     totalCase.setText(totalCase.getText() + total.get("totalCase"));
                     totalDead.setText(totalDead.getText() + total.get("totalDeath"));
                     totalRecovered.setText(totalRecovered.getText() + total.get("recovered"));
+                });
+                return null;
+            }
+        };
+        new Thread(task).start();
+    }
+
+    private void loadData(String name) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                JSONObject total = new LocalModel().getTotal(name);
+                Platform.runLater(() -> {
+                    totalCase.setText("Total Case - " + total.get("totalCase"));
+                    totalDead.setText("Total Death - "+ total.get("totalDeath"));
+                    totalRecovered.setText("Total Recovered - " + total.get("recovered"));
                 });
                 return null;
             }
@@ -113,7 +130,7 @@ public class LocalMapController {
             protected Void call() throws Exception {
 
                 Platform.runLater(() -> {
-                   webEngine.load(getClass().getResource("/views/LocalViews/"+mapName+".html").toString());
+                    webEngine.load(getClass().getResource("/views/LocalViews/" + mapName + ".html").toString());
                     webEngine.setOnAlert(e -> {
                         Platform.runLater(() -> {
 
@@ -136,7 +153,7 @@ public class LocalMapController {
                 ObservableList<Label> observableList = FXCollections.observableArrayList();
 
 
-                String states[] = {"Yangon", "Sagaing", "Ayeyarwady","Tanintharyi", "Kayah", "Kayin", "Mon", "Shan", "Chin", "Mandalay", "Kachin", "Rakhine", "Nay Pyi Taw", "Bago", "Magway"};
+                String states[] = {"Yangon", "Sagaing", "Ayeyarwady", "Tanintharyi", "Kayah", "Kayin", "Mon", "Shan", "Chin", "Mandalay", "Kachin", "Rakhine", "Nay Pyi Taw", "Bago", "Magway"};
                 for (int i = 0; i < states.length; i++) {
 
                     Label label = new Label(states[i]);
@@ -170,9 +187,12 @@ public class LocalMapController {
 
     private void labelClicked(MouseEvent e) {
         Label label = list.getSelectionModel().getSelectedItem();
-       String mapName =label.getText().trim().toLowerCase().replace(" ","");
-             borderPane.setCenter(spinner);
+        String name =label.getText();
+        String mapName = label.getText().trim().toLowerCase().replace(" ", "");
 
-             loadMap(mapName+"Map");
+        borderPane.setCenter(spinner);
+
+        loadMap(mapName + "Map");
+        loadData(name);
     }
 }
