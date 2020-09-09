@@ -38,9 +38,6 @@ public class Main extends Application {
           launch(args);
     }
 
-    static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    static double width = screenSize.getWidth();
-    static double height = screenSize.getHeight();
 
     @Override
     public void init() throws Exception {

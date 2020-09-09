@@ -154,14 +154,22 @@
       fetch("magway.json")
         .then((res) => res.json())
         .then((x) => {
-          fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
+          fetch(
+            "https://stark-crag-00731.herokuapp.com/api/case/district/magway"
+          )
             .then((res) => res.json())
             .then((json) => {
               x.features.forEach((feature, i) => {
+                const district = json.find(
+                  (s) =>
+                    s.district.name.trim().toLowerCase() ==
+                    feature.properties.DT.toLowerCase()
+                );
+
                 feature.properties = Object.assign(feature.properties, {
-                  totalCase: 0,
-                  totalDeath: 0,
-                  recovered: 0,
+                  totalCase: district ? district.totalCase : 0,
+                  totalDeath: district ? district.totalDeath : 0,
+                  recovered: district ? district.recovered : 0,
                 });
               });
 

@@ -173,9 +173,9 @@
                 );
                 console.log(district);
                 feature.properties = Object.assign(feature.properties, {
-                  totalCase: district && district.totalCase,
-                  totalDeath: district && district.totalDeath,
-                  recovered: district && district.recovered,
+                  totalCase: district ? district.totalCase : 0,
+                  totalDeath: district ? district.totalDeath : 0,
+                  recovered: district ? district.recovered : 0,
                 });
               });
 
