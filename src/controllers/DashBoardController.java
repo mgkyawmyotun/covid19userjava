@@ -164,7 +164,17 @@ public class DashBoardController {
 
     }
     private void onLocalGraph(MouseEvent e){
-        System.out.println("OnLocalGraph");
+        borderPane.setCenter(loadLocalGraph());
+    }
+    private Pane loadLocalGraph() {
+        Pane screen = null;
+        try {
+            Main.addScreen("localGraph", FXMLLoader.load(getClass().getResource("/views/LocalGraph/localViewController.fxml")));
+            screen = Main.getScreen("localGraph");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
 
     }
 
