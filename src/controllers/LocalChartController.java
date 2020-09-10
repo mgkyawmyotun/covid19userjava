@@ -60,6 +60,11 @@ public class LocalChartController {
         loadChart("caseByDistricts");
 
     }
+
+    @FXML
+    void onDate(ActionEvent event) {
+        loadChart("caseByDate");
+    }
     private void loadChart(String name) {
         spinner.setVisible(true);
         webView = new WebView();

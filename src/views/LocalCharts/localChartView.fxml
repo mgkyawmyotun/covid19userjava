@@ -54,6 +54,17 @@
                   <Glow level="0.09" />
                </effect>
             </JFXButton>
+            <JFXButton fx:id="date" layoutX="10.0" layoutY="262.0" onAction="#onDate" prefHeight="64.0" prefWidth="220.0" styleClass="helloWorld" text="Case By Date" textFill="WHITE">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <Glow level="0.09" />
+               </effect>
+            </JFXButton>
          </children>
       </VBox>
    </left>
