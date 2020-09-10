@@ -146,7 +146,19 @@ public class DashBoardController {
     }
 
     private  void onLocalChart(MouseEvent e){
-        System.out.println("onLocalChart");
+        borderPane.setCenter(onLocalChart());
+    }
+    private Pane onLocalChart() {
+        Pane screen = null;
+        try {
+
+            Main.addScreen("localChart", FXMLLoader.load(getClass().getResource("/views/LocalCharts/localChartView.fxml")));
+            screen = Main.getScreen("localChart");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
     }
     private  void onGlobalChart(MouseEvent e){
         borderPane.setCenter(loadGlobalChart());

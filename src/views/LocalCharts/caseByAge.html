@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <style>
+      body {
+        width: 100%;
+        height: 100vh;
+      }
+      #chart_div {
+        visibility: hidden;
+        width: 90%;
+        height: 90%;
+      }
+      .loader {
+        visibility: visible;
+        position: absolute;
+        top: 40%;
+        left: 45%;
+
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <script type="text/javascript">
+      google.charts.load("current", { packages: ["corechart"] });
+      google.charts.setOnLoadCallback(drawChart);
+      let ageBetween0and10 = 0;
+      let ageBetween10and30 = 0;
+      let ageBetween30and40 = 0;
+      let ageBetween50and100 = 0;
+      function drawChart() {
+        const dataSet = [];
+        fetch("https://stark-crag-00731.herokuapp.com/api/all")
+          .then((res) => res.json())
+          .then((json) => {
+            json.forEach((p) => {
+              if (p.age >= 0 && p.age < 10) {
+                ageBetween0and10++;
+              }
+              if (p.age >= 10 && p.age < 30) {
+                ageBetween10and30++;
+              }
+              if (p.age >= 30 && p.age < 50) {
+                ageBetween30and40++;
+              }
+              if (p.age >= 50 && p.age < 100) {
+                ageBetween50and100++;
+              }
+            });
+          })
+          .then(() => {
+            dataSet.push(
+              ["0-10", ageBetween0and10],
+              ["10-30", ageBetween10and30],
+              ["30-40", ageBetween30and40],
+              ["50-100", ageBetween50and100]
+            );
+            var data = google.visualization.arrayToDataTable([
+              ["Age", "Age"],
+              ...dataSet,
+            ]);
+
+            var options = {
+              title: "Age Got Disease",
+              is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(
+              document.getElementById("chart_div")
+            );
+            chart.draw(data, options);
+          })
+          .then(() => {
+            document.querySelector("#chart_div").style.visibility = "visible";
+            document.querySelector(".loader").style.visibility = "hidden";
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div"></div>
+    <div class="loader"></div>
+  </body>
+</html>
