@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
@@ -28,9 +29,9 @@ public class LocalGraphController {
     private  WebView webView;
     @FXML
     void initialize() {
-        loadGraph();
+        loadGraph("connection");
     }
-    private void loadGraph() {
+    private void loadGraph(String name ) {
 
         webView = new WebView();
         webEngine = webView.getEngine();
@@ -42,7 +43,7 @@ public class LocalGraphController {
             protected Void call() throws Exception {
 
                 Platform.runLater(() -> {
-                    webEngine.load(getClass().getResource("/views/LocalGraph/" + "connection" + ".html").toString());
+                    webEngine.load(getClass().getResource("/views/LocalGraph/" + name + ".html").toString());
 
                     borderPane.setCenter(webView);
                 });
@@ -50,5 +51,24 @@ public class LocalGraphController {
             }
         };
         new Thread(task).start();
+    }
+      @FXML
+    void onByContact(ActionEvent event) {
+          loadGraph("connection");
+    }
+
+    @FXML
+    void onByState(ActionEvent event) {
+        loadGraph("connectionByState");
+    }
+
+    @FXML
+    void onByTown(ActionEvent event) {
+        loadGraph("connectionByTown");
+    }
+
+    @FXML
+    void onByTownShip(ActionEvent event) {
+        loadGraph("connectionByTownShip");
     }
 }
