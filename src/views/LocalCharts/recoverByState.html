@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script
-      type="text/javascript"
-      src="https://www.gstatic.com/charts/loader.js"
-    ></script>
     <style>
       body {
         width: 100%;
@@ -47,52 +43,65 @@
     </style>
   </head>
   <body>
-    <div id="chart_div"></div>
-    <div class="loader"></div>
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
     <script>
-      //  alert("Hello World");
-
       google.charts.load("current", { packages: ["corechart", "bar"] });
-      google.charts.setOnLoadCallback(drawMaterial);
+      google.charts.setOnLoadCallback(drawAxisTickColors);
 
-      function drawMaterial() {
+      function drawAxisTickColors() {
         let da = [];
         fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
           .then((d) => d.json())
           .then((d) => {
             d.forEach((dd) => {
-              console.log(dd);
-              da.push([
-                dd.state.name,
-                dd.totalCase,
-                dd.totalDeath,
-                dd.recovered,
-              ]);
+              da.push([dd.state.name, dd.recovered]);
             });
           })
           .then(() => {
             var data = google.visualization.arrayToDataTable([
-              ["States", "Cases", "Deaths", "Recovered"],
-              ...da,
+              ["State", "Recovered"],
+              ...da, // CSS-style declaration
             ]);
 
-            var materialOptions = {
-              chart: {
-                title: "Case By State",
-              },
+            var options = {
+              title: "Recovered By State",
+              chartArea: { width: "50%" },
+              colors: ["green"],
               hAxis: {
-                title: "Total ",
+                title: "Recovered",
                 minValue: 0,
+                textStyle: {
+                  bold: true,
+                  fontSize: 12,
+                  color: "#4d4d4d",
+                },
+                titleTextStyle: {
+                  bold: true,
+                  fontSize: 18,
+                  color: "#4d4d4d",
+                },
               },
               vAxis: {
-                title: "Case By State",
+                title: "State",
+                textStyle: {
+                  fontSize: 14,
+                  bold: true,
+                  color: "#848484",
+                },
+                titleTextStyle: {
+                  fontSize: 14,
+                  bold: true,
+                  color: "#848484",
+                },
               },
-              bars: "horizontal",
             };
-            var materialChart = new google.charts.Bar(
+            var chart = new google.visualization.BarChart(
               document.getElementById("chart_div")
             );
-            materialChart.draw(data, materialOptions);
+            chart.draw(data, options);
           })
           .then(() => {
             document.querySelector("#chart_div").style.visibility = "visible";
@@ -100,5 +109,7 @@
           });
       }
     </script>
+    <div class="loader"></div>
+    <div id="chart_div"></div>
   </body>
 </html>

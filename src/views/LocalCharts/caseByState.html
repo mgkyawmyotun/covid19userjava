@@ -1,5 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
     <script
       type="text/javascript"
       src="https://www.gstatic.com/charts/loader.js"
@@ -13,23 +17,19 @@
         top: 0;
         left: 0;
       }
-
       #chart_div {
         visibility: hidden;
         width: 90%;
         height: 90%;
       }
-
       .loader {
         visibility: visible;
         position: absolute;
         top: 40%;
         left: 45%;
 
-        border: 16px solid #f3f3f3;
-        /* Light grey */
-        border-top: 16px solid #3498db;
-        /* Blue */
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
         border-radius: 50%;
         width: 120px;
         height: 120px;
@@ -40,59 +40,54 @@
         0% {
           transform: rotate(0deg);
         }
-
         100% {
           transform: rotate(360deg);
         }
       }
     </style>
   </head>
-
   <body>
     <div id="chart_div"></div>
     <div class="loader"></div>
-    <script type="text/javascript">
-      google.charts.load("current", {
-        packages: ["corechart", "line"],
-      });
-      google.charts.setOnLoadCallback(drawBasic);
+    <script>
+      //  alert("Hello World");
 
-      function drawBasic() {
-        const dataSets = [];
-        fetch("http://stark-crag-00731.herokuapp.com/api/all")
-          .then((res) => res.json())
-          .then((json) => {
-            console.log(json);
-            let cases = 0;
-            for (let i = 0; i < json.length; i++) {
-              cases++;
-              dataSets.push([
-                new Date(json[i].updatedAt).toLocaleDateString(),
-                cases,
-              ]);
-            }
+      google.charts.load("current", { packages: ["corechart", "bar"] });
+      google.charts.setOnLoadCallback(drawMaterial);
+
+      function drawMaterial() {
+        let da = [];
+        fetch("https://stark-crag-00731.herokuapp.com/api/case/state")
+          .then((d) => d.json())
+          .then((d) => {
+            d.forEach((dd) => {
+              console.log(dd);
+              da.push([dd.state.name, dd.totalCase]);
+            });
           })
           .then(() => {
-            var data = new google.visualization.DataTable();
-            data.addColumn("string", "days");
-            data.addColumn("number", "cases");
+            var data = google.visualization.arrayToDataTable([
+              ["States", "Cases"],
+              ...da,
+            ]);
 
-            data.addRows(dataSets);
-            var options = {
+            var materialOptions = {
+              chart: {
+                title: "Case By State",
+              },
               hAxis: {
-                title: "Days",
+                title: "Total ",
+                minValue: 0,
               },
               vAxis: {
-                title: "Cases",
+                title: "Case By State",
               },
-              title: "Growth of Cases",
+              bars: "horizontal",
             };
-
-            var chart = new google.visualization.LineChart(
+            var materialChart = new google.charts.Bar(
               document.getElementById("chart_div")
             );
-
-            chart.draw(data, options);
+            materialChart.draw(data, materialOptions);
           })
           .then(() => {
             document.querySelector("#chart_div").style.visibility = "visible";

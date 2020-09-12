@@ -57,10 +57,18 @@ public class LocalChartController {
 
     @FXML
     void onState(ActionEvent event) {
-        loadChart("caseByDistricts");
+        loadChart("caseByState");
 
     }
+    @FXML
+    void onStateDeath(ActionEvent event) {
+        loadChart("deathByState");
+    }
 
+    @FXML
+    void onStateRecover(ActionEvent event) {
+        loadChart("recoverByState");
+    }
     @FXML
     void onDate(ActionEvent event) {
         loadChart("caseByDate");
@@ -89,6 +97,7 @@ public class LocalChartController {
 
     @FXML
     void initialize() {
-        loadChart("caseByAge");
+        loadChart("caseByState");
+
     }
 }
