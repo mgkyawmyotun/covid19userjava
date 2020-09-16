@@ -1,6 +1,7 @@
 package controllers;
 
 
+import animatefx.animation.*;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 
@@ -33,15 +34,24 @@ public class DashBoardController {
     JFXButton localChart;
     JFXButton localGraph;
     @FXML
-    void initialize() {
-        loadDrawer();
+    void initialize()  {
+        loadMainScreen();
+
+       loadDrawer();
 
         loadTopPane();
 
         activateHamberger();
 
     }
+    private void loadMainScreen(){
+        try {
+            borderPane.setCenter( FXMLLoader.load(getClass().getResource("/views/mainScreen.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+    }
     private void activateHamberger() {
         HamburgerBasicCloseTransition hst = new HamburgerBasicCloseTransition(hamburger);
         hst.setRate(-1);
@@ -75,6 +85,7 @@ public class DashBoardController {
         try {
             VBox vb = FXMLLoader.load(getClass().getResource("/views/sideBar.fxml"));
              globalMap = (JFXButton) vb.getChildren().get(0);
+
              localMap=(JFXButton) vb.getChildren().get(1);
              globalTable=(JFXButton) vb.getChildren().get(2);
              localTable=(JFXButton) vb.getChildren().get(3);
@@ -99,27 +110,45 @@ public class DashBoardController {
     private Pane loadLocalMap() {
         Pane screen = null;
         try {
+            if(Main.getScreen("localMap") instanceof Pane){
+                screen = Main.getScreen("localMap");
 
-            Main.addScreen("localMap", FXMLLoader.load(getClass().getResource("/views/LocalViews/localMapView.fxml")));
-            screen = Main.getScreen("localMap");
-        } catch (IOException e) {
+            }
+            else{
+                Main.addScreen("localMap", FXMLLoader.load(getClass().getResource("/views/LocalViews/localMapView.fxml")));
+                screen = Main.getScreen("localMap");
+
+            }
+          } catch (IOException e) {
             e.printStackTrace();
         }
         return screen;
 
     }
     private  void onLocalMap(MouseEvent e){
-       borderPane.setCenter( loadLocalMap());
+
+        new ZoomInDown(borderPane).play();
+           borderPane.setCenter( loadLocalMap());
+
     }
     private  void onGlobalMap(MouseEvent e){
+       new Flip(borderPane).play();
+
         borderPane.setCenter(loadGlobalMap());
     }
     private Pane loadGlobalMap() {
         Pane screen = null;
         try {
 
-            Main.addScreen("globalMap", FXMLLoader.load(getClass().getResource("/views/GlobalView/globalMapView.fxml")));
-            screen = Main.getScreen("globalMap");
+           if(Main.getScreen("globalMap") instanceof  Pane){
+                screen = Main.getScreen("globalMap");
+            }
+           else{
+                Main.addScreen("globalMap", FXMLLoader.load(getClass().getResource("/views/GlobalView/globalMapView.fxml")));
+               screen = Main.getScreen("globalMap");
+
+           }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,15 +159,22 @@ public class DashBoardController {
         System.out.println("onLocalTable");
     }
     private void onGlobalTable(MouseEvent e){
+         new   JackInTheBox(borderPane).play();
         borderPane.setCenter(loadGlobalTable());
     }
     private Pane loadGlobalTable() {
         Pane screen = null;
         try {
+            if(Main.getScreen("globalTable") instanceof Pane){
+                screen = Main.getScreen("globalTable");
 
-            Main.addScreen("globalTable", FXMLLoader.load(getClass().getResource("/views/GlobalView/globalTableView.fxml")));
-            screen = Main.getScreen("globalTable");
-        } catch (IOException e) {
+            }
+            else{
+                Main.addScreen("globalTable", FXMLLoader.load(getClass().getResource("/views/GlobalView/globalTableView.fxml")));
+                screen = Main.getScreen("globalTable");
+
+            }
+             } catch (IOException e) {
             e.printStackTrace();
         }
         return screen;
@@ -146,21 +182,29 @@ public class DashBoardController {
     }
 
     private  void onLocalChart(MouseEvent e){
+        new FadeOutRightBig(borderPane).playOnFinished(new FadeInRightBig(borderPane)).play();
         borderPane.setCenter(onLocalChart());
     }
     private Pane onLocalChart() {
         Pane screen = null;
         try {
+            if(Main.getScreen("localChart") instanceof  Pane){
+                screen = Main.getScreen("localChart");
 
-            Main.addScreen("localChart", FXMLLoader.load(getClass().getResource("/views/LocalCharts/localChartView.fxml")));
-            screen = Main.getScreen("localChart");
-        } catch (IOException e) {
+            }
+            else{
+                Main.addScreen("localChart", FXMLLoader.load(getClass().getResource("/views/LocalCharts/localChartView.fxml")));
+                screen = Main.getScreen("localChart");
+
+            }
+           } catch (IOException e) {
             e.printStackTrace();
         }
         return screen;
 
     }
     private  void onGlobalChart(MouseEvent e){
+        new FadeOutRightBig(borderPane).playOnFinished(new FadeInRightBig(borderPane)).play();
         borderPane.setCenter(loadGlobalChart());
     }
     private Pane loadGlobalChart() {
@@ -176,13 +220,20 @@ public class DashBoardController {
 
     }
     private void onLocalGraph(MouseEvent e){
+        new FadeOutRightBig(borderPane).playOnFinished(new FadeInRightBig(borderPane)).play();
         borderPane.setCenter(loadLocalGraph());
     }
     private Pane loadLocalGraph() {
         Pane screen = null;
         try {
-            Main.addScreen("localGraph", FXMLLoader.load(getClass().getResource("/views/LocalGraph/localViewController.fxml")));
-            screen = Main.getScreen("localGraph");
+            if(Main.getScreen("localGraph") instanceof Pane){
+                screen = Main.getScreen("localGraph");
+
+            }
+            else{
+                Main.addScreen("localGraph", FXMLLoader.load(getClass().getResource("/views/LocalGraph/localViewController.fxml")));
+                screen = Main.getScreen("localGraph");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
