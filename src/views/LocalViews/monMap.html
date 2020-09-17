@@ -36,7 +36,7 @@
         color: #777;
       }
     </style>
-    <script src="states.js"></script>
+    <script src="Districts.js"></script>
   </head>
   <body>
     <div id="mapid"></div>
@@ -180,14 +180,14 @@
         this._div.innerHTML =
           "<h3>Myanmar Cases and Deaths</h3>" +
           (props
-            ? `<h3>State Name - ${props.DT}</h3>` +
+            ? `<h3>District Name - ${props.DT}</h3>` +
               "<b>" +
               `<h4 style='color:orange'>TotalCases - ${props.totalCase}</h4>` +
               "</b><br />" +
               `<h4 style='color:red'>TotalDeaths - ${props.totalDeath}</h4>` +
               "</b><br />" +
               `<h4 style='color:green'>Recovered - ${props.recovered}</h4>`
-            : "Hover over a state");
+            : "Hover over a District");
       };
 
       info.addTo(map);
@@ -199,7 +199,7 @@
           colors = ["#ff00ff", "rgb(227, 26, 28)"];
 
         // loop through our density intervals and generate a label with a colored square for each interval
-        div.innerHTML = "<h3> List Of State</h3> <br>";
+        div.innerHTML = "<h3> List Of District</h3> <br>";
         for (var i = 0; i < grades.length; i++) {
           div.innerHTML += `<span style="display:inline-block;height: 20px;width: 20px;background-color: ${colors[i]};border-radius: 50%;"></span>  -  <h4 style="display:inline;">${grades[i]}</h4><br>`;
         }

@@ -85,7 +85,6 @@ public class LocalMapController {
     private void handleSearch(KeyEvent k) {
         filteredList.setPredicate(la -> Helper.search(la.getText(), search.getText()));
     }
-
     private void loadData() {
         Task<Void> task = new Task<Void>() {
             @Override

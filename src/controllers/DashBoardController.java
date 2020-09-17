@@ -35,8 +35,7 @@ public class DashBoardController {
     JFXButton localGraph;
     @FXML
     void initialize()  {
-        loadMainScreen();
-
+        borderPane.setCenter(loadGlobalMap());
        loadDrawer();
 
         loadTopPane();
@@ -110,16 +109,10 @@ public class DashBoardController {
     private Pane loadLocalMap() {
         Pane screen = null;
         try {
-            if(Main.getScreen("localMap") instanceof Pane){
-                screen = Main.getScreen("localMap");
+            Main.addScreen("localMap", FXMLLoader.load(getClass().getResource("/views/LocalViews/localMapView.fxml")));
+            screen = Main.getScreen("localMap");
 
-            }
-            else{
-                Main.addScreen("localMap", FXMLLoader.load(getClass().getResource("/views/LocalViews/localMapView.fxml")));
-                screen = Main.getScreen("localMap");
-
-            }
-          } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return screen;
@@ -156,7 +149,28 @@ public class DashBoardController {
 
     }
     private  void onLocalTable(MouseEvent e){
-        System.out.println("onLocalTable");
+        new   JackInTheBox(borderPane).play();
+        borderPane.setCenter(loadLocalTable());
+
+
+    }
+    private Pane loadLocalTable() {
+        Pane screen = null;
+        try {
+            if(Main.getScreen("localTable") instanceof Pane){
+                screen = Main.getScreen("localTable");
+
+            }
+            else{
+                Main.addScreen("localTable", FXMLLoader.load(getClass().getResource("/views/LocalTable/LocalTableView.fxml")));
+                screen = Main.getScreen("localTable");
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
     }
     private void onGlobalTable(MouseEvent e){
          new   JackInTheBox(borderPane).play();
