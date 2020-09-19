@@ -3,6 +3,7 @@ package models;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONObject;
 
@@ -29,7 +30,7 @@ public class LocalModel {
         return new JSONObject(response);
     }
     public JSONObject getTotal(String name) {
-        Request request = new Request.Builder().url(URI+"getTotal/"+name ).build();
+        Request request = new Request.Builder().url(URI+"all"+name ).build();
         String response = null;
         try {
             response = okHttpClient.newCall(request).execute().body().string();
@@ -38,6 +39,17 @@ public class LocalModel {
             e.printStackTrace();
         }
         return new JSONObject(response);
+    }
+    public JSONArray getAll() {
+        Request request = new Request.Builder().url(URI+"all").build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new JSONArray(response);
     }
 
 }

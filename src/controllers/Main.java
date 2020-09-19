@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import javafx.stage.Stage;
-
+import javafx.stage.StageStyle;
 
 
 import java.awt.*;
@@ -47,15 +47,18 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-
+    public void start(Stage primaryStage) throws IOException{
+        addScreen("splash",FXMLLoader.load(getClass().getResource("/views/mainScreen.fxml")));
         addScreen("dashboard",FXMLLoader.load(getClass().getResource("/views/dashboard.fxml")));
 
-        sc = new Scene(getScreen("dashboard"));
 
-        stage = primaryStage;
 
-        stage.setScene(sc);
+            sc = new Scene(getScreen("splash"));
+            stage = primaryStage;
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(sc);
+
+
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker App");
         stage.centerOnScreen();
@@ -70,24 +73,22 @@ public class Main extends Application {
     }
 
     public  static  Pane getScreen(String name){
-        return screenMap.get(name);
+
+           return screenMap.get(name);
     }
 
 
     public  static  void load(Pane pane){
-
             stage.getScene().setRoot(pane);
             stage.sizeToScene();
             stage.centerOnScreen();
             stage.hide();
             stage.show();
-
     }
     @Override
-    public void stop() throws Exception {
-
+    public void stop() throws Exception
+    {
         System.exit(0);
-
     }
 
 

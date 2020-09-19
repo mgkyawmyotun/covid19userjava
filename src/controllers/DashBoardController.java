@@ -240,14 +240,11 @@ public class DashBoardController {
     private Pane loadLocalGraph() {
         Pane screen = null;
         try {
-            if(Main.getScreen("localGraph") instanceof Pane){
-                screen = Main.getScreen("localGraph");
 
-            }
-            else{
+
                 Main.addScreen("localGraph", FXMLLoader.load(getClass().getResource("/views/LocalGraph/localViewController.fxml")));
                 screen = Main.getScreen("localGraph");
-            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
