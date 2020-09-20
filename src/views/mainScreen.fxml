@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="601.0" style="-fx-background-color: #424242#424242;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainScreenController">
    <children>
       <ImageView fx:id="image1" fitHeight="47.0" fitWidth="50.0" layoutX="161.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true">
@@ -24,7 +23,7 @@
             <Image url="@Images/covid1.png" />
          </image>
       </ImageView>
-      <Text fx:id="cv" fill="WHITE" layoutX="105.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Covid-19 Tracker App" wrappingWidth="391.41015625">
+      <Text fx:id="cv" fill="WHITE" layoutX="105.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="C" wrappingWidth="53.41015625">
          <font>
             <Font size="40.0" />
          </font>
@@ -66,5 +65,28 @@
             <Glow level="1.0" />
          </effect>
       </Text>
+      <Text fx:id="cv1" fill="WHITE" layoutX="185.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="vid-19 Tracker App" wrappingWidth="391.41015625">
+         <font>
+            <Font size="40.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="40.0" surfaceScale="10.0">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Point color="RED" />
+               </light>
+            </Lighting>
+         </effect>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor>
+      </Text>
+      <ImageView fx:id="image3" fitHeight="47.0" fitWidth="50.0" layoutX="135.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/covid1.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

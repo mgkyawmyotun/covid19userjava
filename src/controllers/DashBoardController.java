@@ -5,6 +5,7 @@ import animatefx.animation.*;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
@@ -24,7 +25,7 @@ public class DashBoardController {
     private AnchorPane topPane;
     @FXML
     private BorderPane borderPane;
-
+    private  JFXButton contactUs;
     private JFXDrawer drawer;
     JFXButton localMap;
     JFXButton localTable;
@@ -91,6 +92,7 @@ public class DashBoardController {
              localChart=(JFXButton) vb.getChildren().get(4);
              globalChart=(JFXButton) vb.getChildren().get(5);
              localGraph=(JFXButton) vb.getChildren().get(6);
+                contactUs = (JFXButton) vb.getChildren().get(7);
              localMap.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalMap);
              globalMap.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onGlobalMap);
              localTable.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalTable);
@@ -98,13 +100,29 @@ public class DashBoardController {
              localChart.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalChart);
              globalChart.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onGlobalChart);
              localGraph.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onLocalGraph);
-
+            contactUs.addEventHandler(MouseEvent.MOUSE_CLICKED,this::onContactUs);
 
             drawer.setSidePane(vb);
 
         } catch (IOException e) {
             System.out.println("Error On Loading VBox to drawer");
         }
+    }
+
+    private  void onContactUs(MouseEvent e){
+        new FadeOutRightBig(borderPane).playOnFinished(new FadeInRightBig(borderPane)).play();
+        borderPane.setCenter(loadContactUs());
+    }
+    private  Pane loadContactUs(){
+        Pane screen = null;
+        try {
+            Main.addScreen("loadContact", FXMLLoader.load(getClass().getResource("/views/contactView.fxml")));
+            screen = Main.getScreen("loadContact");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
     }
     private Pane loadLocalMap() {
         Pane screen = null;
@@ -120,7 +138,7 @@ public class DashBoardController {
     }
     private  void onLocalMap(MouseEvent e){
 
-        new ZoomInDown(borderPane).play();
+          new ZoomInDown(borderPane).play();
            borderPane.setCenter( loadLocalMap());
 
     }

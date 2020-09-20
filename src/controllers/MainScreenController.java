@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 
 import animatefx.animation.*;
 import javafx.animation.PauseTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -29,8 +31,11 @@ public class MainScreenController {
     private ImageView image1;
     @FXML
     private Text loading;
+
     @FXML
     private ImageView image2;
+    @FXML
+    private ImageView image3;
     @FXML
     private Text cv;
 
@@ -43,14 +48,31 @@ public class MainScreenController {
     @FXML
     void initialize() {
 
+        RotateTransition rotateTransition4 =new RotateTransition(Duration.seconds(2),image3);
+        rotateTransition4.setFromAngle(0);
+        rotateTransition4.setToAngle(360);
+        rotateTransition4.setCycleCount(Transition.INDEFINITE);
+        rotateTransition4.play();
+        RotateTransition rotateTransition1 = new RotateTransition(Duration.seconds(3), image1);
+        rotateTransition1.setFromAngle(0);
+        rotateTransition1.setToAngle(360);
+
+        rotateTransition1.setCycleCount(Transition.INDEFINITE);
+        RotateTransition rotateTransition = new RotateTransition(Duration.millis(500), image2);
+        rotateTransition.setFromAngle(-360);
+        rotateTransition.setToAngle(0);
+
+        rotateTransition.setCycleCount(Transition.INDEFINITE);
+        rotateTransition.play();
+        rotateTransition1.play();
         new ZoomInDown(welcome).setDelay(Duration.millis(500)).play();
         new LightSpeedOut(image1).setCycleCount(-1).setDelay(Duration.millis(1000)).play();
         LightSpeedOut lightSpeedOut = new LightSpeedOut(image2);
         lightSpeedOut.setCycleCount(-1).setDelay(Duration.millis(1000)).play();
-        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+        PauseTransition delay = new PauseTransition(Duration.seconds(8));
         delay.setOnFinished(event -> {
 
-            Main.stage.hide();
+            Main.stage.close();
             Stage stage = new Stage();
             stage.initStyle(StageStyle.DECORATED);
             stage.setFullScreen(false);

@@ -30,7 +30,7 @@ public class LocalModel {
         return new JSONObject(response);
     }
     public JSONObject getTotal(String name) {
-        Request request = new Request.Builder().url(URI+"all"+name ).build();
+        Request request = new Request.Builder().url(URI+"getTotal/"+name ).build();
         String response = null;
         try {
             response = okHttpClient.newCall(request).execute().body().string();

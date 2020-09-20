@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -12,9 +11,6 @@
          <font>
             <Font size="23.0" />
          </font>
-         <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="CREDIT_CARD" size="30.0" wrappingWidth="32.428571701049805" />
-         </graphic>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -60,6 +56,14 @@
          </cursor>
       </JFXButton>
       <JFXButton layoutX="10.0" layoutY="366.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text="Local Graph" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton layoutX="10.0" layoutY="437.0" maxHeight="-Infinity" prefHeight="71.0" prefWidth="280.0" text="Contact Us" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
