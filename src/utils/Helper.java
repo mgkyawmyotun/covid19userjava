@@ -7,9 +7,13 @@ import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 public class Helper {
@@ -69,5 +73,13 @@ public class Helper {
         LocalDate date = LocalDate.parse(s, input);
 
         return  date;
+    }
+    public  static  String formatTimeStamp(String s){
+
+        Date date = new Date(s);
+        DateFormat formatter = new SimpleDateFormat("HH:mm:ss.SSS");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String dateFormatted = formatter.format(date);
+        return  dateFormatted;
     }
 }

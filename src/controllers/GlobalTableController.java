@@ -27,6 +27,7 @@ import javafx.scene.text.Font;
 import models.GlobalModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.Helper;
 import utils.HttpService;
 
 public class GlobalTableController {
@@ -225,8 +226,8 @@ public class GlobalTableController {
             if (country.get(key) instanceof JSONObject || country.get(key) instanceof String) {
 
             } else {
-
-                observableList.add(new DetailsView(key, country.get(key) + ""));
+                String keyData =country.get(key)+"";
+                observableList.add(new DetailsView(key, keyData ));
             }
         });
         return observableList;
