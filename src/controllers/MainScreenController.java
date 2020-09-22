@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -69,7 +70,7 @@ public class MainScreenController {
         new LightSpeedOut(image1).setCycleCount(-1).setDelay(Duration.millis(1000)).play();
         LightSpeedOut lightSpeedOut = new LightSpeedOut(image2);
         lightSpeedOut.setCycleCount(-1).setDelay(Duration.millis(1000)).play();
-        PauseTransition delay = new PauseTransition(Duration.seconds(8));
+        PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished(event -> {
 
             Main.stage.close();
@@ -77,9 +78,14 @@ public class MainScreenController {
             stage.initStyle(StageStyle.DECORATED);
             stage.setFullScreen(false);
             stage.setTitle("Covid-19 Tracker App");
-            stage.centerOnScreen();
             stage.getIcons().add(new Image(getClass().getResourceAsStream("/views/Images/covid1.png")));
             stage.setScene(new Scene(Main.getScreen("dashboard")));
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            double width = screenSize.getWidth();
+            double height = screenSize.getHeight();
+            stage.setWidth(width-200);
+            stage.setHeight(height-200);
+            stage.centerOnScreen();
             stage.show();
 
         });

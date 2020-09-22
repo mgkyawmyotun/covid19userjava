@@ -51,8 +51,6 @@ public class Main extends Application {
         addScreen("splash",FXMLLoader.load(getClass().getResource("/views/mainScreen.fxml")));
         addScreen("dashboard",FXMLLoader.load(getClass().getResource("/views/dashboard.fxml")));
 
-
-
             sc = new Scene(getScreen("splash"));
             stage = primaryStage;
             stage.initStyle(StageStyle.UNDECORATED);
@@ -61,6 +59,7 @@ public class Main extends Application {
 
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker App");
+        stage.sizeToScene();
         stage.centerOnScreen();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/views/Images/covid1.png")));
         stage.show();
