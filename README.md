@@ -40,13 +40,22 @@
 
 ###  Map View
 
-![Login View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/globalMap.png)
+![Map View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/globalMap.png)
 ###  Table View
 
-![Login View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/GlobalTable.png)
+![Table View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/GlobalTable.png)
 
 ### Contact View
 
-![Login View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/Contact.png)
+![Contact View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/Contact.png)
+
+### Chart Views
+
+![Chart View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/Chart.png)
+![Chart View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/ChartAnother.png)
+
+### Graph View
+
+![Global View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/Graph.png)
 
 
