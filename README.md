@@ -37,3 +37,16 @@
 
 
 ## Screenshots
+
+###  Map View
+
+![Login View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/globalMap.png)
+###  Table View
+
+![Login View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/GlobalTable.png)
+
+### Contact View
+
+![Login View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/Contact.png)
+
+
