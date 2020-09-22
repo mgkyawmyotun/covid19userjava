@@ -59,3 +59,18 @@
 ![Global View](https://github.com/mohamadealiyes/covid19userjava/blob/master/Images/Graph.png)
 
 
+
+## Credits
+
+Thanks some of my members for paying attention and filling data,making uml,use case,class diagram,presentation slides and others stuff
+
+- [Myint Zuu Kyaw](https://www.facebook.com/goddness.goddness.988926)
+- [Lin Htet Aung](https://www.facebook.com/linnhtet.aung.39750121)
+- [Khin Nyein Wai](https://www.facebook.com/going.die.9)
+- [Thu Thu San](https://www.facebook.com/thuthu.san.90410)
+- [Kaung Htet Nyein Chan Kyaw](https://www.facebook.com/kaunghtatnyeinchan)
+- [Htet Paing Oo](https://www.facebook.com/profile.php?id=100027680062293)
+
+## License
+##### [MIT](https://choosealicense.com/licenses/mit/)
+Copyright (c) 2020, Kyaw Myo Tun
