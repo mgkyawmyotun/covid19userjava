@@ -1,5 +1,5 @@
 # Covid-19 Tracker App
-#### Covid 19 Tracker App is for user side / view  or data presentation app for covid-19 admin pannel(java) along with covid-19-api (nodejs).
+#### Covid 19 Tracker App is for user side / view  or data presentation app for [covid-19 admin pannel](https://github.com/mohamadealiyes/covid19adminjava)(java) along with [covid-19-api](https://github.com/mohamadealiyes/covid-19-api-myanmar) (nodejs).
 
 
 ## Tech
@@ -31,9 +31,9 @@
 
 | File | Download | File Size
 | ------ | ------ | ------ |
-| Covid 19 Tracker App.jar | [Download .jar](https://drive.google.com/file/d/1EWY4ZvNxOTDQXSE49ew8mzYQBDCEmfy9/view?usp=sharing) | 8.90 MB
-|  Covid 19 Tracker App.exe | [Download .exe](https://drive.google.com/file/d/1ys864UNOrHkTDPeNbMf5t5ZWbsNyQ7fr/view?usp=sharing) | 8.97 MB
-| Covid 19 Tracker App Installer.exe | [Download Installer .exe](https://drive.google.com/file/d/12ByuqVhO2875N0bTE_847eW0IPuBeMGS/view?usp=sharing)  | 56.2 MB
+| Covid 19 Tracker App.jar | [Download .jar](https://drive.google.com/file/d/1DNQqRBsWC1oCXmrTESQaXcQUwYxYpzJh/view?usp=sharing) | 8.90 MB
+|  Covid 19 Tracker App.exe | [Download .exe](https://drive.google.com/file/d/1EmqglmLx8qhf4w-tXLvkPtjw1CAZ5fDE/view?usp=sharing) | 8.97 MB
+| Covid 19 Tracker App Installer.exe | [Download Installer .exe](https://drive.google.com/file/d/1KNAWbRn7p6aUeOBoY0S_cMugDIpiz2gB/view?usp=sharing)  | 56.2 MB
 
 
 ## Screenshots
