@@ -2,6 +2,7 @@ package controllers;
 
 import java.awt.*;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import animatefx.animation.*;
@@ -72,7 +73,7 @@ public class MainScreenController {
         lightSpeedOut.setCycleCount(-1).setDelay(Duration.millis(1000)).play();
         PauseTransition delay = new PauseTransition(Duration.seconds(5));
         delay.setOnFinished(event -> {
-
+           
             Main.stage.close();
             Stage stage = new Stage();
             stage.initStyle(StageStyle.DECORATED);
