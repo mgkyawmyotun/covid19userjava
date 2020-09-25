@@ -183,7 +183,8 @@
                 var state = json.find(
                   (s) => s.state.name.trim() == feature.properties.ST
                 );
-
+                console.log(feature.properties.ST);
+                console.log(state);
                 feature.properties = Object.assign(feature.properties, {
                   totalCase: state.totalCase,
                   totalDeath: state.totalDeath,

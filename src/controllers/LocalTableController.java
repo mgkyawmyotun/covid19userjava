@@ -3,6 +3,8 @@ package controllers;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -23,6 +25,7 @@ import javafx.scene.text.Font;
 import models.LocalModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sun.java2d.pipe.SpanShapeRenderer;
 import utils.Helper;
 import utils.HttpService;
 
@@ -113,6 +116,9 @@ public class LocalTableController {
     private void loadTable() {
         treeView.setVisible(false);
         tableLoading.setVisible(true);
+        JFXTreeTableColumn<Local, Number> number = new JFXTreeTableColumn<>("No");
+        number.setCellValueFactory(param -> param.getValue().getValue().number);
+
         JFXTreeTableColumn<Local, String> patient_idCol = new JFXTreeTableColumn<>("Patient Id");
         patient_idCol.setCellValueFactory(param -> param.getValue().getValue().patient_id);
         JFXTreeTableColumn<Local, String> CasesCol = new JFXTreeTableColumn<>("Gender");
@@ -127,7 +133,7 @@ public class LocalTableController {
                 locals = loadLocals();
                 Platform.runLater(() -> {
                     final TreeItem<Local> root = new RecursiveTreeItem<Local>(locals, RecursiveTreeObject::getChildren);
-                    treeView.getColumns().setAll(patient_idCol,
+                    treeView.getColumns().setAll(number,patient_idCol,
                             CasesCol,
                             ageCol,
                             stateCol
@@ -147,14 +153,15 @@ public class LocalTableController {
 
 
     class Local extends RecursiveTreeObject<Local> {
-
+        IntegerProperty number;
         StringProperty patient_id;
         StringProperty gender;
         StringProperty age;
         StringProperty state;
 
-        public Local(String patient_id, String gender, String age, String state) {
-            this.patient_id = new SimpleStringProperty(patient_id);
+        public Local(int number,String patient_id, String gender, String age, String state) {
+            this.number =new SimpleIntegerProperty(number);
+           this.patient_id = new SimpleStringProperty(patient_id);
             this.gender = new SimpleStringProperty(gender);
             this.age = new SimpleStringProperty(age);
             this.state = new SimpleStringProperty(state);
@@ -170,6 +177,7 @@ public class LocalTableController {
         for (int i = 0; i < jsonLocals.length(); i++) {
             JSONObject jsonObject = jsonLocals.getJSONObject(i);
             JSONObject patientObject = new JSONObject();
+            patientObject.put("No",i+1);
             patientObject.put("patient_id", jsonObject.get("patient_id").toString());
             patientObject.put("age", jsonObject.get("age").toString());
             patientObject.put("gender", jsonObject.get("gender").toString());
@@ -185,6 +193,7 @@ public class LocalTableController {
 
             observableList.add(
                     new Local(
+                            Integer.parseInt(patientObject.get("No")+""),
                             jsonObject.get("patient_id").toString(),
                             jsonObject.get("gender").toString(),
                             jsonObject.get("age").toString(),

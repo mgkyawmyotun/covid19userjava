@@ -62,16 +62,23 @@
         fetch("http://stark-crag-00731.herokuapp.com/api/all")
           .then((res) => res.json())
           .then((json) => {
-            console.log(json);
             let cases = 0;
+            let dates = {};
             for (let i = 0; i < json.length; i++) {
               cases++;
-              dataSets.push([
-                new Date(json[i].updatedAt).toLocaleDateString(),
-                cases,
-              ]);
+              let date = new Date(json[i].date).toLocaleDateString();
+              if (!dates[date]) {
+                dates[date] = cases;
+                cases = 0;
+              }
             }
+
+            for (d of Object.keys(dates)) {
+              dataSets.push([d, dates[d]]);
+            }
+            dataSets.sort((a, b) => a[0].split("/")[0] - b[0].split("/")[0]);
           })
+
           .then(() => {
             var data = new google.visualization.DataTable();
             data.addColumn("string", "days");
