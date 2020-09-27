@@ -24,5 +24,17 @@
       src="https://embed.kumu.io/4ff48cd02839ed5821d26bb799ace9da"
       frameborder="0"
     ></iframe>
+    <script>
+      var iframe = document.getElementById('iframeId');
+      var innerDoc = iframe.contentDocument
+        ? iframe.contentDocument
+        : iframe.contentWindow.document;
+      console.log(innerDoc);
+      const anchorTags = document.querySelectorAll('a');
+      for (let i = 0; anchorTags.length; i++) {
+        console.log(anchorTags[i]);
+        anchorTags[i].addEventListener('click', (e) => e.preventDefault());
+      }
+    </script>
   </body>
 </html>
