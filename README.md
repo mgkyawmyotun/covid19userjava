@@ -26,14 +26,12 @@
 ## Installation
 ### This project is build over java 8 and you need java 8 to run properly
 - First One is Jar file (need java 8 latest)
-- second is exe (need java 8 latest)
 - third one does not need java (highly recommended because some of the function of web view does't work properly without latest java 8)
 
 | File | Download | File Size
 | ------ | ------ | ------ |
-| Covid 19 Tracker App.jar | [Download .jar](https://drive.google.com/file/d/1DNQqRBsWC1oCXmrTESQaXcQUwYxYpzJh/view?usp=sharing) | 8.90 MB
-|  Covid 19 Tracker App.exe | [Download .exe](https://drive.google.com/file/d/1EmqglmLx8qhf4w-tXLvkPtjw1CAZ5fDE/view?usp=sharing) | 8.97 MB
-| Covid 19 Tracker App Installer.exe | [Download Installer .exe](https://drive.google.com/file/d/1KNAWbRn7p6aUeOBoY0S_cMugDIpiz2gB/view?usp=sharing)  | 56.2 MB
+| Covid 19 Tracker App.jar | [Download .jar](https://drive.google.com/file/d/1KqZUrtDtXJekuJ6wV-nAXrVonCNDkZmh/view?usp=sharing) | 8.90 MB
+| Covid 19 Tracker App Installer.exe | [Download Installer .exe](https://drive.google.com/file/d/1rxY5Agpu0GPTbcA8aNwL9RznpFn1dgaN/view?usp=sharing)  | 56.2 MB
 
 
 ## Screenshots
